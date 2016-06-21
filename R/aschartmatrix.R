@@ -147,7 +147,7 @@ AsChartMatrix <- function(y,
 
     if (is.null(x)) # Aggregating data over X.
     {
-        if (!is.vector(y) && !is.table(y) && !is.matrix(y))
+        if (!is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y))
             stop(paste("Y must be a vector"))
 
         y <- t(as.matrix(y))
@@ -160,9 +160,6 @@ AsChartMatrix <- function(y,
 
     if (is.logical(x))
         stop(paste("X cannot be a logical vector"))
-
-    if (is.list(x) | is.data.frame(x))
-        stop(paste("X cannot take data frames or lists. You have passed a ",class(x), sep=""))
 
     if (is.list(y))
         y <- as.data.frame(y)
