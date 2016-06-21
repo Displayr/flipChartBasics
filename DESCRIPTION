@@ -1,0 +1,13 @@
+Package: flipChartBasics
+Type: Package
+Title: Pre-processing functions used for plotting
+Version: 0.1.0
+Author: Carmen Chan <carmen.chan@numbers.net.au>
+Maintainer: Carmen Chan <carmen.chan@numbers.net.au>
+Description: Basic functions to be used by other charting packages (i.e., flipPlots, flipStandarCharts, flipPictographs) 
+License: Copyright Numbers International Pty Ltd 2016
+LazyData: TRUE
+Suggests:
+    testthat
+Imports:
+RoxygenNote: 5.0.1
