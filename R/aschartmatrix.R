@@ -205,8 +205,8 @@ AsChartMatrix <- function(y,
 
     y <- y[, -1, drop = FALSE]
 
-    if (ncol(y) == 1)
-        transpose <- TRUE
+    #if (ncol(y) == 1)
+    #    transpose <- TRUE
 
     if (!transpose)
         return(y)
