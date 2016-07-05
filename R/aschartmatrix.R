@@ -145,19 +145,23 @@ AsChartMatrix <- function(y,
     if (is.logical(x) && length(x) == 1)
         x <- NULL
 
-    if (is.null(x)) # Aggregating data over X.
+    if (is.null(x)) # Not aggregating data over X.
     {
         if (!is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y) && !is.array(y))
             stop(paste("Y must be a vector, matrix, data.frame or array"))
-
-        y <- t(as.matrix(y))
+    
+        if (is.factor(y) | is.character(y))
+        {
+            y <- xtabs(~ y)
+        }
 
         if(transpose)
             return(t(y))
 
         return(y)
     }
-
+    y.label <- attr(y, "label")
+    
     if (is.logical(x))
         stop(paste("X cannot be a logical vector"))
 
@@ -182,7 +186,7 @@ AsChartMatrix <- function(y,
     {
         y <- xtabs(~ x + y)
 
-        if (date.labelling <- TRUE)
+        if (date.labelling == TRUE)
         {
             y <- formatDateRowNames(y, period = aggregate.period)
             y <- t(y)
@@ -204,6 +208,8 @@ AsChartMatrix <- function(y,
         y <- formatDateRowNames(y, period = aggregate.period)
 
     y <- y[, -1, drop = FALSE]
+    if (colnames(y)=="x" && !is.null(y.label))
+        colnames(y) <- y.label
 
     #if (ncol(y) == 1)
     #    transpose <- TRUE
