@@ -142,6 +142,8 @@ AsChartMatrix <- function(y,
                           transpose = FALSE,
                           aggregate.period = "month")  ## can be m(onth), q(uarter), y(ear)
 {
+    if (length(dim(y)) > 2)
+        stop("y has too many dimensions: ", dim(y), "\n")
     if (is.logical(x) && length(x) == 1)
         x <- NULL
 
@@ -155,7 +157,7 @@ AsChartMatrix <- function(y,
         }
         
         if (!is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y) && !is.array(y))
-            stop(paste("Y must be a vector, matrix, data.frame or array"))
+            stop(paste("y must be a vector, matrix, data.frame or array"))
     
         if (is.factor(y) | is.character(y))
         {
