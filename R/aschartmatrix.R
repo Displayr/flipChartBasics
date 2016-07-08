@@ -148,7 +148,11 @@ AsChartMatrix <- function(y,
     if (is.null(x)) # Not aggregating data over X.
     {
         if (is.array(y) && length(dim(y))==1)
+        {
+            tmpnames <- names(y)
             y <- matrix(y, ncol=1)
+            rownames(y) <- tmpnames
+        }
         
         if (!is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y) && !is.array(y))
             stop(paste("Y must be a vector, matrix, data.frame or array"))
