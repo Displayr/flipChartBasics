@@ -156,7 +156,7 @@ AsChartMatrix <- function(y,
             rownames(y) <- tmpnames
         }
         
-        if (!is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y) && !is.array(y))
+        if (!is.factor(y) && !is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y) && !is.array(y))
             stop(paste("y must be a vector, matrix, data.frame or array"))
     
         if (is.factor(y) | is.character(y))
