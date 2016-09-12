@@ -26,7 +26,7 @@ translatePaletteName <- function(palette)
     "terrain_hcl")
 
     if (palette == "Default colors")
-        return(get(proper.names[which(palette == long.names)]))
+        return(qColors)
     
     if (length(which(palette == long.names)) == 0)
         return(palette)
