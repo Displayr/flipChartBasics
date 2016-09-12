@@ -13,7 +13,7 @@ translatePaletteName <- function(palette)
     "Heat colors (red, yellow, white)",
     "Terrain colors (green, beige, grey)")
     
-    proper.names <- c("Default colors",
+    proper.names <- c("qColors",
     "primary.colors",
     "rainbow_hcl",
     "Set3",
