@@ -1,5 +1,5 @@
 # Translates easy to read palette names to actual palette names
-translatePaletteName <- function(palette)
+translatePaletteName <- function(color.palette)
 {
     long.names <- c("Default colors",
     "Primary colors",
@@ -25,13 +25,13 @@ translatePaletteName <- function(palette)
     "heat.colors",
     "terrain_hcl")
 
-    if (palette == "Default colors")
+    if (color.palette[1] == "Default colors")
         return(qColors)
     
-    if (length(which(palette == long.names)) == 0)
-        return(palette)
+    if (length(which(color.palette[1] == long.names)) == 0)
+        return(color.palette)
     else
-        return(proper.names[which(long.names == palette)])
+        return(proper.names[which(long.names == color.palette[1])])
     
 }
 
@@ -66,9 +66,9 @@ ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, rev
     given.colors <- translatePaletteName(given.colors)
     
     # Get packages name space
-    requireNamespace("RColorBrewer")
-    requireNamespace("colorspace")
-    requireNamespace("colorRamps")
+    # requireNamespace("RColorBrewer")
+    # requireNamespace("colorspace")
+    # requireNamespace("colorRamps")
     
     # Count the number of supplied colors
     number.colors <- length(given.colors)
@@ -141,7 +141,11 @@ ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, rev
     if (brewer.palette)
     {
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
-
+        
+        ## Must have at least three colors returned from R Color Brewer, else warning message
+        if (number.colors.needed <= 2)
+            number.colors.needed <- 3
+        
         if (number.colors.needed <= max.brewer.colors)
             chart.colors <- RColorBrewer::brewer.pal(number.colors.needed, given.colors)
         else
