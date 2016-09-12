@@ -128,10 +128,6 @@ IsChartMatrix <- function(x, n.rows, n.columns)
 #' or "year".
 #' @return A chart matrix with named rows and columns.
 #' @examples
-#' data("y.data")
-#' data("x.data")
-#' data("var1")
-#' data("x.dates")
 #' AsChartMatrix(y = y.data, x = x.data, transpose = FALSE)
 #' AsChartMatrix(y = var1, x = x.dates, transpose = TRUE, aggregate.period = "year")
 #' @export

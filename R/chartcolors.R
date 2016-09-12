@@ -76,6 +76,10 @@ ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, rev
         hex.colors <- TRUE
 
     ## usage - for colorSpace, colorRamp, and grDevices colors, use the colname(n), where the n is the number of colors needed.
+    requireNamespace("RColorBrewer")
+    requireNamespace("colorspace")
+    requireNamespace("colorRamps")
+    
     if (grcolor.palette || ramp.palette || space.palette)
         chart.colors <- get(given.colors)(number.colors.needed)
 

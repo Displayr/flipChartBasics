@@ -10,4 +10,7 @@ LazyData: TRUE
 Suggests:
     testthat
 Imports:
+    RColorBrewer,
+    colorspace,
+    colorRamps
 RoxygenNote: 5.0.1
