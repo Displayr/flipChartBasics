@@ -1,7 +1,8 @@
 # Translates easy to read palette names to actual palette names
 translatePaletteName <- function(palette)
 {
-    long.names <- c("Primary colors",
+    long.names <- c("Default colors",
+    "Primary colors",
     "Rainbow",
     "Light pastels",
     "Strong colors",
@@ -12,7 +13,8 @@ translatePaletteName <- function(palette)
     "Heat colors (red, yellow, white)",
     "Terrain colors (green, beige, grey)")
     
-    proper.names <- c("primary.colors",
+    proper.names <- c("Default colors",
+    "primary.colors",
     "rainbow_hcl",
     "Set3",
     "Set1",
