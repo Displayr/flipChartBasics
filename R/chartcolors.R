@@ -1,3 +1,36 @@
+# Translates easy to read palette names to actual palette names
+translatePaletteName <- function(palette)
+{
+    long.names <- c("Primary colors",
+    "Rainbow",
+    "Light pastels",
+    "Strong colors",
+    "Reds, light to dark",
+    "Greens, light to dark",
+    "Blues, light to dark",
+    "Greys, light to dark",
+    "Heat colors (red, yellow, white)",
+    "Terrain colors (green, beige, grey)")
+    
+    proper.names <- c("primary.colors",
+    "rainbow_hcl",
+    "Set3",
+    "Set1",
+    "Reds",
+    "Greens",
+    "Blues",
+    "Greys",
+    "heat.colors",
+    "terrain_hcl")
+
+    if (length(which(palette == long.names)) == 0)
+        return(palette)
+    else
+        return(proper.names[which(long.names == palette)])
+    
+}
+
+
 #' Generates a vector of colors
 #' 
 #' Generates a vector of colors for the number of rows in the passed-in
@@ -25,6 +58,8 @@
 #' ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
 #' @export
 ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, reverse = FALSE) {
+    given.colors <- translatePaletteName(given.colors)
+    
     # Get packages name space
     requireNamespace("RColorBrewer")
     requireNamespace("colorspace")
