@@ -64,12 +64,7 @@ translatePaletteName <- function(color.palette)
 #' @export
 ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, reverse = FALSE) {
     given.colors <- translatePaletteName(given.colors)
-    
-    # Get packages name space
-    # requireNamespace("RColorBrewer")
-    # requireNamespace("colorspace")
-    # requireNamespace("colorRamps")
-    
+
     # Count the number of supplied colors
     number.colors <- length(given.colors)
 
@@ -131,6 +126,12 @@ ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, rev
 
     ## usage - for colorSpace, colorRamp, and grDevices colors, use the colname(n), where the n is the number of colors needed.
 
+    if (!color.type.named.R && !grcolor.palette && !brewer.palette && !ramp.palette && !space.palette && !hex.colors)
+    {
+        warning("The palette or colors you have specified are not valid.  The chart will display with default colors.")
+        hex.colors <- TRUE
+        given.colors <- qColors
+    }
     
     if (grcolor.palette || ramp.palette || space.palette)
         chart.colors <- get(given.colors)(number.colors.needed)
