@@ -35,6 +35,25 @@ translatePaletteName <- function(color.palette)
     
 }
 
+#' Removes the last two characters from a vector of hexadecimal colors
+#' that include an alpha channel.
+#'
+#' @param hex.colors; a vector of colors in hexadeximal format.
+#' @param given.colors Character; a vector containing one or more named
+#' colors from grDevices OR one or more specified hex value colors OR a single
+#' named palette from grDevices, RColorBrewer, colorspace, or colorRamps.
+#' @param reverse Logical; if the output color vector shour be reversed.
+#' @examples
+#' c <- c("#FFFFFFFF", "#ABCDEF3D")
+#' StripAlphaChannel(c)
+#' @export
+StripAlphaChannel <- function(hex.colors)
+{
+    if (nchar(hex.colors[1]) == 9)
+        return(gsub("([a-fA-F0-9][a-fA-F0-9]|[a-fA-F0-9][a-fA-F0-9])$", "", hex.colors))
+    else
+        return(hex.colors)
+}
 
 #' Generates a vector of colors
 #' 

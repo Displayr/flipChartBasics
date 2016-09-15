@@ -3,3 +3,4 @@
 export(AsChartMatrix)
 export(ChartColors)
 export(IsChartMatrix)
+export(StripAlphaChannel)
