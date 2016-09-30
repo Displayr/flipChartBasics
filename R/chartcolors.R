@@ -159,13 +159,10 @@ ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, rev
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
         
         ## Must have at least three colors returned from R Color Brewer, else warning message
-        if (number.colors.needed <= 2)
-            number.colors.needed <- 3
-        
         if (number.colors.needed <= max.brewer.colors)
-            chart.colors <- RColorBrewer::brewer.pal(number.colors.needed, given.colors)
+            chart.colors <- RColorBrewer::brewer.pal(max(3,number.colors.needed), given.colors)
         else
-            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(number.colors.needed)
+            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(number.colors.needed,3))
     }
 
     ## IF 1 color is specified, and more are needed, then that color is used as the starting point for a gradient,
