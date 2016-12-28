@@ -65,19 +65,32 @@ StripAlphaChannel <- function(hex.colors)
 #'
 #' Alpha channels are ignored and set to 255/FF.
 #'
-#' @param number.colors.needed Integer; number of colors to generate.
+#' @param n Integer; number of colors to generate.
 #' @param given.colors Character; a vector containing one or more named
 #' colors from grDevices OR one or more specified hex value colors OR a single
 #' named palette from grDevices, RColorBrewer, colorspace, or colorRamps.
 #' @param reverse Logical; if the output color vector shour be reversed.
+#' @param palette.start A numeric in [0,1] specifying the start position of the palette
+#' @param palette.end A numeric in [0,1] specifying the end position of the palette
 #' @examples
-#' ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange",
-#' "green"))
+#' ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange", "green"))
 #' ChartColors(number.colors.needed = 5, given.colors = "blue")
 #' ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 #' ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
 #' @export
-ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, reverse = FALSE) {
+ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1) 
+{   
+    if (palette.start < 0 || palette.start > 1)
+        stop("palette.start must be a number between 0 and 1\n")
+    
+    if (palette.end < 0 || palette.end > 1)
+        stop("palette.end must be a number between 0 and 1\n")
+    
+    if (!(palette.start < palette.end))
+        stop("palette.start must be smaller than pallete.end\n")
+    
+    number.colors.needed <- ceiling(n/(palette.end - palette.start))
+    
     given.colors <- translatePaletteName(given.colors)
 
     # Count the number of supplied colors
@@ -194,9 +207,13 @@ ChartColors <- function(number.colors.needed = NULL, given.colors = qColors, rev
         else if (number.colors >= number.colors.needed)
             chart.colors <- given.colors
     }
-
+    
+    n.discard <- round(n * palette.start)
+    if (!hex.colors && n.discard > 0)
+        chart.colors <- chart.colors[-(1:n.discard)]
+    
     if (reverse)
         chart.colors <- rev(chart.colors)
 
-    return(chart.colors[1:number.colors.needed])
+    return(chart.colors[1:n])
 }

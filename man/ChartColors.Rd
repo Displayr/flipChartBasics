@@ -4,17 +4,21 @@
 \alias{ChartColors}
 \title{Generates a vector of colors}
 \usage{
-ChartColors(number.colors.needed = NULL, given.colors = qColors,
-  reverse = FALSE)
+ChartColors(n, given.colors = qColors, reverse = FALSE, palette.start = 0,
+  palette.end = 1)
 }
 \arguments{
-\item{number.colors.needed}{Integer; number of colors to generate.}
+\item{n}{Integer; number of colors to generate.}
 
 \item{given.colors}{Character; a vector containing one or more named
 colors from grDevices OR one or more specified hex value colors OR a single
 named palette from grDevices, RColorBrewer, colorspace, or colorRamps.}
 
 \item{reverse}{Logical; if the output color vector shour be reversed.}
+
+\item{palette.start}{A numeric in [0,1] specifying the start position of the palette}
+
+\item{palette.end}{A numeric in [0,1] specifying the end position of the palette}
 }
 \description{
 Generates a vector of colors for the number of rows in the passed-in
