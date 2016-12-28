@@ -207,13 +207,12 @@ ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.star
         else if (number.colors >= number.colors.needed)
             chart.colors <- given.colors
     }
+    if (reverse)
+        chart.colors <- rev(chart.colors)
     
+    # Trim colors to the selected part of the palette
     n.discard <- round(n * palette.start)
     if (!hex.colors && n.discard > 0)
         chart.colors <- chart.colors[-(1:n.discard)]
-    
-    if (reverse)
-        chart.colors <- rev(chart.colors)
-
     return(chart.colors[1:n])
 }
