@@ -4,11 +4,11 @@
 \alias{ChartColors}
 \title{Generates a vector of colors}
 \usage{
-ChartColors(n, given.colors = qColors, reverse = FALSE, palette.start = 0,
-  palette.end = 1)
+ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
+  palette.start = 0, palette.end = 1)
 }
 \arguments{
-\item{n}{Integer; number of colors to generate.}
+\item{number.colors.needed}{Integer; number of colors to generate.}
 
 \item{given.colors}{Character; a vector containing one or more named
 colors from grDevices OR one or more specified hex value colors OR a single
@@ -35,8 +35,7 @@ between the provided colors.
 Alpha channels are ignored and set to 255/FF.
 }
 \examples{
-ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange",
-"green"))
+ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange", "green"))
 ChartColors(number.colors.needed = 5, given.colors = "blue")
 ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)

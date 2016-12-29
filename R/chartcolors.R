@@ -65,7 +65,7 @@ StripAlphaChannel <- function(hex.colors)
 #'
 #' Alpha channels are ignored and set to 255/FF.
 #'
-#' @param n Integer; number of colors to generate.
+#' @param number.colors.needed Integer; number of colors to generate.
 #' @param given.colors Character; a vector containing one or more named
 #' colors from grDevices OR one or more specified hex value colors OR a single
 #' named palette from grDevices, RColorBrewer, colorspace, or colorRamps.
@@ -78,7 +78,7 @@ StripAlphaChannel <- function(hex.colors)
 #' ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 #' ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
 #' @export
-ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1) 
+ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1) 
 {   
     if (palette.start < 0 || palette.start > 1)
         stop("palette.start must be a number between 0 and 1\n")
@@ -89,7 +89,7 @@ ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.star
     if (!(palette.start < palette.end))
         stop("palette.start must be smaller than pallete.end\n")
     
-    number.colors.needed <- ceiling(n/(palette.end - palette.start))
+    num2 <- ceiling(number.colors.needed/(palette.end - palette.start))
     
     given.colors <- translatePaletteName(given.colors)
 
@@ -162,7 +162,7 @@ ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.star
     }
     
     if (grcolor.palette || ramp.palette || space.palette)
-        chart.colors <- get(given.colors)(number.colors.needed)
+        chart.colors <- get(given.colors)(num2)
 
     ## for RColorBrewer, work out the number of available colors in the palette, and if less than needed, then use
     ## colorRampPalette(brewer.pal(11,"Spectral"))(100)) where the 11 is the max number of items in the RCB palette, and the 100
@@ -172,10 +172,10 @@ ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.star
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
         
         ## Must have at least three colors returned from R Color Brewer, else warning message
-        if (number.colors.needed <= max.brewer.colors)
-            chart.colors <- RColorBrewer::brewer.pal(max(3,number.colors.needed), given.colors)
+        if (num2 <= max.brewer.colors)
+            chart.colors <- RColorBrewer::brewer.pal(max(3,num2), given.colors)
         else
-            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(number.colors.needed,3))
+            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(num2,3))
     }
 
     ## IF 1 color is specified, and more are needed, then that color is used as the starting point for a gradient,
@@ -185,34 +185,34 @@ ChartColors <- function(n, given.colors = qColors, reverse = FALSE, palette.star
     ## If number of colors is the same as the series needed, then we just take the given colors.
     if (hex.colors || color.type.named.R)
     {
-        if (number.colors == 1 && number.colors.needed > number.colors)
+        if (number.colors == 1 && num2 > number.colors)
         {
             base.colors <- grDevices::col2rgb(given.colors[1])
 
             col.vector <- grDevices::rgb(base.colors[1], base.colors[2], base.colors[3], 255, maxColorValue = 255)
 
-            for (i in 1:number.colors.needed + 1) {
-                red.factor <- ((255 - base.colors[1]) / (number.colors.needed + 1)) * i
-                green.factor <- ((255 - base.colors[2]) / (number.colors.needed + 1)) * i
-                blue.factor <- ((255 - base.colors[3]) / (number.colors.needed + 1)) * i
+            for (i in 1:num2 + 1) {
+                red.factor <- ((255 - base.colors[1]) / (num2 + 1)) * i
+                green.factor <- ((255 - base.colors[2]) / (num2 + 1)) * i
+                blue.factor <- ((255 - base.colors[3]) / (num2 + 1)) * i
 
                 col.vector <- c(col.vector, grDevices::rgb(base.colors[1] + red.factor, base.colors[2] + green.factor, base.colors[3] + blue.factor, 255, maxColorValue = 255))
             }
 
-            chart.colors <- col.vector[1:number.colors.needed]
+            chart.colors <- col.vector[1:num2]
 
         }
-        else if (number.colors >= 2 && number.colors.needed > number.colors)
-            chart.colors <- grDevices::colorRampPalette(given.colors)(number.colors.needed)
-        else if (number.colors >= number.colors.needed)
+        else if (number.colors >= 2 && num2 > number.colors)
+            chart.colors <- grDevices::colorRampPalette(given.colors)(num2)
+        else if (number.colors >= num2)
             chart.colors <- given.colors
     }
     if (reverse)
         chart.colors <- rev(chart.colors)
     
     # Trim colors to the selected part of the palette
-    n.discard <- round(n * palette.start)
+    n.discard <- round(num2 * palette.start)
     if (!hex.colors && n.discard > 0)
         chart.colors <- chart.colors[-(1:n.discard)]
-    return(chart.colors[1:n])
+    return(chart.colors[1:number.colors.needed])
 }
