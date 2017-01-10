@@ -72,13 +72,15 @@ StripAlphaChannel <- function(hex.colors)
 #' @param reverse Logical; if the output color vector shour be reversed.
 #' @param palette.start A numeric in [0,1] specifying the start position of the palette
 #' @param palette.end A numeric in [0,1] specifying the end position of the palette
+#' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).
 #' @examples
 #' ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange", "green"))
 #' ChartColors(number.colors.needed = 5, given.colors = "blue")
 #' ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 #' ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
+#' plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
 #' @export
-ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1) 
+ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1, trim.light.colors = FALSE) 
 {   
     if (palette.start < 0 || palette.start > 1)
         stop("palette.start must be a number between 0 and 1\n")
@@ -88,6 +90,12 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
     
     if (!(palette.start < palette.end))
         stop("palette.start must be smaller than pallete.end\n")
+    
+    if (trim.light.colors && given.colors %in% c("Blues","Greens","Greys", "Oranges","Purples","Reds"))
+    {
+        palette.start <- 0 + (0.2 * !reverse)
+        palette.end <- 1 - (0.2 * reverse)
+    }
     
     num2 <- ceiling(number.colors.needed/(palette.end - palette.start))
     

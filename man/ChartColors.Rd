@@ -5,7 +5,7 @@
 \title{Generates a vector of colors}
 \usage{
 ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
-  palette.start = 0, palette.end = 1)
+  palette.start = 0, palette.end = 1, trim.light.colors = FALSE)
 }
 \arguments{
 \item{number.colors.needed}{Integer; number of colors to generate.}
@@ -19,6 +19,8 @@ named palette from grDevices, RColorBrewer, colorspace, or colorRamps.}
 \item{palette.start}{A numeric in [0,1] specifying the start position of the palette}
 
 \item{palette.end}{A numeric in [0,1] specifying the end position of the palette}
+
+\item{trim.light.colors}{When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).}
 }
 \description{
 Generates a vector of colors for the number of rows in the passed-in
@@ -39,5 +41,6 @@ ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange", "green"
 ChartColors(number.colors.needed = 5, given.colors = "blue")
 ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
+plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
 }
 
