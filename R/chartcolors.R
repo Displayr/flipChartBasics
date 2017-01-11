@@ -91,6 +91,8 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
     if (!(palette.start < palette.end))
         stop("palette.start must be smaller than pallete.end\n")
     
+    given.colors <- translatePaletteName(given.colors)
+        
     if (trim.light.colors && given.colors %in% c("Blues","Greens","Greys", "Oranges","Purples","Reds"))
     {
         palette.start <- 0 + (0.2 * !reverse)
@@ -98,8 +100,6 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
     }
     
     num2 <- ceiling(number.colors.needed/(palette.end - palette.start))
-    
-    given.colors <- translatePaletteName(given.colors)
 
     # Count the number of supplied colors
     number.colors <- length(given.colors)
