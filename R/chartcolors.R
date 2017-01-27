@@ -222,5 +222,6 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
     n.discard <- round(num2 * palette.start)
     if (!hex.colors && n.discard > 0)
         chart.colors <- chart.colors[-(1:n.discard)]
-    return(chart.colors[1:number.colors.needed])
+    res <- chart.colors[1:number.colors.needed]
+    return(StripAlphaChannel(res))
 }
