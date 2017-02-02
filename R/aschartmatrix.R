@@ -126,6 +126,7 @@ IsChartMatrix <- function(x, n.rows, n.columns)
 #' @param aggregate.period Period over which date varaibles passed to the x
 #' argument will be aggregated. Defaults to "month", and can also be "quarter"
 #' or "year".
+#' @importFrom stats aggregate xtabs
 #' @return A chart matrix with named rows and columns.
 #' @examples
 #' AsChartMatrix(y = y.data, x = x.data, transpose = FALSE)

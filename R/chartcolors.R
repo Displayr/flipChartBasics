@@ -133,7 +133,7 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
 
     if (number.colors == 1 && length(all.brewer.palettes[all.brewer.palettes == given.colors[1]]) == 1)
     {
-        library(RColorBrewer)
+        require(RColorBrewer)
         brewer.palette <- TRUE
     }
     
