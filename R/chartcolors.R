@@ -132,29 +132,20 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
     all.brewer.palettes <- rownames(RColorBrewer::brewer.pal.info)
 
     if (number.colors == 1 && length(all.brewer.palettes[all.brewer.palettes == given.colors[1]]) == 1)
-    {
-        require(RColorBrewer)
         brewer.palette <- TRUE
-    }
-    
+
     # Can be a single specified colorRamp palette
     all.ramp.palettes <- c("ygobb", "primary.colors", "matlab.like2", "matlab.like", "magenta2green", "cyan2yellow", "blue2yellow", "green2red", "blue2green", "blue2red")
 
     if (number.colors == 1 && length(all.ramp.palettes[all.ramp.palettes == given.colors[1]]) == 1)
-    {
-        library(colorRamps)
         ramp.palette <- TRUE
-    }
-        
+
     # Can be a single specified colorSpace palette
     all.space.palettes <- c("diverge_hsv", "diverge_hcl", "terrain_hcl", "heat_hcl", "sequential_hcl", "rainbow_hcl")
 
     if (number.colors == 1 && length(all.space.palettes[all.space.palettes == given.colors[1]]) == 1)
-    {
-        library(colorspace)
         space.palette <- TRUE
-    }
-    
+
     # Can be a single hex color, or a vector of hex colors, or anything that returns the same
     # which is useful if the users want to have their own colour brewer, colorRamp, or colorspace palette or the like
     if (grepl("#", given.colors[1], fixed = TRUE))
