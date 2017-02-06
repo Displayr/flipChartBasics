@@ -79,6 +79,8 @@ StripAlphaChannel <- function(hex.colors)
 #' ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 #' ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
 #' plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
+#' @import colorRamps
+#' @import colorspace
 #' @export
 ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1, trim.light.colors = FALSE) 
 {   
@@ -130,19 +132,18 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
 
     # Can be a single named RColorBrewer color/range
     all.brewer.palettes <- rownames(RColorBrewer::brewer.pal.info)
-
     if (number.colors == 1 && length(all.brewer.palettes[all.brewer.palettes == given.colors[1]]) == 1)
         brewer.palette <- TRUE
 
     # Can be a single specified colorRamp palette
-    all.ramp.palettes <- c("ygobb", "primary.colors", "matlab.like2", "matlab.like", "magenta2green", "cyan2yellow", "blue2yellow", "green2red", "blue2green", "blue2red")
-
+    all.ramp.palettes <- c("ygobb", "primary.colors", "matlab.like2", "matlab.like", "magenta2green",
+                           "cyan2yellow", "blue2yellow", "green2red", "blue2green", "blue2red")
     if (number.colors == 1 && length(all.ramp.palettes[all.ramp.palettes == given.colors[1]]) == 1)
         ramp.palette <- TRUE
 
     # Can be a single specified colorSpace palette
-    all.space.palettes <- c("diverge_hsv", "diverge_hcl", "terrain_hcl", "heat_hcl", "sequential_hcl", "rainbow_hcl")
-
+    all.space.palettes <- c("diverge_hsv", "diverge_hcl", "terrain_hcl", "heat_hcl", "sequential_hcl",
+                            "rainbow_hcl")
     if (number.colors == 1 && length(all.space.palettes[all.space.palettes == given.colors[1]]) == 1)
         space.palette <- TRUE
 
@@ -159,7 +160,7 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
         hex.colors <- TRUE
         given.colors <- qColors
     }
-    
+
     if (grcolor.palette || ramp.palette || space.palette)
         chart.colors <- get(given.colors)(num2)
 
