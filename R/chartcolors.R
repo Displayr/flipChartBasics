@@ -10,6 +10,10 @@ translatePaletteName <- function(color.palette)
     "Greens, light to dark",
     "Blues, light to dark",
     "Greys, light to dark",
+    "Reds, dark to light",
+    "Greens, dark to light",
+    "Blues, dark to light",
+    "Greys, dark to light",
     "Heat colors (red, yellow, white)",
     "Terrain colors (green, beige, grey)")
     
@@ -22,6 +26,10 @@ translatePaletteName <- function(color.palette)
     "Greens",
     "Blues",
     "Greys",
+    "Reds reverse",
+    "Greens reverse",
+    "Blues reverse",
+    "Greys reverse",
     "heat.colors",
     "terrain_hcl")
 
@@ -69,7 +77,7 @@ StripAlphaChannel <- function(hex.colors)
 #' @param given.colors Character; a vector containing one or more named
 #' colors from grDevices OR one or more specified hex value colors OR a single
 #' named palette from grDevices, RColorBrewer, colorspace, or colorRamps.
-#' @param reverse Logical; if the output color vector shour be reversed.
+#' @param reverse Logical; if the output color vector should be reversed.
 #' @param palette.start A numeric in [0,1] specifying the start position of the palette
 #' @param palette.end A numeric in [0,1] specifying the end position of the palette
 #' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).
@@ -94,6 +102,12 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
         stop("palette.start must be smaller than pallete.end\n")
     
     given.colors <- translatePaletteName(given.colors)
+    
+    if (length(given.colors) == 1 && endsWith(given.colors, "reverse"))
+    {
+        reverse <- !reverse
+        given.colors <- sub(" reverse", "", given.colors)
+    }
         
     if (trim.light.colors && given.colors %in% c("Blues","Greens","Greys", "Oranges","Purples","Reds"))
     {

@@ -14,7 +14,7 @@ ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
 colors from grDevices OR one or more specified hex value colors OR a single
 named palette from grDevices, RColorBrewer, colorspace, or colorRamps.}
 
-\item{reverse}{Logical; if the output color vector shour be reversed.}
+\item{reverse}{Logical; if the output color vector should be reversed.}
 
 \item{palette.start}{A numeric in [0,1] specifying the start position of the palette}
 
