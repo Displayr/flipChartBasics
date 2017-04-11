@@ -12,4 +12,3 @@ alpha.five
 Character vector of five letters, A to E.
 }
 \keyword{datasets}
-

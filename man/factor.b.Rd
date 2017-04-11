@@ -12,4 +12,3 @@ factor.b
 Factor version of y.data
 }
 \keyword{datasets}
-

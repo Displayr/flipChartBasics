@@ -12,4 +12,3 @@ bad.examples
 List of 15 test examples.
 }
 \keyword{datasets}
-

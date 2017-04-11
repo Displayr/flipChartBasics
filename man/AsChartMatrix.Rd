@@ -29,4 +29,3 @@ attempts to coerce it to the appropriate format if so required.
 AsChartMatrix(y = y.data, x = x.data, transpose = FALSE)
 AsChartMatrix(y = var1, x = x.dates, transpose = TRUE, aggregate.period = "year")
 }
-

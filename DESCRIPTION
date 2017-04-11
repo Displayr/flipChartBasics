@@ -13,5 +13,5 @@ Imports:
     RColorBrewer,
     colorspace,
     colorRamps
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Depends: R (>= 2.10)

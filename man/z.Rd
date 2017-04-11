@@ -13,4 +13,3 @@ z
 Numeric matrix with 5 rows and 1 column.
 }
 \keyword{datasets}
-

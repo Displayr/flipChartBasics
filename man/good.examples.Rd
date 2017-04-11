@@ -12,4 +12,3 @@ good.examples
 List of eleven test examples.
 }
 \keyword{datasets}
-

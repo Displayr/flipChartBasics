@@ -12,4 +12,3 @@ character.matrix
 Character matrix; 2 columns of 10 letters.
 }
 \keyword{datasets}
-

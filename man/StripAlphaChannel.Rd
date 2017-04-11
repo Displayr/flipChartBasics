@@ -18,4 +18,3 @@ that include an alpha channel.
 c <- c("#FFFFFFFF", "#ABCDEF3D")
 StripAlphaChannel(c)
 }
-

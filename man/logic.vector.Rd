@@ -12,4 +12,3 @@ logic.vector
 Logic vector of five elements
 }
 \keyword{datasets}
-

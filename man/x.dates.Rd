@@ -12,4 +12,3 @@ x.dates
 Numeric vector of five elements with POSIXct formatted dates.
 }
 \keyword{datasets}
-

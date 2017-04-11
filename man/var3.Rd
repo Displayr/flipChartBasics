@@ -12,4 +12,3 @@ var3
 Numeric vector of the number 3, repeated 5 times.
 }
 \keyword{datasets}
-

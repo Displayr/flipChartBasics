@@ -12,4 +12,3 @@ named.vector.b
 Named integer vector of three elements
 }
 \keyword{datasets}
-

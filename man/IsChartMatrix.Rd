@@ -23,4 +23,3 @@ Logical; if matrix is a chart matrix.
 data("z")
 IsChartMatrix(z, nrow(z), ncol(z))
 }
-

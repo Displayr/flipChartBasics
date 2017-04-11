@@ -4,7 +4,7 @@
 \name{qColors}
 \alias{qColors}
 \title{Vector of the 15 standard Q colors}
-\format{15 Q colors in rbga format.}
+\format{12 Q colors in hex format.}
 \usage{
 qColors
 }
@@ -12,4 +12,3 @@ qColors
 Vector of the 15 standard Q colors
 }
 \keyword{datasets}
-

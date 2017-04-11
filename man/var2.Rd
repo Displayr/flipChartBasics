@@ -12,4 +12,3 @@ var2
 Numeric vector of five integers, 5 to 1.
 }
 \keyword{datasets}
-

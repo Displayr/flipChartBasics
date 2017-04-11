@@ -12,4 +12,3 @@ var4
 Numeric vector of five integers, ordered 3, 4, 5, 2, 1.
 }
 \keyword{datasets}
-

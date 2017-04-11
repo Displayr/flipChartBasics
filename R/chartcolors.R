@@ -217,7 +217,8 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
 
         }
         else if (number.colors >= 2 && num2 > number.colors)
-            chart.colors <- grDevices::colorRampPalette(given.colors)(num2)
+            chart.colors <- paste0(rep("", num2), given.colors)
+            #chart.colors <- grDevices::colorRampPalette(given.colors)(num2)
         else if (number.colors >= num2)
             chart.colors <- given.colors
     }

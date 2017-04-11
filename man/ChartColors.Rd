@@ -43,4 +43,3 @@ ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
 ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
 plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
 }
-

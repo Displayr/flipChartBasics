@@ -12,4 +12,3 @@ logic.vector.named
 Named logic vector of five elements
 }
 \keyword{datasets}
-

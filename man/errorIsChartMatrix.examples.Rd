@@ -12,4 +12,3 @@ errorIsChartMatrix.examples
 List of one test example.
 }
 \keyword{datasets}
-
