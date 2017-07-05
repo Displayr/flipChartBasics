@@ -60,38 +60,64 @@ StripAlphaChannel <- function(hex.colors)
 }
 
 #' Generates a vector of colors
-#' 
-#' Generates a vector of colors for the number of rows in the passed-in
-#' df or matrix chart.matrix; where colors can be either a single named
-#' color or a hex color, any code that generates a vector of named colors
-#' or a vector of hex colors (but not a mixed vector), or a single named
-#' color palette from either of the packages grDevices, RColorBrewer,
-#' colorspace, or colorRamps.  If a single color is provided, and more are
-#' needed, then a gradient will be calculated towards white. If more than
-#' one but fewer than needed are provided, a gradient will be calculated
-#' between the provided colors.
 #'
+#' Generates a vector of colors from a palette or vector of colors. 
 #' Alpha channels are ignored and set to 255/FF.
 #'
-#' @param number.colors.needed Integer; number of colors to generate.
-#' @param given.colors Character; a vector containing one or more named
-#' colors from grDevices OR one or more specified hex value colors OR a single
-#' named palette from grDevices, RColorBrewer, colorspace, or colorRamps.
-#' @param reverse Logical; if the output color vector should be reversed.
+#' @param number.colors.needed The number of colors to generate.
+#' @param given.colors Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).
+#' @param custom.color A single color provided as a hex or character string. Only used if \code{given.colors} is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed} (no interpolation).
+#' @param custom.gradient.start A color specifying the start of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
+#' @param custom.gradient.end A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
+#' @param custom.palette A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.
+#' @param reverse Whether the output color vector should be reversed. Ignored when \code{given.colors} is ony 
 #' @param palette.start A numeric in [0,1] specifying the start position of the palette
 #' @param palette.end A numeric in [0,1] specifying the end position of the palette
 #' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).
 #' @examples
-#' ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange", "green"))
-#' ChartColors(number.colors.needed = 5, given.colors = "blue")
-#' ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
-#' ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
+#' ChartColors(5, given.colors = c("blue", "orange", "green"))
+#' ChartColors(5, given.colors = "blue")
+#' ChartColors(5, given.colors = "#9CFF73")
+#' ChartColors(5, given.colors = "Set3", reverse = TRUE)
 #' plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
 #' @import colorRamps
 #' @import colorspace
+#' @importFrom grDevices colorRampPalette
+#' @importFrom flipTransformations TextAsVector
 #' @export
-ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = FALSE, palette.start = 0, palette.end = 1, trim.light.colors = FALSE) 
-{   
+ChartColors <- function(number.colors.needed, 
+                        given.colors = qColors, 
+                        reverse = FALSE, 
+                        palette.start = 0, 
+                        palette.end = 1, 
+                        trim.light.colors = FALSE,
+                        custom.color = NA,
+                        custom.gradient.start = NA,
+                        custom.gradient.end = NA,
+                        custom.palette = NA) 
+{ 
+    # Non-palette options 
+    if (given.colors[1] == "Custom color")
+    {
+        return (rep(custom.color, number.colors.needed))
+    }
+    if (given.colors[1] == "Custom gradient")
+    {
+        c.palette <- colorRampPalette(c(custom.gradient.start, custom.gradient.end))
+        return (c.palette(number.colors.needed))
+    }
+    if (given.colors[1] == "Custom palette")
+    {
+        custom.palette <- TextAsVector(custom.palette)
+        if (length(custom.palette) != number.colors.needed)
+        {
+            warning("Custom palette is not equal to the length specified. Colors will be recycled to make up the required length.")
+            custom.palette <- paste0(rep("", number.colors.needed), custom.palette)
+            return(custom.palette)
+        }
+    }
+
+    # The following options assume given.colors is a palette 
     if (palette.start < 0 || palette.start > 1)
         stop("palette.start must be a number between 0 and 1\n")
     
@@ -192,34 +218,12 @@ ChartColors <- function(number.colors.needed, given.colors = qColors, reverse = 
             chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(num2,3))
     }
 
-    ## IF 1 color is specified, and more are needed, then that color is used as the starting point for a gradient,
-    ## which gets progressively lighter.
-    ## If more than 1 color is specified, then a grandient is created between the specified colors until we have
-    ## enough to cover the number of series.
-    ## If number of colors is the same as the series needed, then we just take the given colors.
+    # Recycle vector of colors to the desired length
     if (hex.colors || color.type.named.R)
     {
-        if (number.colors == 1 && num2 > number.colors)
-        {
-            base.colors <- grDevices::col2rgb(given.colors[1])
-
-            col.vector <- grDevices::rgb(base.colors[1], base.colors[2], base.colors[3], 255, maxColorValue = 255)
-
-            for (i in 1:num2 + 1) {
-                red.factor <- ((255 - base.colors[1]) / (num2 + 1)) * i
-                green.factor <- ((255 - base.colors[2]) / (num2 + 1)) * i
-                blue.factor <- ((255 - base.colors[3]) / (num2 + 1)) * i
-
-                col.vector <- c(col.vector, grDevices::rgb(base.colors[1] + red.factor, base.colors[2] + green.factor, base.colors[3] + blue.factor, 255, maxColorValue = 255))
-            }
-
-            chart.colors <- col.vector[1:num2]
-
-        }
-        else if (number.colors >= 2 && num2 > number.colors)
+        if (number.colors < num2)
             chart.colors <- paste0(rep("", num2), given.colors)
-            #chart.colors <- grDevices::colorRampPalette(given.colors)(num2)
-        else if (number.colors >= num2)
+        else
             chart.colors <- given.colors
     }
     if (reverse)

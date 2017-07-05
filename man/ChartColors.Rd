@@ -5,41 +5,39 @@
 \title{Generates a vector of colors}
 \usage{
 ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
-  palette.start = 0, palette.end = 1, trim.light.colors = FALSE)
+  palette.start = 0, palette.end = 1, trim.light.colors = FALSE,
+  custom.color = NA, custom.gradient.start = NA, custom.gradient.end = NA,
+  custom.palette = NA)
 }
 \arguments{
-\item{number.colors.needed}{Integer; number of colors to generate.}
+\item{number.colors.needed}{The number of colors to generate.}
 
-\item{given.colors}{Character; a vector containing one or more named
-colors from grDevices OR one or more specified hex value colors OR a single
-named palette from grDevices, RColorBrewer, colorspace, or colorRamps.}
+\item{given.colors}{Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).}
 
-\item{reverse}{Logical; if the output color vector should be reversed.}
+\item{reverse}{Whether the output color vector should be reversed. Ignored when \code{given.colors} is ony}
 
 \item{palette.start}{A numeric in [0,1] specifying the start position of the palette}
 
 \item{palette.end}{A numeric in [0,1] specifying the end position of the palette}
 
 \item{trim.light.colors}{When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).}
+
+\item{custom.color}{A single color provided as a hex or character string. Only used if \code{given.colors} is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed} (no interpolation).}
+
+\item{custom.gradient.start}{A color specifying the start of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.}
+
+\item{custom.gradient.end}{A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.}
+
+\item{custom.palette}{A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.}
 }
 \description{
-Generates a vector of colors for the number of rows in the passed-in
-df or matrix chart.matrix; where colors can be either a single named
-color or a hex color, any code that generates a vector of named colors
-or a vector of hex colors (but not a mixed vector), or a single named
-color palette from either of the packages grDevices, RColorBrewer,
-colorspace, or colorRamps.  If a single color is provided, and more are
-needed, then a gradient will be calculated towards white. If more than
-one but fewer than needed are provided, a gradient will be calculated
-between the provided colors.
-}
-\details{
+Generates a vector of colors from a palette or vector of colors. 
 Alpha channels are ignored and set to 255/FF.
 }
 \examples{
-ChartColors(number.colors.needed = 5, given.colors = c("blue", "orange", "green"))
-ChartColors(number.colors.needed = 5, given.colors = "blue")
-ChartColors(number.colors.needed = 5, given.colors = "#9CFF73")
-ChartColors(number.colors.needed = 5, given.colors = "Set3", reverse = TRUE)
+ChartColors(5, given.colors = c("blue", "orange", "green"))
+ChartColors(5, given.colors = "blue")
+ChartColors(5, given.colors = "#9CFF73")
+ChartColors(5, given.colors = "Set3", reverse = TRUE)
 plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
 }
