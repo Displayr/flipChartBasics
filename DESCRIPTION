@@ -14,5 +14,6 @@ Imports:
     colorspace,
     colorRamps,
     flipTransformations
+Remotes: Displayr/flipTransformations
 RoxygenNote: 6.0.1
 Depends: R (>= 2.10)
