@@ -25,4 +25,6 @@ test_that("ChartColors handles arguments", {
     expect_equal(ChartColors(5, "Custom color", custom.color = "#5C9AD3"), rep("#5C9AD3", 5))
     expect_equal(suppressWarnings(ChartColors(9, "Custom palette", custom.palette = "#5C9AD3, #ED7D31  , #A5A5A5,#FFC000")),
                  c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#5C9AD3"))
+    expect_equal(ChartColors(5, "Custom palette", custom.palette = "red,orange,green,blue,purple"),
+                 c("red", "orange", "green", "blue", "purple"))
 })

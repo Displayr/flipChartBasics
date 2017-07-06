@@ -123,8 +123,8 @@ ChartColors <- function(number.colors.needed,
         {
             warning("Custom palette is not equal to the length specified. Colors will be recycled to make up the required length.")
             custom.palette <- paste0(rep("", number.colors.needed), custom.palette)
-            return(custom.palette)
         }
+        return(custom.palette)
     }
 
     # The following options assume given.colors is a palette 
