@@ -99,16 +99,26 @@ ChartColors <- function(number.colors.needed,
     # Non-palette options 
     if (given.colors[1] == "Custom color")
     {
+        if (is.na(custom.color))
+            stop("'custom.color' is missing.")
         return (rep(custom.color, number.colors.needed))
     }
     if (given.colors[1] == "Custom gradient")
     {
-        c.palette <- colorRampPalette(c(custom.gradient.start, custom.gradient.end))
+        if (is.na(custom.gradient.start))
+            stop("'custom.gradient.start' is missing.")
+        if (is.na(custom.gradient.end))
+            stop("'custom.gradient.end' is missing.")
+        c.palette <- try(colorRampPalette(c(custom.gradient.start, custom.gradient.end)))
+        if (inherits(c.palette, "try-error"))
+            stop("Invalid color palette specified.")
         return (c.palette(number.colors.needed))
     }
     if (given.colors[1] == "Custom palette")
     {
         custom.palette <- TextAsVector(custom.palette)
+        if (any(is.na(custom.palette)))
+            stop("custom.palette cannot contain missing values.")
         if (length(custom.palette) != number.colors.needed)
         {
             warning("Custom palette is not equal to the length specified. Colors will be recycled to make up the required length.")
