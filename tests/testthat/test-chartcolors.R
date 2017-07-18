@@ -22,7 +22,7 @@ test_that("ChartColors handles arguments", {
     expect_equal(ChartColors(5, "Default colors"), c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5"))
     expect_equal(ChartColors(5, "Custom gradient", custom.gradient.start = "#5C9AD3", custom.gradient.end = "#ED7D31"),
                  c("#5C9AD3", "#8092AA", "#A48B82", "#C88459", "#ED7D31"))
-    expect_equal(unname(ChartColors(5, "Custom color", custom.color = "#5C9AD3")), rep("#5C9AD3", 5))
+    expect_equal(suppressWarnings(unname(ChartColors(5, "Custom color", custom.color = "#5C9AD3"))), rep("#5C9AD3", 5))
     expect_equal(suppressWarnings(unname(ChartColors(9, "Custom palette", custom.palette = "#5C9AD3, #ED7D31  , #A5A5A5,#FFC000"))),
                  c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#5C9AD3"))
     expect_equal(unname(ChartColors(5, "Custom palette", custom.palette = "red,orange,green,blue,purple")),
