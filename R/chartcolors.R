@@ -69,7 +69,7 @@ checkColors <- function(xx)
     {
         res[ind] <- "#000000"
         for (i in ind)
-            warning("Invalid color '", names(res)[i], "'  replaced with '#000000'")
+            warning("Invalid color '", names(res)[i], "' replaced with '#000000'")
     }
     res
 }
@@ -117,8 +117,14 @@ ChartColors <- function(number.colors.needed,
     {
         if (is.na(custom.color))
             stop("'custom.color' is missing.")
+        if (number.colors.needed > 1)
+            warning("Only a single color specified for multiple series. Consider using 'Custom palette' instead.")
         return (rep(checkColors(custom.color), number.colors.needed))
     }
+    
+    if (number.colors.needed == 1)
+        warning("Only the first color of the palette used.")
+    
     if (given.colors[1] == "Custom gradient")
     {
         if (is.na(custom.gradient.start))
@@ -135,7 +141,7 @@ ChartColors <- function(number.colors.needed,
         custom.palette <- TextAsVector(custom.palette)
         if (any(is.na(custom.palette)))
             stop("custom.palette cannot contain missing values.")
-        if (length(custom.palette) != number.colors.needed)
+        if (length(custom.palette) != number.colors.needed && number.colors.needed > 1)
         {
             warning("Custom palette does not have the number of colors required (",
                     number.colors.needed, "). Colors will be recycled to make up the required number.")
