@@ -59,6 +59,22 @@ StripAlphaChannel <- function(hex.colors)
         return(hex.colors)
 }
 
+
+checkColors <- function(xx)
+{
+    res <- sapply(xx, function(x){tryCatch(rgb(t(col2rgb(x)), maxColorValue = 255), 
+                                           error=function(cond){NA})})
+    ind <- which(is.na(res))
+    if (length(ind) > 0)
+    {
+        res[ind] <- "#000000"
+        for (i in ind)
+            warning("Invalid color '", names(res)[i], "'  replaced with '#000000'")
+    }
+    res
+}
+
+
 #' Generates a vector of colors
 #'
 #' Generates a vector of colors from a palette or vector of colors. 
@@ -82,7 +98,7 @@ StripAlphaChannel <- function(hex.colors)
 #' plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
 #' @import colorRamps
 #' @import colorspace
-#' @importFrom grDevices colorRampPalette
+#' @importFrom grDevices col2rgb rgb colorRampPalette
 #' @importFrom flipTransformations TextAsVector
 #' @export
 ChartColors <- function(number.colors.needed, 
@@ -101,7 +117,7 @@ ChartColors <- function(number.colors.needed,
     {
         if (is.na(custom.color))
             stop("'custom.color' is missing.")
-        return (rep(custom.color, number.colors.needed))
+        return (rep(checkColors(custom.color), number.colors.needed))
     }
     if (given.colors[1] == "Custom gradient")
     {
@@ -121,10 +137,11 @@ ChartColors <- function(number.colors.needed,
             stop("custom.palette cannot contain missing values.")
         if (length(custom.palette) != number.colors.needed)
         {
-            warning("Custom palette is not equal to the length specified. Colors will be recycled to make up the required length.")
+            warning("Custom palette does not have the number of colors required (",
+                    number.colors.needed, "). Colors will be recycled to make up the required number.")
             custom.palette <- paste0(rep("", number.colors.needed), custom.palette)
         }
-        return(custom.palette)
+        return(checkColors(custom.palette))
     }
 
     # The following options assume given.colors is a palette 
