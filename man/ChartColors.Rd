@@ -5,7 +5,7 @@
 \title{Generates a vector of colors}
 \usage{
 ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
-  palette.start = 0, palette.end = 1, trim.light.colors = FALSE,
+  palette.start = 0, palette.end = 1, trim.light.colors = TRUE,
   custom.color = NA, custom.gradient.start = NA, custom.gradient.end = NA,
   custom.palette = NA)
 }
@@ -14,7 +14,7 @@ ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
 
 \item{given.colors}{Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).}
 
-\item{reverse}{Whether the output color vector should be reversed. Ignored when \code{given.colors} is ony}
+\item{reverse}{Whether the output color vector should be reversed. Ignored when \code{given.colors} is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.}
 
 \item{palette.start}{A numeric in [0,1] specifying the start position of the palette}
 

@@ -54,7 +54,7 @@ translatePaletteName <- function(color.palette)
 StripAlphaChannel <- function(hex.colors)
 {
     if (nchar(hex.colors[1]) == 9)
-        return(gsub("([a-fA-F0-9][a-fA-F0-9]|[a-fA-F0-9][a-fA-F0-9])$", "", hex.colors))
+        return(gsub("([a-fA-F0-9][a-fA-F0-9])$", "", hex.colors))
     else
         return(hex.colors)
 }
@@ -86,7 +86,7 @@ checkColors <- function(xx)
 #' @param custom.gradient.start A color specifying the start of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
 #' @param custom.gradient.end A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
 #' @param custom.palette A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.
-#' @param reverse Whether the output color vector should be reversed. Ignored when \code{given.colors} is ony 
+#' @param reverse Whether the output color vector should be reversed. Ignored when \code{given.colors} is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
 #' @param palette.start A numeric in [0,1] specifying the start position of the palette
 #' @param palette.end A numeric in [0,1] specifying the end position of the palette
 #' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).
@@ -106,12 +106,14 @@ ChartColors <- function(number.colors.needed,
                         reverse = FALSE, 
                         palette.start = 0, 
                         palette.end = 1, 
-                        trim.light.colors = FALSE,
+                        trim.light.colors = TRUE,
                         custom.color = NA,
                         custom.gradient.start = NA,
                         custom.gradient.end = NA,
                         custom.palette = NA) 
 { 
+    if (number.colors.needed%%1 != 0 | number.colors.needed <= 0)
+        stop("'number.colors.needed' must be a positive integer.")
     # Non-palette options 
     if (given.colors[1] == "Custom color")
     {
