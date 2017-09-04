@@ -8,11 +8,11 @@ test_that("ChartColors handles arguments", {
     expect_equal(res2, res2b)
     expect_equal(nchar(res2[1]), 7)
     
-    red10 <- ChartColors(10, "Reds")
+    red10 <- ChartColors(10, "Reds", trim=FALSE)
     red10trim <- ChartColors(10, "Reds", trim=TRUE)
     expect_equal(red10[1] != red10trim[1], TRUE)
     
-    expect_equal(ChartColors(7, "Blues"),
+    expect_equal(ChartColors(7, "Blues", trim=FALSE),
                  c("#EFF3FF", "#C6DBEF", "#9ECAE1", "#6BAED6", "#4292C6", "#2171B5", "#084594"))
     expect_equal(ChartColors(7, "primary.colors"),
                  c("#000000", "#808000", "#FFFF00", "#808080", "#FFFF80", "#0080FF", "#80FFFF"))
