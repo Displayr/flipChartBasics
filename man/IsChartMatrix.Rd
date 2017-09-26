@@ -20,6 +20,6 @@ Logical; if matrix is a chart matrix.
 \code{IsChartMatrix} returns TRUE if the given matrix is suitable for charting, else FALSE.
 }
 \examples{
-data("z")
+z <- matrix(1:5, ncol = 1, dimnames = list(x = LETTERS[1:5], series = "Series 1"))
 IsChartMatrix(z, nrow(z), ncol(z))
 }

@@ -26,6 +26,8 @@ A chart matrix with named rows and columns.
 attempts to coerce it to the appropriate format if so required.
 }
 \examples{
-AsChartMatrix(y = y.data, x = x.data, transpose = FALSE)
-AsChartMatrix(y = var1, x = x.dates, transpose = TRUE, aggregate.period = "year")
+AsChartMatrix(y = 1:5, x = LETTERS[1:5], transpose = FALSE)
+x.dates <- c(1440236400000,1450236400000,1460236400000,1470236400000,1480236400000)
+x.dates <- as.POSIXct(x.dates/1000, origin = "1970-01-01")
+AsChartMatrix(y = 1:5, x = x.dates, transpose = TRUE, aggregate.period = "year")
 }

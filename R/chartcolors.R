@@ -16,7 +16,7 @@ translatePaletteName <- function(color.palette)
     "Greys, dark to light",
     "Heat colors (red, yellow, white)",
     "Terrain colors (green, beige, grey)")
-    
+
     proper.names <- c("qColors",
     "primary.colors",
     "rainbow_hcl",
@@ -35,12 +35,12 @@ translatePaletteName <- function(color.palette)
 
     if (color.palette[1] == "Default colors")
         return(qColors)
-    
+
     if (length(which(color.palette[1] == long.names)) == 0)
         return(color.palette)
     else
         return(proper.names[which(long.names == color.palette[1])])
-    
+
 }
 
 #' Removes the last two characters from a vector of hexadecimal colors
@@ -62,7 +62,7 @@ StripAlphaChannel <- function(hex.colors)
 
 checkColors <- function(xx)
 {
-    res <- sapply(xx, function(x){tryCatch(rgb(t(col2rgb(x)), maxColorValue = 255), 
+    res <- sapply(xx, function(x){tryCatch(rgb(t(col2rgb(x)), maxColorValue = 255),
                                            error=function(cond){NA})})
     ind <- which(is.na(res))
     if (length(ind) > 0)
@@ -77,11 +77,13 @@ checkColors <- function(xx)
 
 #' Generates a vector of colors
 #'
-#' Generates a vector of colors from a palette or vector of colors. 
+#' Generates a vector of colors from a palette or vector of colors.
 #' Alpha channels are ignored and set to 255/FF.
 #'
 #' @param number.colors.needed The number of colors to generate.
-#' @param given.colors Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).
+#' @param given.colors Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
+#' are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
+#'             "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")
 #' @param custom.color A single color provided as a hex or character string. Only used if \code{given.colors} is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed} (no interpolation).
 #' @param custom.gradient.start A color specifying the start of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
 #' @param custom.gradient.end A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
@@ -96,25 +98,28 @@ checkColors <- function(xx)
 #' ChartColors(5, given.colors = "#9CFF73")
 #' ChartColors(5, given.colors = "Set3", reverse = TRUE)
 #' plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
+#' plot(1:12, 1:12, pch=19, col=ChartColors(12))
 #' @import colorRamps
 #' @import colorspace
 #' @importFrom grDevices col2rgb rgb colorRampPalette
 #' @importFrom flipTransformations TextAsVector
 #' @export
-ChartColors <- function(number.colors.needed, 
-                        given.colors = qColors, 
-                        reverse = FALSE, 
-                        palette.start = 0, 
-                        palette.end = 1, 
+ChartColors <- function(number.colors.needed,
+                        given.colors,
+                        reverse = FALSE,
+                        palette.start = 0,
+                        palette.end = 1,
                         trim.light.colors = TRUE,
                         custom.color = NA,
                         custom.gradient.start = NA,
                         custom.gradient.end = NA,
-                        custom.palette = NA) 
-{ 
+                        custom.palette = NA)
+{
+    if (missing(given.colors))
+        given.colors <- qColors
     if (number.colors.needed%%1 != 0 | number.colors.needed <= 0)
         stop("'number.colors.needed' must be a positive integer.")
-    # Non-palette options 
+    # Non-palette options
     if (given.colors[1] == "Custom color")
     {
         if (is.na(custom.color))
@@ -123,10 +128,10 @@ ChartColors <- function(number.colors.needed,
             warning("Only a single color specified for multiple series. Consider using 'Custom palette' instead.")
         return (rep(checkColors(custom.color), number.colors.needed))
     }
-    
+
     if (number.colors.needed == 1 && given.colors[1] != "Default colors")
         warning("Only the first color of the palette used.")
-    
+
     if (given.colors[1] == "Custom gradient")
     {
         if (is.na(custom.gradient.start))
@@ -152,30 +157,30 @@ ChartColors <- function(number.colors.needed,
         return(checkColors(custom.palette))
     }
 
-    # The following options assume given.colors is a palette 
+    # The following options assume given.colors is a palette
     if (palette.start < 0 || palette.start > 1)
         stop("palette.start must be a number between 0 and 1\n")
-    
+
     if (palette.end < 0 || palette.end > 1)
         stop("palette.end must be a number between 0 and 1\n")
-    
+
     if (!(palette.start < palette.end))
         stop("palette.start must be smaller than pallete.end\n")
-    
+
     given.colors <- translatePaletteName(given.colors)
-    
+
     if (length(given.colors) == 1 && endsWith(given.colors, "reverse"))
     {
         reverse <- !reverse
         given.colors <- sub(" reverse", "", given.colors)
     }
-        
+
     if (trim.light.colors && given.colors %in% c("Blues","Greens","Greys", "Oranges","Purples","Reds"))
     {
         palette.start <- 0 + (0.2 * !reverse)
         palette.end <- 1 - (0.2 * reverse)
     }
-    
+
     num2 <- ceiling(number.colors.needed/(palette.end - palette.start))
 
     # Count the number of supplied colors
@@ -245,7 +250,7 @@ ChartColors <- function(number.colors.needed,
     if (brewer.palette)
     {
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
-        
+
         ## Must have at least three colors returned from R Color Brewer, else warning message
         if (num2 <= max.brewer.colors)
             chart.colors <- RColorBrewer::brewer.pal(max(3,num2), given.colors)
@@ -263,7 +268,7 @@ ChartColors <- function(number.colors.needed,
     }
     if (reverse)
         chart.colors <- rev(chart.colors)
-    
+
     # Trim colors to the selected part of the palette
     n.discard <- round(num2 * palette.start)
     if (!hex.colors && n.discard > 0)
@@ -271,3 +276,10 @@ ChartColors <- function(number.colors.needed,
     res <- chart.colors[1:number.colors.needed]
     return(StripAlphaChannel(res))
 }
+
+#' Vector of the 15 standard Q colors
+#'
+#' @format 12 Q colors in hex format.
+#' @noRd
+qColors <- c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
+             "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")

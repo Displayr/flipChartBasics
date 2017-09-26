@@ -98,7 +98,7 @@ equalNumberOfRows <- function(y, x) {numberOfRows(y) == numberOfRows(x)}
 #' @param n.columns The number of columns in the matrix.
 #' @return Logical; if matrix is a chart matrix.
 #' @examples
-#' data("z")
+#' z <- matrix(1:5, ncol = 1, dimnames = list(x = LETTERS[1:5], series = "Series 1"))
 #' IsChartMatrix(z, nrow(z), ncol(z))
 #' @export
 IsChartMatrix <- function(x, n.rows, n.columns)
@@ -129,8 +129,10 @@ IsChartMatrix <- function(x, n.rows, n.columns)
 #' @importFrom stats aggregate xtabs
 #' @return A chart matrix with named rows and columns.
 #' @examples
-#' AsChartMatrix(y = y.data, x = x.data, transpose = FALSE)
-#' AsChartMatrix(y = var1, x = x.dates, transpose = TRUE, aggregate.period = "year")
+#' AsChartMatrix(y = 1:5, x = LETTERS[1:5], transpose = FALSE)
+#' x.dates <- c(1440236400000,1450236400000,1460236400000,1470236400000,1480236400000)
+#' x.dates <- as.POSIXct(x.dates/1000, origin = "1970-01-01")
+#' AsChartMatrix(y = 1:5, x = x.dates, transpose = TRUE, aggregate.period = "year")
 #' @export
 AsChartMatrix <- function(y,
                           x = NULL,
@@ -152,10 +154,10 @@ AsChartMatrix <- function(y,
             y <- matrix(y, ncol=1)
             rownames(y) <- tmpnames
         }
-        
+
         if (!is.factor(y) && !is.vector(y) && !is.table(y) && !is.matrix(y) && !is.data.frame(y) && !is.array(y))
             stop(paste("y must be a vector, matrix, data.frame or array"))
-    
+
         if (is.factor(y) | is.character(y))
         {
             y <- xtabs(~ y)
@@ -167,7 +169,7 @@ AsChartMatrix <- function(y,
         return(y)
     }
     y.label <- attr(y, "label")
-    
+
     if (is.logical(x))
         stop(paste("X cannot be a logical vector"))
 

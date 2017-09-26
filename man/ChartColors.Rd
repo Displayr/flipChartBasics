@@ -4,7 +4,7 @@
 \alias{ChartColors}
 \title{Generates a vector of colors}
 \usage{
-ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
+ChartColors(number.colors.needed, given.colors, reverse = FALSE,
   palette.start = 0, palette.end = 1, trim.light.colors = TRUE,
   custom.color = NA, custom.gradient.start = NA, custom.gradient.end = NA,
   custom.palette = NA)
@@ -12,7 +12,9 @@ ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
 \arguments{
 \item{number.colors.needed}{The number of colors to generate.}
 
-\item{given.colors}{Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).}
+\item{given.colors}{Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
+are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
+            "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")}
 
 \item{reverse}{Whether the output color vector should be reversed. Ignored when \code{given.colors} is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.}
 
@@ -31,7 +33,7 @@ ChartColors(number.colors.needed, given.colors = qColors, reverse = FALSE,
 \item{custom.palette}{A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.}
 }
 \description{
-Generates a vector of colors from a palette or vector of colors. 
+Generates a vector of colors from a palette or vector of colors.
 Alpha channels are ignored and set to 255/FF.
 }
 \examples{
@@ -40,4 +42,5 @@ ChartColors(5, given.colors = "blue")
 ChartColors(5, given.colors = "#9CFF73")
 ChartColors(5, given.colors = "Set3", reverse = TRUE)
 plot(1:10,1:10,pch=19, col=ChartColors(10,"Reds",trim.light.colors=TRUE, reverse=TRUE))
+plot(1:12, 1:12, pch=19, col=ChartColors(12))
 }
