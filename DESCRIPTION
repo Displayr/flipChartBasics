@@ -13,7 +13,12 @@ Imports:
     RColorBrewer,
     colorspace,
     colorRamps,
-    flipTransformations
-Remotes: Displayr/flipTransformations
+    flipTransformations,
+    flipTables,
+    flipStatistics
+Remotes:
+    Displayr/flipTransformations,
+    Displayr/flipTables,
+    Displayr/flipStatistics
 RoxygenNote: 6.0.1
 Depends: R (>= 2.10)
