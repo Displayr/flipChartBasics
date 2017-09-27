@@ -196,7 +196,6 @@ getNumberFormat <- function(num.format){
 #'
 #' Processes user-specified colour parameters to a format
 #' suitable for Displayr charting functions
-#' @importFrom flipChartBasics ChartColors
 #' @param data data to be used for creating the chart
 #' @param colours list containing user inputs from the GUI controls
 #' @param chart.type character type of chart to be plotted
