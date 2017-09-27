@@ -10,5 +10,8 @@ test_that("multiple existing tables case works",
                               "Pepsi Max", "Dislike all cola", "Don't care", "NET")), name = "Preferred cola",
                         questions = c("Preferred cola",
                                       "SUMMARY")))
-    out <- PrepareData(formTable = NULL, raw.data = NULL, formTables = formTables, formBinary = NULL)
+    out <- PrepareData(formTable = NULL, raw.data = NULL, formTables = formTables, formBinary = NULL,
+                       formChartType = "Scatter")
+    expect_length(out$data, 2)
+    expect_equal(attr(out$data[[2]], "statistic"), "%")
 })
