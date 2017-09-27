@@ -37,7 +37,7 @@
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export
-PrepareData <- function(formChartType, subset, weights,
+PrepareData <- function(formChartType, subset = NULL, weights = NULL,
                         formTable, formTables, formBinary,
                         pasted = list(NULL),
                         raw.data = NULL,
@@ -89,7 +89,7 @@ PrepareData <- function(formChartType, subset, weights,
     x.number.format <- getNumberFormat(number.format)
 
     ## Processing color data
-    series.colors <- getColourPars(data, colors, formChartType)
+    series.colors <- getColorPars(data, colors, formChartType)
 
     list(data = data,  # if (!is.null(table)) table else raw.data,
          weights = weights,
@@ -197,19 +197,19 @@ getNumberFormat <- function(num.format){
 #' Processes user-specified colour parameters to a format
 #' suitable for Displayr charting functions
 #' @param data data to be used for creating the chart
-#' @param colours list containing user inputs from the GUI controls
+#' @param colors list containing user inputs from the GUI controls
 #' @param chart.type character type of chart to be plotted
 #' @return see \code{\link[flipChartBasics]{ChartColors}}
 ## @return \code{list} containing two components
 ## \itemize
 ## {
 ## \item \code{n.series.colors} - number of colours to be plotted
-## \item \code{series.colors} - \code{NULL} if \code{colours} is \code{NULL},
+## \item \code{series.colors} - \code{NULL} if \code{colors} is \code{NULL},
 ## or the output from calling \code{\link[flipChartBasics]{ChartColors}}
 ## }
 #' @seealso \code{\link[flipChartBasics]{ChartColors}}
 #' @noRd
-getColourPars <- function(data, colours, chart.type){
+getColorPars <- function(data, colors, chart.type){
     n.series.colors <- switch(chart.type,
                              "Venn Diagram" = ncol(data),
                              "Stream Graph" = nrow(data),
