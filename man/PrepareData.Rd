@@ -4,9 +4,10 @@
 \alias{PrepareData}
 \title{Tidy Data For Use With Displayr Charting Functions}
 \usage{
-PrepareData(formChartType, subset, weights, formTable, formTables, formBinary,
-  pasted = list(NULL), raw.data = NULL, formTranspose = FALSE,
-  number.format = list(NULL), missing, colors = list(NULL))
+PrepareData(formChartType, subset = NULL, weights = NULL, formTable,
+  formTables, formBinary, pasted = list(NULL), raw.data = NULL,
+  formTranspose = FALSE, number.format = list(NULL), missing,
+  colors = list(NULL))
 }
 \arguments{
 \item{formChartType}{character; chart type to be plotted}

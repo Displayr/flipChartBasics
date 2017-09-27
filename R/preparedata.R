@@ -34,6 +34,7 @@
 #'     that order
 #' @importFrom flipTransformations ParseUserEnteredTable
 #' @importFrom flipTables AsBasicTable
+#' @importFrom flipData TidyRawData
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export

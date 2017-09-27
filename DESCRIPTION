@@ -15,10 +15,12 @@ Imports:
     colorRamps,
     flipTransformations,
     flipTables,
-    flipStatistics
+    flipStatistics,
+    flipData
 Remotes:
     Displayr/flipTransformations,
     Displayr/flipTables,
-    Displayr/flipStatistics
+    Displayr/flipStatistics,
+    Displayr/flipData
 RoxygenNote: 6.0.1
 Depends: R (>= 2.10)
