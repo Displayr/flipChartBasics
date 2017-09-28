@@ -135,6 +135,7 @@ processDataArgs <- function(...)
 #' @importFrom flipStatistics Table WeightedTable
 aggregateDataForCharting <- function(data, weights, chart.type)
 {
+    out <- data
     if (!chart.type %in% c("Scatter Plot", "Bubble Chart"))
     {
         if (ncol(data) == 1)
