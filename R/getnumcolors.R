@@ -20,7 +20,7 @@ GetNumColors <- function(data, chart.type)
     if (grepl("Pie", chart.type) || grepl("Donut", chart.type))
     {
         if (!is.null(dim(data)) && length(dim(data)) > 1)
-            return(list(num.series=ncol(data), num.categories=nrow(dat)))
+            return(list(num.series=ncol(data), num.categories=nrow(data)))
         else
             return(list(num.series=length(data)))
     }
