@@ -2,6 +2,7 @@
 
 export(AsChartMatrix)
 export(ChartColors)
+export(GetNumColors)
 export(IsChartMatrix)
 export(PrepareData)
 export(StripAlphaChannel)
