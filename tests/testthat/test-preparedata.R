@@ -25,4 +25,16 @@ test_that("works with pasted data when ask for data.frame", {
                        pasted = pasted, formChartType = "Column")
     expect_is(out$data, "data.frame")
     expect_equal(colnames(out$data), LETTERS[1:4])
-}
+})
+
+test_that("PrepareData works with missing data", {
+
+})
+
+test_that("PrepareData works with aggregation", {
+
+})
+
+test_that("PrepareData works with vectors", {
+
+})
