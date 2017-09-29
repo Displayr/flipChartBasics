@@ -46,7 +46,6 @@ PrepareData <- function(formChartType, subset = NULL, weights = NULL,
                         number.format = list(NULL),
                         missing, colors = list(NULL))
 {
-
     is.pasted <- !is.null(pasted[[1L]])
     data <- processDataArgs(pasted = pasted, formTable = get0("formTable"), formTables = get0("formTables"),
                             formBinary = get0("formBinary"), raw.data = get0("raw.data"))
@@ -73,7 +72,7 @@ PrepareData <- function(formChartType, subset = NULL, weights = NULL,
     ## Aggregate if raw data or convert to tidy table(s)
     data <- if (is.raw.data)
             {
-                aggregateDataForCharting(raw.data, weights, formChartType)
+                aggregateDataForCharting(data, weights, formChartType)
             }
             else if(inherits(data, "list"))
             {  # user provided multiple existing tables
@@ -92,7 +91,7 @@ PrepareData <- function(formChartType, subset = NULL, weights = NULL,
     ## Processing color data
     series.colors <- getColorPars(data, colors, formChartType)
 
-    list(data = data,  # if (!is.null(table)) table else raw.data,
+    list(data = data,
          weights = weights,
          series.colors = series.colors,
          x.number.format = x.number.format,

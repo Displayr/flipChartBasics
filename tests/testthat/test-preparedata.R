@@ -15,3 +15,14 @@ test_that("multiple existing tables case works",
     expect_length(out$data, 2)
     expect_equal(attr(out$data[[2]], "statistic"), "%")
 })
+
+test_that("works with pasted data when ask for data.frame", {
+    ## list(get0("formPastedData"), get0("formPastedRawData"), get0("formPastedFactor"), get0("formPastedColumnNames"),
+    ##      get0("formPastedRowNames"), get0("formPastedDateConvention"))
+    dat <- rbind(c("", LETTERS[1:4]), cbind(letters[1:3], matrix(as.character(1:12), 3, 4)))
+    pasted <- list(dat, TRUE, TRUE, TRUE, TRUE, TRUE)
+    out <- PrepareData(formTable = NULL, raw.data = NULL, formTables = NULL, formBinary = NULL,
+                       pasted = pasted, formChartType = "Column")
+    expect_is(out$data, "data.frame")
+    expect_equal(colnames(out$data), LETTERS[1:4])
+}
