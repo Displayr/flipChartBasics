@@ -4,9 +4,10 @@
 \alias{PrepareData}
 \title{Tidy Data For Use With Displayr Charting Functions}
 \usage{
-PrepareData(formChartType, subset = NULL, weights = NULL, formTable,
-  formTables, formBinary, pasted = list(NULL), raw.data = NULL,
-  formTranspose = FALSE, number.format = list(NULL), missing,
+PrepareData(formChartType, subset = TRUE, weights = NULL,
+  formTable = NULL, formTables = NULL, formBinary = NULL,
+  pasted = list(NULL), raw.data = NULL, formTranspose = FALSE,
+  number.format = list(NULL), missing = "Exclude cases with missing data",
   colors = list(NULL))
 }
 \arguments{
@@ -61,4 +62,8 @@ It is assumed that only one of \code{pasted},
     \code{formTable}, \code{formTables}, \code{formBinary},
     \code{raw.data} is non-NULL.  They are checked for nullity in
     that order
+}
+\seealso{
+\code{\link[flipTables]{AsBasicTable}}, \code{\link[flipData]{TidyRawData}},
+\code{\link[flipTransformations]{ParseUserEnteredTable}}
 }

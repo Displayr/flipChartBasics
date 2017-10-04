@@ -38,17 +38,19 @@
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export
-PrepareData <- function(formChartType, subset = NULL, weights = NULL,
-                        formTable, formTables, formBinary,
+#' @seealso \code{\link[flipTables]{AsBasicTable}}, \code{\link[flipData]{TidyRawData}},
+#' \code{\link[flipTransformations]{ParseUserEnteredTable}}
+PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
+                        formTable = NULL, formTables = NULL, formBinary = NULL,
                         pasted = list(NULL),
                         raw.data = NULL,
                         formTranspose = FALSE,
                         number.format = list(NULL),
-                        missing, colors = list(NULL))
+                        missing = "Exclude cases with missing data", colors = list(NULL))
 {
     is.pasted <- !is.null(pasted[[1L]])
-    data <- processDataArgs(pasted = pasted, formTable = get0("formTable"), formTables = get0("formTables"),
-                            formBinary = get0("formBinary"), raw.data = get0("raw.data"))
+    data <- processDataArgs(pasted = pasted, formTable = formTable, formTables = formTables,
+                            formBinary = formBinary, raw.data = raw.data, is.pasted)
     is.raw.data <- attr(data, "raw.data")
 
     # Processing pasted or manually inputted data.
