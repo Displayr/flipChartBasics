@@ -151,7 +151,7 @@ aggregateDataForCharting <- function(data, weights, chart.type)
         else if (ncol(data) == 2)
         {
             names(data) <- c("x", "y")
-            data$w <- if (is.null(weights)) rep(1, nrow(data)) else weights
+            data$w <- if (is.null(weights)) rep.int(1L, nrow(data)) else weights
             out <- flipStatistics::Table(w  ~ x + y, data = data, FUN = sum)
             if (chart.type == "Pie") # Total %
                 out = prop.table(out, 1:2) * 100
