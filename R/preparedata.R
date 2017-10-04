@@ -117,14 +117,17 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
 #' @return the first non-NULL component \code{...} with an added attribute
 #' indicating if the data is raw data
 #' @noRd
-processDataArgs <- function(...)
+processDataArgs <- function(..., is.pasted = FALSE)
 {  #
     args <- list(...)
     non.null.idx <- which(!vapply(args, function(x) is.null(unlist(x)), FALSE))[1]
     if (is.na(non.null.idx))
         stop("no data supplied")
-    structure(args[[non.null.idx]],
-              raw.data = names(args)[non.null.idx] %in% c("raw.data", "formBinary", "pasted"))
+    data <- args[[non.null.idx]]
+    raw.data <- (is.pasted && inherits(data, "list") && isTRUE(data[[2]])) ||
+        names(args)[non.null.idx] %in% c("raw.data", "formBinary")
+    attr(data, "raw.data") <- raw.data
+    data
 }
 
 #' Aggregrate Raw Data For Charting
