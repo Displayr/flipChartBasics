@@ -84,7 +84,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                 AsBasicTable(data)
 
     ## Switching rows and columns
-    if (!is.null(formTranspose) && formTranspose)
+    if (isTRUE(formTranspose))
         data <- t(data)
 
     ## Processing number formats
