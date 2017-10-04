@@ -142,7 +142,7 @@ aggregateDataForCharting <- function(data, weights, chart.type)
     out <- data
     if (!chart.type %in% c("Scatter Plot", "Bubble Chart"))
     {
-        if (ncol(data) == 1)
+        if (NCOL(data) == 1)
         {
             out <- flipStatistics::WeightedTable(data[[1]]) #, weights)
             out <- prop.table(out) * 100
