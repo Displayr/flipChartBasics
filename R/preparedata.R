@@ -15,38 +15,48 @@
 #'     \code{\link[flipTables]{AsBasicTable}}
 #' @param formBinary a PickAny Multi Q variable
 #' @param pasted list of length six; the first component of which is
-#' assumed to be from a user-entered/pasted table; will be processed
-#' by \code{\link{ParseUserEnteredTable}}
+#'     assumed to be from a user-entered/pasted table; will be
+#'     processed by \code{\link{ParseUserEnteredTable}}
 #' @param raw.data data.frame, containing Variables from a Q/Displayr
 #'     Data Set
-#' @param formTranspose logical; should the supplied data be transposed?
-#' @param number.format list containing user-supplied parameters relating
-#' to number formatting in the chart
+#' @param formTranspose logical; should the supplied data be
+#'     transposed?
+#' @param number.format list containing user-supplied parameters
+#'     relating to number formatting in the chart
 #' @param missing character; One of \code{"Error if missing data"},
 #'     \code{"Exclude cases with missing data"} (the default, which is
 #'     equivalent to 'complete.cases'), and \code{"Use partial data"},
 #'     which removes no data; ignored if raw data is not supplied
 #' @param colors list containing user-supplied values for colour
 #'     parameters in charts
+#' @param row.names.to.remove character vector of row labels
+#'     specifying rows to remove from the returned table; default is
+#'     \code{c("NET", "SUM")}
+#' @param col.names.to.remove character vector of column labels
+#'     specifying columns to remove from the returned table; default
+#'     is \code{c("NET", "SUM")}
 #' @details It is assumed that only one of \code{pasted},
 #'     \code{formTable}, \code{formTables}, \code{formBinary},
 #'     \code{raw.data} is non-NULL.  They are checked for nullity in
 #'     that order
 #' @importFrom flipTransformations ParseUserEnteredTable
-#' @importFrom flipTables AsBasicTable
+#'     RemoveRowsAndOrColumns
+#' @importFrom flipTables BasicTable
 #' @importFrom flipData TidyRawData
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export
-#' @seealso \code{\link[flipTables]{AsBasicTable}}, \code{\link[flipData]{TidyRawData}},
-#' \code{\link[flipTransformations]{ParseUserEnteredTable}}
+#' @seealso \code{\link[flipTables]{AsBasicTable}},
+#'     \code{\link[flipData]{TidyRawData}},
+#'     \code{\link[flipTransformations]{ParseUserEnteredTable}}
 PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                         formTable = NULL, formTables = NULL, formBinary = NULL,
                         pasted = list(NULL),
                         raw.data = NULL,
                         formTranspose = FALSE,
                         number.format = list(NULL),
-                        missing = "Exclude cases with missing data", colors = list(NULL))
+                        missing = "Exclude cases with missing data", colors = list(NULL),
+                        row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET", "SUM"))
 {
     is.pasted <- !is.null(pasted[[1L]])
     data <- processDataArgs(pasted = pasted, formTable = formTable, formTables = formTables,
@@ -74,14 +84,18 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     ## Aggregate if raw data or convert to tidy table(s)
     data <- if (is.raw.data)
             {
+                data <- RemoveRowsAndOrColumns(data, row.names.to.remove = row.names.to.remove,
+                                               column.names.to.remove = col.names.to.remove)
                 aggregateDataForCharting(data, weights, formChartType)
             }
             else if(inherits(data, "list"))
             {  # user provided multiple existing tables
-                lapply(data, AsBasicTable)
+                lapply(data, BasicTable, row.names.to.remove = row.names.to.remove,
+                       col.names.to.remove = col.names.to.remove)
             }
             else
-                AsBasicTable(data)
+                BasicTable(data, row.names.to.remove = row.names.to.remove,
+                             col.names.to.remove = col.names.to.remove)
 
     ## Switching rows and columns
     if (isTRUE(formTranspose))

@@ -8,7 +8,8 @@ PrepareData(formChartType, subset = TRUE, weights = NULL,
   formTable = NULL, formTables = NULL, formBinary = NULL,
   pasted = list(NULL), raw.data = NULL, formTranspose = FALSE,
   number.format = list(NULL), missing = "Exclude cases with missing data",
-  colors = list(NULL))
+  colors = list(NULL), row.names.to.remove = c("NET", "SUM"),
+  col.names.to.remove = c("NET", "SUM"))
 }
 \arguments{
 \item{formChartType}{character; chart type to be plotted}
@@ -30,16 +31,17 @@ Qtable and will be processed using
 \item{formBinary}{a PickAny Multi Q variable}
 
 \item{pasted}{list of length six; the first component of which is
-assumed to be from a user-entered/pasted table; will be processed
-by \code{\link{ParseUserEnteredTable}}}
+assumed to be from a user-entered/pasted table; will be
+processed by \code{\link{ParseUserEnteredTable}}}
 
 \item{raw.data}{data.frame, containing Variables from a Q/Displayr
 Data Set}
 
-\item{formTranspose}{logical; should the supplied data be transposed?}
+\item{formTranspose}{logical; should the supplied data be
+transposed?}
 
-\item{number.format}{list containing user-supplied parameters relating
-to number formatting in the chart}
+\item{number.format}{list containing user-supplied parameters
+relating to number formatting in the chart}
 
 \item{missing}{character; One of \code{"Error if missing data"},
 \code{"Exclude cases with missing data"} (the default, which is
@@ -48,6 +50,14 @@ which removes no data; ignored if raw data is not supplied}
 
 \item{colors}{list containing user-supplied values for colour
 parameters in charts}
+
+\item{row.names.to.remove}{character vector of row labels
+specifying rows to remove from the returned table; default is
+\code{c("NET", "SUM")}}
+
+\item{col.names.to.remove}{character vector of column labels
+specifying columns to remove from the returned table; default
+is \code{c("NET", "SUM")}}
 }
 \value{
 If possible, a named vector or matrix, or if that is not
@@ -64,6 +74,7 @@ It is assumed that only one of \code{pasted},
     that order
 }
 \seealso{
-\code{\link[flipTables]{AsBasicTable}}, \code{\link[flipData]{TidyRawData}},
-\code{\link[flipTransformations]{ParseUserEnteredTable}}
+\code{\link[flipTables]{AsBasicTable}},
+    \code{\link[flipData]{TidyRawData}},
+    \code{\link[flipTransformations]{ParseUserEnteredTable}}
 }
