@@ -35,6 +35,8 @@
 #' @param col.names.to.remove character vector of column labels
 #'     specifying columns to remove from the returned table; default
 #'     is \code{c("NET", "SUM")}
+#' @param show.labels logical; If \code{TRUE}, labels are used for
+#'     names in the data output if raw data is supplied
 #' @details It is assumed that only one of \code{pasted},
 #'     \code{formTable}, \code{formTables}, \code{formBinary},
 #'     \code{raw.data} is non-NULL.  They are checked for nullity in
@@ -43,6 +45,7 @@
 #'     RemoveRowsAndOrColumns
 #' @importFrom flipTables BasicTable
 #' @importFrom flipData TidyRawData
+#' @importFrom flipFormat Labels
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export
@@ -56,7 +59,8 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                         formTranspose = FALSE,
                         number.format = list(NULL),
                         missing = "Exclude cases with missing data", colors = list(NULL),
-                        row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET", "SUM"))
+                        row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET", "SUM"),
+                        show.labels = TRUE)
 {
     is.pasted <- !is.null(pasted[[1L]])
     data <- processDataArgs(pasted = pasted, formTable = formTable, formTables = formTables,
@@ -86,6 +90,8 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
             {
                 data <- RemoveRowsAndOrColumns(data, row.names.to.remove = row.names.to.remove,
                                                column.names.to.remove = col.names.to.remove)
+                if (show.labels)
+                    names(data) <- Labels(data)
                 aggregateDataForCharting(data, weights, formChartType)
             }
             else if(inherits(data, "list"))

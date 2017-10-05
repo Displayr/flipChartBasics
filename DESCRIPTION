@@ -13,11 +13,13 @@ Imports:
     RColorBrewer,
     colorspace,
     colorRamps,
+    flipFormat,
     flipTransformations,
     flipTables,
     flipStatistics,
     flipData
 Remotes:
+    Displayr/flipFormat,
     Displayr/flipTransformations,
     Displayr/flipTables,
     Displayr/flipStatistics,

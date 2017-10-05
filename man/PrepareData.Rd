@@ -9,7 +9,7 @@ PrepareData(formChartType, subset = TRUE, weights = NULL,
   pasted = list(NULL), raw.data = NULL, formTranspose = FALSE,
   number.format = list(NULL), missing = "Exclude cases with missing data",
   colors = list(NULL), row.names.to.remove = c("NET", "SUM"),
-  col.names.to.remove = c("NET", "SUM"))
+  col.names.to.remove = c("NET", "SUM"), show.labels = TRUE)
 }
 \arguments{
 \item{formChartType}{character; chart type to be plotted}
@@ -58,6 +58,9 @@ specifying rows to remove from the returned table; default is
 \item{col.names.to.remove}{character vector of column labels
 specifying columns to remove from the returned table; default
 is \code{c("NET", "SUM")}}
+
+\item{show.labels}{logical; If \code{TRUE}, labels are used for
+names in the data output if raw data is supplied}
 }
 \value{
 If possible, a named vector or matrix, or if that is not

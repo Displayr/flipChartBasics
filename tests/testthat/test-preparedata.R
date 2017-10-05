@@ -480,3 +480,36 @@ test_that("PrepareData: raw.data subset and weights",
     expect_equal(attr(out$data, "weights"), QPopulationWeight[QFilter == 1])
 })
 
+test_that("PrepareData uses Labels",
+{
+    dat <- structure(list(Q6_A = structure(c(3L, 5L, 5L, 6L, 4L, 1L, 3L,
+    6L, 5L, 6L, 6L, 5L, 5L, 4L, 3L, 6L, 6L, 5L, 5L, 4L), .Label = c("Don t Know",
+    "Hate", "Dislike", "Neither like nor dislike", "Like", "Love"
+    ), class = "factor", label = structure("Q6. Coca Cola", .Names = "Q6_A")),
+        Q6_B = structure(c(5L, 2L, 6L, 3L, 6L, 1L, 4L, 3L, 5L, 6L,
+        2L, 3L, 3L, 3L, 6L, 5L, 5L, 3L, 3L, 4L), .Label = c("Don t Know",
+        "Hate", "Dislike", "Neither like nor dislike", "Like", "Love"
+        ), class = "factor", label = structure("Q6. Diet Coke", .Names = "Q6_B")),
+        Q6_C = structure(c(3L, 5L, 3L, 3L, 4L, 1L, 5L, 5L, 1L, 6L,
+        2L, 3L, 3L, 5L, 3L, 5L, 5L, 3L, 5L, 6L), .Label = c("Don t Know",
+        "Hate", "Dislike", "Neither like nor dislike", "Like", "Love"
+        ), class = "factor", label = structure("Q6. Coke Zero", .Names = "Q6_C")),
+        Q6_D = structure(c(4L, 5L, 4L, 3L, 4L, 1L, 3L, 4L, 5L, 5L,
+        6L, 5L, 4L, 4L, 5L, 5L, 3L, 5L, 4L, 4L), .Label = c("Don t Know",
+        "Hate", "Dislike", "Neither like nor dislike", "Like", "Love"
+        ), class = "factor", label = structure("Q6. Pepsi", .Names = "Q6_D")),
+        Q6_E = structure(c(2L, 4L, 2L, 3L, 6L, 6L, 3L, 3L, 5L, 5L,
+        2L, 3L, 3L, 4L, 6L, 1L, 2L, 3L, 4L, 4L), .Label = c("Don t Know",
+        "Hate", "Dislike", "Neither like nor dislike", "Like", "Love"
+        ), class = "factor", label = structure("Q6. Pepsi Light", .Names = "Q6_E")),
+        Q6_F = structure(c(6L, 6L, 2L, 3L, 3L, 6L, 3L, 5L, 4L, 4L,
+        2L, 3L, 3L, 5L, 3L, 1L, 2L, 3L, 4L, 4L), .Label = c("Don t Know",
+        "Hate", "Dislike", "Neither like nor dislike", "Like", "Love"
+        ), class = "factor", label = structure("Q6. Pepsi Max", .Names = "Q6_F"))), .Names = c("Q6_A",
+    "Q6_B", "Q6_C", "Q6_D", "Q6_E", "Q6_F"), row.names = c(NA, 20L
+                                                           ), class = "data.frame")
+    expect_warning(out <-PrepareData(raw.data = dat, formChartType = "Bubble Chart"),
+                   "^Some categories do not appear")
+    expect_is(out$data, "data.frame")
+    expect_equal(names(out$data), flipFormat::Labels(dat), check.attributes = FALSE)
+})
