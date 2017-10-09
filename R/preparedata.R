@@ -45,7 +45,7 @@
 #'     RemoveRowsAndOrColumns
 #' @importFrom flipTables BasicTable
 #' @importFrom flipData TidyRawData
-#' @importFrom flipFormat Labels
+#' @importFrom flipFormat Labels Names
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export
@@ -92,6 +92,8 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                                                column.names.to.remove = col.names.to.remove)
                 if (show.labels)
                     names(data) <- Labels(data)
+                else
+                    names(data) <- Names(data)
                 aggregateDataForCharting(data, weights, formChartType)
             }
             else if(inherits(data, "list"))
