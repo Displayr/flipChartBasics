@@ -12,12 +12,17 @@
 #' @export
 ChartNumberFormat <- function(number.format) {
     
+    
     number.type <- number.format[[1]]
     date.type <- number.format[[2]]
     custom.type <- number.format[[3]]
     separate.thousands <- number.format[[4]]
     decimal.places <- number.format[[5]]
-    
+
+    if (is.null(number.type) || !number.type %in% c("Number", "Percentage", "Date/Time", "Currency",
+                                                    "Metric units suffix","Scientific", "Custom"))
+        stop("Number format not recognized.")
+
     if (!is.null(custom.type))
         return(custom.type)
     if (!is.null(date.type))
@@ -56,7 +61,5 @@ ChartNumberFormat <- function(number.format) {
                       "Scientific" = "e",
                       "Metric units suffix" = "s")
     return(paste0(d3.format, d3.type))
-    
-    stop("Number format not recognized.")
 }
 
