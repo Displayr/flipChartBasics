@@ -277,7 +277,7 @@ ChartColors <- function(number.colors.needed,
     return(StripAlphaChannel(res))
 }
 
-#' Vector of the 15 standard Q colors
+#' Vector of the 12 standard Q colors
 #'
 #' @format 12 Q colors in hex format.
 #' @noRd
