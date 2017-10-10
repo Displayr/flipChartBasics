@@ -2,10 +2,12 @@
 
 export(AsChartMatrix)
 export(ChartColors)
+export(ChartNumberFormat)
 export(GetNumColors)
 export(IsChartMatrix)
 export(PrepareColors)
 export(PrepareData)
+export(PrepareNumbers)
 export(StripAlphaChannel)
 import(colorRamps)
 import(colorspace)
