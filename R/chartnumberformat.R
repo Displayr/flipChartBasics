@@ -9,6 +9,8 @@
 #' 4) A boolean indicating whether to separate thousands with commas.
 #' 5) An integer specifying the number of decimal places, or for \code{"Metric units suffix"}, the number
 #' of significant digits.
+#' @details Defaults to number with zero decimal places and no thousand separation if no type,
+#' date format or custom format is specified.
 #' @export
 ChartNumberFormat <- function(number.format) {
     
@@ -19,8 +21,11 @@ ChartNumberFormat <- function(number.format) {
     separate.thousands <- number.format[[4]]
     decimal.places <- number.format[[5]]
 
-    if (is.null(number.type) || !number.type %in% c("Number", "Percentage", "Date/Time", "Currency",
-                                                    "Metric units suffix","Scientific", "Custom"))
+    if (is.null(number.type))
+        number.type <- "Number"
+    
+    if (!number.type %in% c("Number", "Percentage", "Date/Time", "Currency",
+                            "Metric units suffix","Scientific", "Custom"))
         stop("Number format not recognized.")
 
     if (!is.null(custom.type))
@@ -53,6 +58,9 @@ ChartNumberFormat <- function(number.format) {
     } else {
         ""
     }
+    
+    if (is.null(decimal.places))
+        decimal.places <- 0
     d3.format <- paste0(comma, ".", decimal.places)
     d3.type <- switch(number.type,
                       "Number" = "f",

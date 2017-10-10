@@ -21,3 +21,7 @@ of significant digits.}
 Generates a d3 number format for use by charting functions.
 See https://github.com/d3/d3-format for more information on d3.
 }
+\details{
+Defaults to number with zero decimal places and no thousand separation if no type,
+date format or custom format is specified.
+}
