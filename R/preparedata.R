@@ -21,14 +21,10 @@
 #'     Data Set
 #' @param formTranspose logical; should the supplied data be
 #'     transposed?
-#' @param number.format list containing user-supplied parameters
-#'     relating to number formatting in the chart
 #' @param missing character; One of \code{"Error if missing data"},
 #'     \code{"Exclude cases with missing data"} (the default, which is
 #'     equivalent to 'complete.cases'), and \code{"Use partial data"},
 #'     which removes no data; ignored if raw data is not supplied
-#' @param colors list containing user-supplied values for colour
-#'     parameters in charts
 #' @param row.names.to.remove character vector of row labels
 #'     specifying rows to remove from the returned table; default is
 #'     \code{c("NET", "SUM")}
@@ -57,8 +53,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                         pasted = list(NULL),
                         raw.data = NULL,
                         formTranspose = FALSE,
-                        number.format = list(NULL),
-                        missing = "Exclude cases with missing data", colors = list(NULL),
+                        missing = "Exclude cases with missing data",
                         row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET", "SUM"),
                         show.labels = TRUE)
 {
@@ -109,16 +104,8 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     if (isTRUE(formTranspose))
         data <- t(data)
 
-    ## Processing number formats
-    x.number.format <- getNumberFormat(number.format)
-
-    ## Processing color data
-    series.colors <- getColorPars(data, colors, formChartType)
-
     list(data = data,
          weights = weights,
-         series.colors = series.colors,
-         x.number.format = x.number.format,
          chart.type = switch(formChartType,
                                    "Venn Diagram" = "Venn",
                                    "Stream Graph" = "Streamgraph",
@@ -182,75 +169,5 @@ aggregateDataForCharting <- function(data, weights, chart.type)
          }
     }
     out
-}
-
-#' Process user-specified number format for charting
-#'
-#' @return character string number format or \code{NULL}
-#' if none specified
-#' @noRd
-getNumberFormat <- function(num.format){
-    if (is.null(num.format[[1L]]))
-        NULL
-    else
-    {
-        if (!is.null(num.format[[2L]])) num.format[[2L]] else
-            switch(num.format[[1L]],
-                   "Number" = "Number",
-                    "YY (Year, 2 digit)" = "%y",
-                    "DD Mon YY" = "%d %b %y",
-                    "DD Month YY" = "%d %B %y",
-                    "DD MM YY" = "%d %m %y",
-                    "YYYY (Year, 4 digit)" = "%Y",
-                    "DD Mon YYYY" = "%d %b %Y",
-                    "DD Month YYYY" = "%d %B %Y",
-                    "DD MM YYYY" = "%d %m %Y",
-                    "Mon DD YY" = "%%b d %y",
-                    "Month DD YY" = "%B %d %y",
-                    "MM DD YY" = "%m %d %y",
-                    "Mon DD YYYY" = "%b %d %Y",
-                    "Month DD YYYY" = "%B %d %Y",
-                    "MM DD YYYY" = "%m %d %Y",
-                    "YY Mon DD" = "%y %b %d",
-                    "YY Month DD" = "%y %B %d",
-                    "YY MM DD" = "%y %m %d",
-                    "YYYY Mon DD" = "%Y %b %d",
-                    "YYYY Month DD" = "%Y %B %d",
-                    "YYYY MM DD" = "%Y %m %d")
-    }
-}
-
-#' Setup Colour Parameters For Charting Functions
-#'
-#' Processes user-specified colour parameters to a format
-#' suitable for Displayr charting functions
-#' @param data data to be used for creating the chart
-#' @param colors list containing user inputs from the GUI controls
-#' @param chart.type character type of chart to be plotted
-#' @return see \code{\link[flipChartBasics]{ChartColors}}
-## @return \code{list} containing two components
-## \itemize
-## {
-## \item \code{n.series.colors} - number of colours to be plotted
-## \item \code{series.colors} - \code{NULL} if \code{colors} is \code{NULL},
-## or the output from calling \code{\link[flipChartBasics]{ChartColors}}
-## }
-#' @seealso \code{\link[flipChartBasics]{ChartColors}}
-#' @noRd
-getColorPars <- function(data, colors, chart.type){
-    n.series.colors <- switch(chart.type,
-                             "Venn Diagram" = ncol(data),
-                             "Stream Graph" = nrow(data),
-                             ## "Column Chart" = 12, #ncol(table),
-                             12)
-
-    series.colors <- if (is.null(colors[[1]])) NULL else
-         flipChartBasics::ChartColors(n.series.colors,
-                             given.colors = colors[[1]],
-                             custom.color = colors[[2]],
-                             custom.gradient.start = colors[[3]],
-                             custom.gradient.end = colors[[4]],
-                             custom.palette = colors[[5]])
-    series.colors
 }
 

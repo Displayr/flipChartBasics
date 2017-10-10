@@ -7,9 +7,9 @@
 PrepareData(formChartType, subset = TRUE, weights = NULL,
   formTable = NULL, formTables = NULL, formBinary = NULL,
   pasted = list(NULL), raw.data = NULL, formTranspose = FALSE,
-  number.format = list(NULL), missing = "Exclude cases with missing data",
-  colors = list(NULL), row.names.to.remove = c("NET", "SUM"),
-  col.names.to.remove = c("NET", "SUM"), show.labels = TRUE)
+  missing = "Exclude cases with missing data",
+  row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET",
+  "SUM"), show.labels = TRUE)
 }
 \arguments{
 \item{formChartType}{character; chart type to be plotted}
@@ -40,16 +40,10 @@ Data Set}
 \item{formTranspose}{logical; should the supplied data be
 transposed?}
 
-\item{number.format}{list containing user-supplied parameters
-relating to number formatting in the chart}
-
 \item{missing}{character; One of \code{"Error if missing data"},
 \code{"Exclude cases with missing data"} (the default, which is
 equivalent to 'complete.cases'), and \code{"Use partial data"},
 which removes no data; ignored if raw data is not supplied}
-
-\item{colors}{list containing user-supplied values for colour
-parameters in charts}
 
 \item{row.names.to.remove}{character vector of row labels
 specifying rows to remove from the returned table; default is
