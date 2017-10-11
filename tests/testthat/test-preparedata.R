@@ -20,10 +20,7 @@ test_that("PrepareData: single table, single stat",
                                      get0("formPastedColumnNames"), get0("formPastedRowNames"), get0("formPastedDateConvention")),
     raw.data = as.data.frame(Filter(Negate(is.null), list(get0("formX"), get0("formY")))),
     formTranspose = get0("formTranspose"),
-    number.format = list(get0("formXNumberFormat"), get0("formXNumberCustom")),
-    missing = "Exclude cases with missing data", colors = list(get0("formPalette"), get0("formCustomColor"),
-                                                               get0("formCustomGradientStart"), get0("formCustomGradientEnd"),
-                                                               get0("formCustomPalette")), row.names.to.remove = NULL,
+    missing = "Exclude cases with missing data", row.names.to.remove = NULL,
     col.names.to.remove = NULL)
     expect_equal(attr(out$data, "statistic"), attr(formTable, "statistic"))
     expect_is(out$data, c("BasicTable", "matrix"))
@@ -67,10 +64,7 @@ test_that("PrepareData: single table, single stat",
                                      get0("formPastedColumnNames"), get0("formPastedRowNames"), get0("formPastedDateConvention")),
     raw.data = as.data.frame(Filter(Negate(is.null), list(get0("formX"), get0("formY")))),
     formTranspose = get0("formTranspose"),
-    number.format = list(get0("formXNumberFormat"), get0("formXNumberCustom")),
-    missing = "Exclude cases with missing data", colors = list(get0("formPalette"), get0("formCustomColor"),
-                                                               get0("formCustomGradientStart"), get0("formCustomGradientEnd"),
-                                                               get0("formCustomPalette"))), "^Multiple statistics")
+    missing = "Exclude cases with missing data"), "^Multiple statistics")
     out <- suppressWarnings(PrepareData(formChartType, QFilter, QPopulationWeight, get0("formTable")))
     dims <- dim(formTable)
     n.dim <- length(dims)
