@@ -513,3 +513,9 @@ test_that("PrepareData uses Labels",
     expect_is(out$data, "data.frame")
     expect_equal(names(out$data), flipFormat::Labels(dat), check.attributes = FALSE)
 })
+
+test_that("PrepareDate: useful message if no data provided",
+{
+    expect_error(PrepareData(formChartType = "Bar Chart"),
+                 "no data supplied")
+})

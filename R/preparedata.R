@@ -64,7 +64,8 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
 {
     is.pasted <- !is.null(pasted[[1L]])
     data <- processDataArgs(pasted = pasted, formTable = formTable, formTables = formTables,
-                            formBinary = formBinary, raw.data = raw.data, is.pasted)
+                            formBinary = formBinary, raw.data = raw.data,
+                            is.pasted = is.pasted)
     is.raw.data <- attr(data, "raw.data")
 
     # Processing pasted or manually inputted data.
@@ -142,7 +143,7 @@ processDataArgs <- function(..., is.pasted = FALSE)
     args <- list(...)
     non.null.idx <- which(!vapply(args, function(x) is.null(unlist(x)), FALSE))[1]
     if (is.na(non.null.idx))
-        stop("no data supplied")
+        stop("no data supplied", call. = FALSE)
     data <- args[[non.null.idx]]
     raw.data <- (is.pasted && inherits(data, "list") && isTRUE(data[[2]])) ||
         names(args)[non.null.idx] %in% c("raw.data", "formBinary")
