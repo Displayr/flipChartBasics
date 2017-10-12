@@ -7,7 +7,8 @@
 #' @return A vector, or list of vectors. If the variable does not exist or is \code{NULL}, the return value will be a vector of form \code{rep(value, length)}.
 #' @examples 
 #' a <- 1
-#' GetVector(c("a","b", "c"), 5, 0)
+#' GetVector(c("a","b", "d"), 5, 0)
+#' GetVector(c("a","b", "d"))
 #' @export
 
 GetVector <- function(var.names, length = NA, value = NA)
@@ -17,8 +18,11 @@ GetVector <- function(var.names, length = NA, value = NA)
     {
         var <- get0(var.names[i])
         if (is.null(var) && is.finite(length) && length > 0)
-            var <- rep(value, length)
-        res[[var.names[i]]] <- var
+            res[[var.names[i]]] <- rep(value, length)
+        else if (is.null(var))
+            res[var.names[i]] <- list(NULL)
+        else
+            res[[var.names[i]]] <- var
     }
     if (length(var.names) == 1)
         return(res[[1]])

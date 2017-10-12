@@ -21,5 +21,6 @@ A convenience function that will return a vector of a specified length
 }
 \examples{
 a <- 1
-GetVector(c("a","b", "c"), 5, 0)
+GetVector(c("a","b", "d"), 5, 0)
+GetVector(c("a","b", "d"))
 }
