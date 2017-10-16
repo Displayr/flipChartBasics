@@ -76,8 +76,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
             scatter.sizes.column <- 0 + (!is.null(raw.data$Z)) * (1 + (!is.null(raw.data$X)) + (!is.null(raw.data$Y)))
             scatter.colors.column <- 0 + (!is.null(raw.data$Z2)) * (1 + (!is.null(raw.data$X)) + (!is.null(raw.data$Y)) + (!is.null(raw.data$Z)))
         }
-        else
-            raw.data <- as.data.frame(Filter(Negate(is.null), raw.data), stringsAsFactors=F)
+        raw.data <- as.data.frame(Filter(Negate(is.null), raw.data), stringsAsFactors=F)
         
         if (is.null(labels) && nrow(raw.data) == length(labels))
             rownames(raw.data) <- make.unique(as.character(labels), sep="") 
