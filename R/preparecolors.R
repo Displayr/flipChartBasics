@@ -61,8 +61,6 @@ PrepareColors <- function(dat, chart.type, scatter.colors.column = 4,
                                                         custom.gradient.start = subslice.palette.custom.gradient.start,
                                                         custom.gradient.end = subslice.palette.custom.gradient.end,
                                                         custom.palette = subslice.palette.custom.palette)
-    if (is.null(subslice.colors))
-        subslice.colors <- series.colors
 
     return(list(series.colors = series.colors, fit.line.colors = fit.line.colors, subslice.colors = subslice.colors))
 }
