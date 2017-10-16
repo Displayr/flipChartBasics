@@ -65,7 +65,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     scatter.colors.column <- 4
     
     # scatterplot variables - avoid multiple tables
-    if (!is.null(raw.data) && !is.data.frame(raw.data) && is.null(ncol(raw.data[[1]])))
+    if (!is.null(raw.data) && !is.data.frame(raw.data) && (!is.null(raw.data$X) || !is.null(raw.data$Y)))
     {
         labels <- raw.data$labels
         raw.data$labels <- NULL
