@@ -9,6 +9,7 @@
 #' The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
 #' are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
 #' "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")
+#' @param scatter.colors.column For scatterplot data, the column of data which is used to determine the colors of each point.
 #' @param palette.custom.color A single color provided as a hex or character string. Only used if \code{palette} is \code{"Custom color"}. The output vector will consist of \code{palette} repeated for the number of required colors.
 #' @param palette.custom.gradient.start A color specifying the start of the gradient when \code{palette} is set to \code{"Custom gradient"}.
 #' @param palette.custom.gradient.end A color specifying the end of the gradient when \code{palette} is set to \code{"Custom gradient"}.
@@ -24,7 +25,7 @@
 #' @param subslice.palette.custom.gradient.end As per \code{palette.custom.gradient.end}.
 #' @param subslice.palette.custom.palette As per \code{palette.custom.palette}.
 #' @export
-PrepareColors <- function(dat, chart.type,
+PrepareColors <- function(dat, chart.type, scatter.colors.column = 4,
                           palette = NULL, palette.custom.color = NULL, palette.custom.gradient.start = NULL,
                           palette.custom.gradient.end = NULL, palette.custom.palette = NULL,
                           fit.palette = NULL, fit.palette.custom.color = NULL, fit.palette.custom.gradient.start = NULL,
@@ -32,7 +33,7 @@ PrepareColors <- function(dat, chart.type,
                           subslice.palette = NULL, subslice.palette.custom.color = NULL, subslice.palette.custom.gradient.start = NULL,
                           subslice.palette.custom.gradient.end = NULL, subslice.palette.custom.palette = NULL) {
     
-    num.colors <- GetNumColors(dat, chart.type)
+    num.colors <- GetNumColors(dat, chart.type, scatter.colors.column)
     
     series.colors <- NULL
     fit.line.colors <- NULL

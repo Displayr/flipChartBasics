@@ -17,7 +17,7 @@
 #' @param pasted list of length six; the first component of which is
 #'     assumed to be from a user-entered/pasted table; will be
 #'     processed by \code{\link{ParseUserEnteredTable}}
-#' @param raw.data data.frame, containing Variables from a Q/Displayr
+#' @param raw.data data.frame or list, containing Variables from a Q/Displayr
 #'     Data Set
 #' @param formTranspose logical; should the supplied data be
 #'     transposed?
@@ -58,6 +58,30 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                         show.labels = TRUE)
 {
     is.pasted <- !is.null(pasted[[1L]])
+    
+    scatter.x.column <- 1
+    scatter.y.column <- 2
+    scatter.sizes.column <- 3
+    scatter.colors.column <- 4
+    
+    # scatterplot variables - avoid multiple tables
+    if (!is.null(raw.data) && !is.data.frame(raw.data) && is.null(ncol(raw.data[[1]])))
+    {
+        labels <- raw.data$labels
+        raw.data$labels <- NULL
+        if (formChartType == "Scatter Plot")
+        {
+            scatter.x.column <- 0 + (!is.null(raw.data$X))
+            scatter.y.column <- 0 + (!is.null(raw.data$Y)) * (1 + (!is.null(raw.data$X)))
+            scatter.sizes.column <- 0 + (!is.null(raw.data$Z)) * (1 + (!is.null(raw.data$X)) + (!is.null(raw.data$Y)))
+            scatter.colors.column <- 0 + (!is.null(raw.data$Z2)) * (1 + (!is.null(raw.data$X)) + (!is.null(raw.data$Y)) + (!is.null(raw.data$Z)))
+        }
+        else
+            raw.data <- as.data.frame(Filter(Negate(is.null), raw.data), stringsAsFactors=F)
+        
+        if (is.null(labels) && nrow(raw.data) == length(labels))
+            rownames(raw.data) <- make.unique(as.character(labels), sep="") 
+    }
     data <- processDataArgs(pasted = pasted, formTable = formTable, formTables = formTables,
                             formBinary = formBinary, raw.data = raw.data,
                             is.pasted = is.pasted)
@@ -107,15 +131,10 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
 
     list(data = data,
          weights = weights,
-         chart.type = switch(formChartType,
-                                   "Venn Diagram" = "Venn",
-                                   "Stream Graph" = "Streamgraph",
-                                   "Column Chart" = "ColumnChart",
-                                   "Stacked Column Chart" = "StackedColumnChart",
-                                   "Pie Chart" = "PieChart",
-                                   "Scatter Plot" = "LabeledScatterChart"
-
-                             ))
+         scatter.x.column = scatter.x.column,
+         scatter.y.column = scatter.y.column,
+         scatter.sizes.column = scatter.sizes.column,
+         scatter.colors.column = scatter.colors.column)
 }
 
 #' Get Data for charting

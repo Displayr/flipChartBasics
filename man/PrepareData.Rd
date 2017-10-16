@@ -34,7 +34,7 @@ Qtable and will be processed using
 assumed to be from a user-entered/pasted table; will be
 processed by \code{\link{ParseUserEnteredTable}}}
 
-\item{raw.data}{data.frame, containing Variables from a Q/Displayr
+\item{raw.data}{data.frame or list, containing Variables from a Q/Displayr
 Data Set}
 
 \item{formTranspose}{logical; should the supplied data be

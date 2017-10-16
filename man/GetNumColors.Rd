@@ -4,12 +4,14 @@
 \alias{GetNumColors}
 \title{Determines the number of colors required in a chart}
 \usage{
-GetNumColors(data, chart.type)
+GetNumColors(data, chart.type, scatter.colors.column = 4)
 }
 \arguments{
 \item{data}{Input data, which is assumed to be created by \code{\link{PrepareData}}}
 
 \item{chart.type}{Type of chart to plot}
+
+\item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
 }
 \description{
 Returns the number of colors needed in a chart.

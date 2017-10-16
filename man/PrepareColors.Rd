@@ -5,10 +5,11 @@
 \title{Generates vectors of colors for use by CChart.
 Wrapper for \code{GetNumColors} and \code{ChartColors}.}
 \usage{
-PrepareColors(dat, chart.type, palette = NULL, palette.custom.color = NULL,
-  palette.custom.gradient.start = NULL, palette.custom.gradient.end = NULL,
-  palette.custom.palette = NULL, fit.palette = NULL,
-  fit.palette.custom.color = NULL, fit.palette.custom.gradient.start = NULL,
+PrepareColors(dat, chart.type, scatter.colors.column = 4, palette = NULL,
+  palette.custom.color = NULL, palette.custom.gradient.start = NULL,
+  palette.custom.gradient.end = NULL, palette.custom.palette = NULL,
+  fit.palette = NULL, fit.palette.custom.color = NULL,
+  fit.palette.custom.gradient.start = NULL,
   fit.palette.custom.gradient.end = NULL, fit.palette.custom.palette = NULL,
   subslice.palette = NULL, subslice.palette.custom.color = NULL,
   subslice.palette.custom.gradient.start = NULL,
@@ -19,6 +20,8 @@ PrepareColors(dat, chart.type, palette = NULL, palette.custom.color = NULL,
 \item{dat}{The data to be plotted, from which the number of required colors are deduced.}
 
 \item{chart.type}{The name of plot to create.}
+
+\item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
 
 \item{palette}{Specifies the color vector to be used for the chart data. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; or
 (2) A vector of colors which will be recycled to the length of the number of colors needed; or

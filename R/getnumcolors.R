@@ -4,18 +4,19 @@
 #' This is returned as a list because more than one color-series may be required (e.g. Pie chart)
 #' @param data Input data, which is assumed to be created by \code{\link{PrepareData}}
 #' @param chart.type Type of chart to plot
+#' @param scatter.colors.column For scatterplot data, the column of data which is used to determine the colors of each point.
 #' @export
 
-GetNumColors <- function(data, chart.type)
+GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
 {
     # data is already assumed to be cleaned up by PrepareData
    
     # Venn and Streamgraphs?
     if (grepl("Scatter", chart.type))
     {
-        if (is.null(ncol(data)) || ncol(data) < 4)
+        if (is.null(ncol(data)) || ncol(data) < scatter.colors.column)
             return(list(num.series=1))
-        return(list(num.series=length(unique(data[,4]))))
+        return(list(num.series=length(unique(data[,scatter.colors.column]))))
     }
     if (grepl("Pie", chart.type) || grepl("Donut", chart.type))
     {
