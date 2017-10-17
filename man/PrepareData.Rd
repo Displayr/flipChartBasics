@@ -9,7 +9,7 @@ PrepareData(formChartType, subset = TRUE, weights = NULL,
   pasted = list(NULL), raw.data = NULL, formTranspose = FALSE,
   missing = "Exclude cases with missing data",
   row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET",
-  "SUM"), show.labels = TRUE)
+  "SUM"), as.percentages = FALSE, show.labels = TRUE)
 }
 \arguments{
 \item{formChartType}{character; chart type to be plotted}
@@ -52,6 +52,9 @@ specifying rows to remove from the returned table; default is
 \item{col.names.to.remove}{character vector of column labels
 specifying columns to remove from the returned table; default
 is \code{c("NET", "SUM")}}
+
+\item{as.percentages}{logical; If \code{TRUE}, aggregate values in the output table
+are given as percentages summing to 100. If \code{FALSE}, column sums are given.}
 
 \item{show.labels}{logical; If \code{TRUE}, labels are used for
 names in the data output if raw data is supplied}

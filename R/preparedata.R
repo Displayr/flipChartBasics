@@ -33,6 +33,8 @@
 #'     is \code{c("NET", "SUM")}
 #' @param show.labels logical; If \code{TRUE}, labels are used for
 #'     names in the data output if raw data is supplied
+#' @param as.percentages logical; If \code{TRUE}, aggregate values in the output table
+#'     are given as percentages summing to 100. If \code{FALSE}, column sums are given.
 #' @details It is assumed that only one of \code{pasted},
 #'     \code{formTable}, \code{formTables}, \code{formBinary},
 #'     \code{raw.data} is non-NULL.  They are checked for nullity in
@@ -55,6 +57,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                         formTranspose = FALSE,
                         missing = "Exclude cases with missing data",
                         row.names.to.remove = c("NET", "SUM"), col.names.to.remove = c("NET", "SUM"),
+                        as.percentages = FALSE,
                         show.labels = TRUE)
 {
     is.pasted <- !is.null(pasted[[1L]])
@@ -64,7 +67,8 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     scatter.sizes.column <- 3
     scatter.colors.column <- 4
     
-    # scatterplot variables - avoid multiple tables
+    # Handles a list of variables (not dataframes as some of them may may be null)
+    # This case needs to be distinguished from when a list of multiple tables is provided
     if (!is.null(raw.data) && !is.data.frame(raw.data) && (!is.null(raw.data$X) || !is.null(raw.data$Y)))
     {
         labels <- raw.data$labels
@@ -97,7 +101,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                                       us.format = data[[6]])
         if (is.data.frame(data)) # Raw data aka data.frame
             is.raw.data <- TRUE
-    }else if (is.raw.data)
+    } else if (is.raw.data)
     {  # formBinary is non-NULL or raw.data is non-NULL
         data <- flipData::TidyRawData(data, subset = subset, weights = weights,
                                           missing = missing)
@@ -127,6 +131,17 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     ## Switching rows and columns
     if (isTRUE(formTranspose))
         data <- t(data)
+   
+    # Convert to percentages - this must happen AFTER transpose and RemoveRowsAndOrColumns 
+    if (as.percentages)
+    {
+        if (is.matrix(data))
+            data <- prop.table(data, 2) * 100
+        else
+            data <- prop.table(data) * 100
+        
+        names(dimnames(data))[1] <- "Percentage" 
+    }
 
     list(data = data,
          weights = weights,
@@ -170,21 +185,23 @@ aggregateDataForCharting <- function(data, weights, chart.type)
     out <- data
     if (!chart.type %in% c("Scatter Plot", "Bubble Chart"))
     {
+        x.title <- names(data)[1]
         if (NCOL(data) == 1)
         {
             out <- flipStatistics::WeightedTable(data[[1]]) #, weights)
-            out <- prop.table(out) * 100
-            out <- as.matrix(out)
+            d.names <- list(names(out), NULL)
+            names(d.names) <- c(x.title, "Total")
+            out <- matrix(out, dimnames=d.names)
         }
         else if (ncol(data) == 2)
         {
-            names(data) <- c("x", "y")
+            tmp.names <- names(data)
+            names(data) <- c("x", "y") # need names for formula
             data$w <- if (is.null(weights)) rep.int(1L, nrow(data)) else weights
-            out <- flipStatistics::Table(w  ~ x + y, data = data, FUN = sum)
-            if (chart.type == "Pie") # Total %
-                out = prop.table(out, 1:2) * 100
-            else # Column %
-                out <- prop.table(out, 2) * 100
+            out <- flipStatistics::Table(w  ~  x + y, data = data, FUN = sum)
+            d.names <- dimnames(out)
+            names(d.names) <- c(tmp.names[1], "Total")
+            dimnames(out) <- d.names 
          }
     }
     out
