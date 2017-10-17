@@ -66,6 +66,7 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     scatter.y.column <- 2
     scatter.sizes.column <- 3
     scatter.colors.column <- 4
+    y.title <- ""
     
     # Handles a list of variables (not dataframes as some of them may may be null)
     # This case needs to be distinguished from when a list of multiple tables is provided
@@ -117,6 +118,9 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                     names(data) <- Labels(data)
                 else
                     names(data) <- Names(data)
+                
+                if (!grepl("Scatter", formChartType))
+                    y.title <- "Counts" 
                 aggregateDataForCharting(data, weights, formChartType)
             }
             else if(inherits(data, "list"))
@@ -135,16 +139,24 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
     # Convert to percentages - this must happen AFTER transpose and RemoveRowsAndOrColumns 
     if (as.percentages)
     {
+        ind.negative <- which(data < 0)
+        if (length(ind.negative) > 0)
+        {
+            warning("Percentages calculated ignoring negative values.")
+            data[ind.negative] <- 0
+        }
+        
         if (is.matrix(data))
             data <- prop.table(data, 2) * 100
         else
             data <- prop.table(data) * 100
         
-        names(dimnames(data))[1] <- "Percentage" 
+        y.title <- "% Share" 
     }
 
     list(data = data,
          weights = weights,
+         y.title = y.title,
          scatter.x.column = scatter.x.column,
          scatter.y.column = scatter.y.column,
          scatter.sizes.column = scatter.sizes.column,
@@ -185,23 +197,23 @@ aggregateDataForCharting <- function(data, weights, chart.type)
     out <- data
     if (!chart.type %in% c("Scatter Plot", "Bubble Chart"))
     {
-        x.title <- names(data)[1]
+        # In tables that show aggregated tables, only the x-axis title is
+        # taken from dimnames. But both names should be set in case
+        # the table is transposed
         if (NCOL(data) == 1)
         {
             out <- flipStatistics::WeightedTable(data[[1]]) #, weights)
             d.names <- list(names(out), NULL)
-            names(d.names) <- c(x.title, "Total")
+            names(d.names) <- c(names(data)[1], "")
             out <- matrix(out, dimnames=d.names)
         }
         else if (ncol(data) == 2)
         {
             tmp.names <- names(data)
-            names(data) <- c("x", "y") # need names for formula
+            names(data) <- c("x", "y") # temporarily set names for formula
             data$w <- if (is.null(weights)) rep.int(1L, nrow(data)) else weights
             out <- flipStatistics::Table(w  ~  x + y, data = data, FUN = sum)
-            d.names <- dimnames(out)
-            names(d.names) <- c(tmp.names[1], "Total")
-            dimnames(out) <- d.names 
+            names(dimnames(out)) <- tmp.names
          }
     }
     out
