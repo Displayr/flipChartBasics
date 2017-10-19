@@ -115,10 +115,17 @@ ChartColors <- function(number.colors.needed,
                         custom.gradient.end = NA,
                         custom.palette = NA)
 {
+    default.colors <- FALSE
     if (missing(given.colors))
+    {
         given.colors <- qColors
+        default.colors <- TRUE
+    }
+    else if (given.colors[1] == "Default colors")
+        default.colors <- TRUE
     if (number.colors.needed%%1 != 0 | number.colors.needed <= 0)
         stop("'number.colors.needed' must be a positive integer.")
+    
     # Non-palette options
     if (given.colors[1] == "Custom color")
     {
@@ -129,7 +136,7 @@ ChartColors <- function(number.colors.needed,
         return (rep(checkColors(custom.color), number.colors.needed))
     }
 
-    if (number.colors.needed == 1 && given.colors[1] != "Default colors")
+    if (number.colors.needed == 1 && !default.colors && length(given.colors) > 1)
         warning("Only the first color of the palette used.")
 
     if (given.colors[1] == "Custom gradient")
