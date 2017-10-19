@@ -9,10 +9,10 @@
 #' @param weights An optional vector of sampling weights, or, the name
 #'     of a variable in \code{data}. It may not be an expression.
 #' @param formTable array; assumed to be a Qtable and will be
-#'     processed using \code{\link[flipTables]{AsBasicTable}}
+#'     processed using \code{\link[flipTables]{AsTidyTabularData}}
 #' @param formTables list of array; each component is assumed to be a
 #'     Qtable and will be processed using
-#'     \code{\link[flipTables]{AsBasicTable}}
+#'     \code{\link[flipTables]{AsTidyTabularData}}
 #' @param formBinary a PickAny Multi Q variable
 #' @param pasted list of length six; the first component of which is
 #'     assumed to be from a user-entered/pasted table; will be
@@ -41,13 +41,13 @@
 #'     that order
 #' @importFrom flipTransformations ParseUserEnteredTable
 #'     RemoveRowsAndOrColumns
-#' @importFrom flipTables BasicTable
+#' @importFrom flipTables TidyTabularData
 #' @importFrom flipData TidyRawData
 #' @importFrom flipFormat Labels Names
 #' @return If possible, a named vector or matrix, or if that is not
 #'     posible or a data.frame is requested, a data.frame
 #' @export
-#' @seealso \code{\link[flipTables]{AsBasicTable}},
+#' @seealso \code{\link[flipTables]{AsTidyTabularData}},
 #'     \code{\link[flipData]{TidyRawData}},
 #'     \code{\link[flipTransformations]{ParseUserEnteredTable}}
 PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
@@ -61,13 +61,13 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                         show.labels = TRUE)
 {
     is.pasted <- !is.null(pasted[[1L]])
-    
+
     scatter.x.column <- 1
     scatter.y.column <- 2
     scatter.sizes.column <- 3
     scatter.colors.column <- 4
     y.title <- ""
-    
+
     # Handles a list of variables (not dataframes as some of them may may be null)
     # This case needs to be distinguished from when a list of multiple tables is provided
     if (!is.null(raw.data) && !is.data.frame(raw.data) && (!is.null(raw.data$X) || !is.null(raw.data$Y)))
@@ -82,9 +82,9 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
             scatter.colors.column <- 0 + (!is.null(raw.data$Z2)) * (1 + (!is.null(raw.data$X)) + (!is.null(raw.data$Y)) + (!is.null(raw.data$Z)))
         }
         raw.data <- as.data.frame(Filter(Negate(is.null), raw.data), stringsAsFactors=F)
-        
+
         if (is.null(labels) && nrow(raw.data) == length(labels))
-            rownames(raw.data) <- make.unique(as.character(labels), sep="") 
+            rownames(raw.data) <- make.unique(as.character(labels), sep="")
     }
     data <- processDataArgs(pasted = pasted, formTable = formTable, formTables = formTables,
                             formBinary = formBinary, raw.data = raw.data,
@@ -118,25 +118,25 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
                     names(data) <- Labels(data)
                 else
                     names(data) <- Names(data)
-                
+
                 if (!grepl("Scatter", formChartType))
-                    y.title <- "Counts" 
+                    y.title <- "Counts"
                 aggregateDataForCharting(data, weights, formChartType)
             }
             else if(inherits(data, "list"))
             {  # user provided multiple existing tables
-                lapply(data, BasicTable, row.names.to.remove = row.names.to.remove,
+                lapply(data, TidyTabularData, row.names.to.remove = row.names.to.remove,
                        col.names.to.remove = col.names.to.remove)
             }
             else
-                BasicTable(data, row.names.to.remove = row.names.to.remove,
+                TidyTabularData(data, row.names.to.remove = row.names.to.remove,
                              col.names.to.remove = col.names.to.remove)
 
     ## Switching rows and columns
     if (isTRUE(formTranspose))
         data <- t(data)
-   
-    # Convert to percentages - this must happen AFTER transpose and RemoveRowsAndOrColumns 
+
+    # Convert to percentages - this must happen AFTER transpose and RemoveRowsAndOrColumns
     if (as.percentages)
     {
         ind.negative <- which(data < 0)
@@ -145,13 +145,13 @@ PrepareData <- function(formChartType, subset = TRUE, weights = NULL,
             warning("Percentages calculated ignoring negative values.")
             data[ind.negative] <- 0
         }
-        
+
         if (is.matrix(data))
             data <- prop.table(data, 2) * 100
         else
             data <- prop.table(data) * 100
-        
-        y.title <- "% Share" 
+
+        y.title <- "% Share"
     }
 
     list(data = data,

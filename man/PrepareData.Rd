@@ -22,11 +22,11 @@ a variable in \code{data}. It may not be an expression.}
 of a variable in \code{data}. It may not be an expression.}
 
 \item{formTable}{array; assumed to be a Qtable and will be
-processed using \code{\link[flipTables]{AsBasicTable}}}
+processed using \code{\link[flipTables]{AsTidyTabularData}}}
 
 \item{formTables}{list of array; each component is assumed to be a
 Qtable and will be processed using
-\code{\link[flipTables]{AsBasicTable}}}
+\code{\link[flipTables]{AsTidyTabularData}}}
 
 \item{formBinary}{a PickAny Multi Q variable}
 
@@ -74,7 +74,7 @@ It is assumed that only one of \code{pasted},
     that order
 }
 \seealso{
-\code{\link[flipTables]{AsBasicTable}},
+\code{\link[flipTables]{AsTidyTabularData}},
     \code{\link[flipData]{TidyRawData}},
     \code{\link[flipTransformations]{ParseUserEnteredTable}}
 }
