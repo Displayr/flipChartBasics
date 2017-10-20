@@ -17,13 +17,13 @@ test_that("PrepareData R+C removal: single table, single stat",
     out <- PrepareData(formChartType, QFilter, QPopulationWeight, formTable = formTable, col.names.to.remove = NULL,
                        row.names.to.remove = NULL)
     expect_equal(attr(out$data, "statistic"), attr(formTable, "statistic"))
-    expect_is(out$data, c("BasicTable", "matrix"))
+    expect_is(out$data, "matrix")
     expect_equal(dim(out$data), dim(formTable))
 
     out <- PrepareData(formChartType, QFilter, QPopulationWeight, formTable = formTable, row.names.to.remove = "NET",
                        col.names.to.remove = "NET")
     expect_equal(attr(out$data, "statistic"), attr(formTable, "statistic"))
-    expect_is(out$data, c("BasicTable", "matrix"))
+    expect_is(out$data, "matrix")
     expect_equal(dim(out$data), dim(formTable) - c(1, 1))
 })
 
@@ -85,7 +85,7 @@ test_that("PrepareData R+C removal: pasted, non-raw table",
     formChartType <- "Scatter"
     out <- PrepareData(pasted = pasted, formChartType = formChartType, subset = QFilter,
                        weights = QPopulationWeight)
-    expect_is(out$data, c("BasicTable", "matrix"))
+    expect_is(out$data, "matrix")
     expect_equal(dim(out$data), dim(dat) - c(3, 3))
 })
 
@@ -269,7 +269,7 @@ test_that("PrepareData pasted vector entry removal",
     formChartType <- "Scatter Plot"
     out <- PrepareData(pasted = pasted, formChartType = formChartType, subset = QFilter,
                        weights = QPopulationWeight, row.names.to.remove = "a", col.names.to.remove = "b")
-    expect_is(out$data, c("BasicTable", "numeric"))
+    expect_is(out$data, "numeric")
     expect_null(dim(out$data))
     expect_named(out$data, letters[3:5])
 
