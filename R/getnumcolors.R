@@ -1,8 +1,8 @@
 #' Determines the number of colors required in a chart
-#' 
+#'
 #' Returns the number of colors needed in a chart.
 #' This is returned as a list because more than one color-series may be required (e.g. Pie chart)
-#' @param data Input data, which is assumed to be created by \code{\link{PrepareData}}
+#' @param data Input data, a named vector or matrix.
 #' @param chart.type Type of chart to plot
 #' @param scatter.colors.column For scatterplot data, the column of data which is used to determine the colors of each point.
 #' @export
@@ -10,7 +10,7 @@
 GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
 {
     # data is already assumed to be cleaned up by PrepareData
-   
+
     # Venn and Streamgraphs?
     if (grepl("Scatter", chart.type))
     {
@@ -27,6 +27,6 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     }
     if (!is.null(ncol(data)))
         return(list(num.series=ncol(data)))
-    else 
+    else
         return(list(num.series=1))
 }

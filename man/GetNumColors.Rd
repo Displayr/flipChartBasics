@@ -7,7 +7,7 @@
 GetNumColors(data, chart.type, scatter.colors.column = 4)
 }
 \arguments{
-\item{data}{Input data, which is assumed to be created by \code{\link{PrepareData}}}
+\item{data}{Input data, a named vector or matrix.}
 
 \item{chart.type}{Type of chart to plot}
 
