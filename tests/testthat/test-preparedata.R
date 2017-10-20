@@ -23,7 +23,7 @@ test_that("PrepareData: single table, single stat",
     missing = "Exclude cases with missing data", row.names.to.remove = NULL,
     col.names.to.remove = NULL)
     expect_equal(attr(out$data, "statistic"), attr(formTable, "statistic"))
-    expect_is(out$data, c("BasicTable", "matrix"))
+    expect_is(out$data,  "matrix")
     expect_equal(dim(out$data), dim(formTable) )
 })
 
@@ -69,7 +69,7 @@ test_that("PrepareData: single table, single stat",
     dims <- dim(formTable)
     n.dim <- length(dims)
     expect_equal(attr(out$data, "statistic"), dimnames(formTable)[[n.dim]][1])
-    expect_is(out$data, c("BasicTable", "matrix"))
+    expect_is(out$data, "matrix")
     expect_equal(dim(out$data), c(dims[1]*dims[3], dims[2]))
 })
 
@@ -133,7 +133,7 @@ test_that("PrepareData: pasted, non-raw data",
     formChartType <- "Scatter"
     out <- PrepareData(pasted = pasted, formChartType = formChartType, subset = QFilter,
                        weights = QPopulationWeight)
-    expect_is(out$data, c("BasicTable", "matrix"))
+    expect_is(out$data, "matrix")
     expect_equal(dim(out$data), dim(dat) - c(1, 1))
 })
 
@@ -326,7 +326,7 @@ test_that("PrepareData works with pasted vector",
     formChartType <- "Scatter Plot"
     out <- PrepareData(pasted = pasted, formChartType = formChartType, subset = QFilter,
                        weights = QPopulationWeight)
-    expect_is(out$data, c("BasicTable", "numeric"))
+    expect_is(out$data, "numeric")
     expect_null(dim(out$data))
     expect_named(out$data, dat[, 1])
 })
