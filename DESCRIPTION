@@ -15,7 +15,7 @@ Imports:
     colorRamps,
     flipFormat,
     flipTransformations,
-    flipTables (>= 2.0.0),
+    flipTables (>= 2.1.0),
     flipStatistics,
     flipData
 Remotes:

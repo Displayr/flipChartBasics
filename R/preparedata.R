@@ -40,8 +40,7 @@
 #'     \code{raw.data} is non-NULL.  They are checked for nullity in
 #'     that order
 #' @importFrom flipTransformations ParseUserEnteredTable
-#'     RemoveRowsAndOrColumns
-#' @importFrom flipTables TidyTabularData
+#' @importFrom flipTables TidyTabularData RemoveRowsAndOrColumns
 #' @importFrom flipData TidyRawData
 #' @importFrom flipFormat Labels Names
 #' @return If possible, a named vector or matrix, or if that is not
