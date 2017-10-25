@@ -1,6 +1,6 @@
 #' Generates a d3 number format for use by charting functions.
-#' See https://github.com/d3/d3-format for more information on d3.
 #' 
+#' See https://github.com/d3/d3-format for more information on d3.
 #' @param number.format A list of five unnamed items in the following order:
 #' 1) The type of number formatting. One of \code{"Number"}, \code{"Percentage"}, \code{"Date/Time"},
 #'  \code{"Currency"}, \code{"Metric units suffix"}, \code{"Scientific"} and \code{"Custom"}.
@@ -22,12 +22,17 @@ ChartNumberFormat <- function(number.format) {
     decimal.places <- number.format[[5]]
 
     if (is.null(number.type))
-        number.type <- "Number"
+        number.type <- "Automatic"
     
     if (!number.type %in% c("Number", "Percentage", "Date/Time", "Currency",
-                            "Metric units suffix","Scientific", "Custom"))
+                            "Metric units suffix","Scientific", "Custom",
+                            "Automatic", "Category"))
         stop("Number format not recognized.")
 
+    if (number.type == "Automatic")
+        return("")
+    if (number.type == "Category")
+        return("Category")
     if (!is.null(custom.type))
         return(custom.type)
     if (!is.null(date.type))

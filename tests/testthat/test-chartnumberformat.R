@@ -14,6 +14,7 @@ test_that("ChartNumberFormat", {
     expect_equal(ChartNumberFormat(list("Number", NULL, NULL, TRUE, 0)), ",.0f")
     expect_equal(ChartNumberFormat(list("Number", NULL, NULL, FALSE, 5)), ".5f")
     expect_error(ChartNumberFormat(list("Unknown", NULL, NULL, FALSE, 5)), "Number format not recognized.")
-    expect_equal(ChartNumberFormat(list(NULL, NULL, NULL, NULL, NULL)), ".0f")
+    expect_equal(ChartNumberFormat(list(NULL, NULL, NULL, NULL, NULL)), "")
+    expect_equal(ChartNumberFormat(list("Category", NULL, NULL, NULL, NULL)), "Category")
 })
 

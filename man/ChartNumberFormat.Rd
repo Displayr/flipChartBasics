@@ -2,8 +2,7 @@
 % Please edit documentation in R/chartnumberformat.R
 \name{ChartNumberFormat}
 \alias{ChartNumberFormat}
-\title{Generates a d3 number format for use by charting functions.
-See https://github.com/d3/d3-format for more information on d3.}
+\title{Generates a d3 number format for use by charting functions.}
 \usage{
 ChartNumberFormat(number.format)
 }
@@ -18,7 +17,6 @@ ChartNumberFormat(number.format)
 of significant digits.}
 }
 \description{
-Generates a d3 number format for use by charting functions.
 See https://github.com/d3/d3-format for more information on d3.
 }
 \details{
