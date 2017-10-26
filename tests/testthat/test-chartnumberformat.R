@@ -1,7 +1,8 @@
 context("ChartNumberFormat")
 
-types <- c("Number", "Percentage", "Date/Time", "Currency", "Metric units suffix", "Scientific", "Custom")
-expected <- c(".3f", ".3%", ".3", ".3f", ".3s", ".3e", ".3")
+types <- c("Number", "Percentage", "Date/Time", "Currency", "Metric units suffix",
+           "Scientific", "Custom", "Automatic", "Category")
+expected <- c(".3f", ".3%", ".3", ".3f", ".3s", ".3e", ".3", "", "Category")
     
 test_that("ChartNumberFormat", {
     
