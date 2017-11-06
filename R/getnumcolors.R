@@ -14,7 +14,7 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     # Venn and Streamgraphs?
     if (grepl("Scatter", chart.type))
     {
-        if (is.null(ncol(data)) || ncol(data) < scatter.colors.column || scatter.colors.column <= 0)
+        if (is.null(ncol(data)) || is.na(scatter.colors.column) || ncol(data) < scatter.colors.column || scatter.colors.column <= 0)
             return(list(num.series=1))
         return(list(num.series=length(unique(data[,scatter.colors.column]))))
     }
