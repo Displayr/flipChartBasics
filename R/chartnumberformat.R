@@ -14,7 +14,6 @@
 #' @export
 ChartNumberFormat <- function(number.format) {
     
-    
     number.type <- number.format[[1]]
     date.type <- number.format[[2]]
     custom.type <- number.format[[3]]
@@ -45,7 +44,7 @@ ChartNumberFormat <- function(number.format) {
                       "DD Mon YYYY" = "%d %b %Y",
                       "DD Month YYYY" = "%d %B %Y",
                       "DD MM YYYY" = "%d %m %Y",
-                      "Mon DD YY" = "%%b d %y",
+                      "Mon DD YY" = "%b %d %y",
                       "Month DD YY" = "%B %d %y",
                       "MM DD YY" = "%m %d %y",
                       "Mon DD YYYY" = "%b %d %Y",
@@ -56,7 +55,15 @@ ChartNumberFormat <- function(number.format) {
                       "YY MM DD" = "%y %m %d",
                       "YYYY Mon DD" = "%Y %b %d",
                       "YYYY Month DD" = "%Y %B %d",
-                      "YYYY MM DD" = "%Y %m %d"))
+                      "YYYY MM DD" = "%Y %m %d",
+                      "Weekday DD Mon YY" = "%A %d %b %y",
+                      "Day DD Mon YY" = "%a %d %b %y",
+                      "Weekday Mon DD YY" = "%A %b %d %y",
+                      "Day Mon DD YY" = "%a %b %d %y",
+                      "HH:MM (24 hr)" = "%H:%M",
+                      "HH:MM AM/PM" = "%I:%M %p",
+                      "MM DD YY HH:MM" = "%m %d %y %H:%M",
+                      "DD MM YY HH:MM" = "%d %m %y %H:%M"))
     
     comma <- if (!is.null(separate.thousands) && separate.thousands == T) {
         "," 
