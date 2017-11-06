@@ -11,7 +11,7 @@ ChartNumberFormat(number.format)
 1) The type of number formatting. One of \code{"Number"}, \code{"Percentage"}, \code{"Date/Time"},
  \code{"Currency"}, \code{"Metric units suffix"}, \code{"Scientific"} and \code{"Custom"}.
 2) A d3 date format. If specified, this will be used provided a custom format is not specified.
-3) A custom d3 number format. If specifed this will be used in prefernce to all other inputs.
+3) A custom d3 number format. If specifed this will be used in preference to all other inputs.
 4) A boolean indicating whether to separate thousands with commas.
 5) An integer specifying the number of decimal places, or for \code{"Metric units suffix"}, the number
 of significant digits.}
