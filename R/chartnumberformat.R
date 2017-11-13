@@ -14,6 +14,9 @@
 #' @export
 ChartNumberFormat <- function(number.format) {
     
+    if (is.null(number.format))
+        return(NULL)
+    
     number.type <- number.format[[1]]
     date.type <- number.format[[2]]
     custom.type <- number.format[[3]]
