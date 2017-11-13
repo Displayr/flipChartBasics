@@ -2,17 +2,20 @@
 #' 
 #' See https://github.com/d3/d3-format for more information on d3.
 #' @param number.format A list of five unnamed items in the following order:
-#' 1) The type of number formatting. One of \code{"Number"}, \code{"Percentage"}, \code{"Date/Time"},
-#'  \code{"Currency"}, \code{"Metric units suffix"}, \code{"Scientific"} and \code{"Custom"}.
-#' 2) A d3 date format. If specified, this will be used provided a custom format is not specified.
-#' 3) A custom d3 number format. If specifed this will be used in preference to all other inputs.
+#' 1) The type of number formatting. One of \code{"Automatic"}, \code{"Category"}, \code{"Number"},
+#'  \code{"Percentage"}, \code{"Date/Time"}, \code{"Currency"}, \code{"Metric units suffix"}, 
+#'  \code{"Scientific"} and \code{"Custom"}.
+#' 2) A d3 date format. If specified, this will be used provided type is neither \code{"Automatic"}
+#' nor \code{"Category"} nor a custom format is not specified.
+#' 3) A custom d3 number format. If specifed this will be used in preference to all other inputs
+#' apart from \code{"Automatic"} and \code{"Category"}.
 #' 4) A boolean indicating whether to separate thousands with commas.
 #' 5) An integer specifying the number of decimal places, or for \code{"Metric units suffix"}, the number
 #' of significant digits.
-#' @details Defaults to number with zero decimal places and no thousand separation if no type,
-#' date format or custom format is specified.
+#' @param as.percentages Whether the \code{"Automatic"} formatting should be as percentages.
+#' @details Defaults to \code{"Automatic"} if no type is specified.
 #' @export
-ChartNumberFormat <- function(number.format) {
+ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
     
     if (is.null(number.format))
         return(NULL)
@@ -31,12 +34,18 @@ ChartNumberFormat <- function(number.format) {
                             "Automatic", "Category"))
         stop("Number format not recognized.")
 
-    if (number.type == "Automatic")
-        return("")
+    if (number.type == "Automatic") {
+        if (as.percentages)
+            return(".0%")
+        return("")   # formatting will be handled by chart function depending on data type
+    }
+
     if (number.type == "Category")
         return("Category")
+
     if (!is.null(custom.type))
         return(custom.type)
+
     if (!is.null(date.type))
         return(switch(date.type,
                       "YY (Year, 2 digit)" = "%y",
