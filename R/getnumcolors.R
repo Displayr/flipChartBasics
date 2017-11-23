@@ -29,8 +29,8 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         else
             return(list(num.series=length(data)))
     }
-    if (!is.null(ncol(data)))
-        return(list(num.series=ncol(data)))
+    if (!is.null(nrow(data)))
+        return(list(num.series=nrow(data)))
     else
         return(list(num.series=1))
 }
