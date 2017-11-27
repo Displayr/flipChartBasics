@@ -24,7 +24,7 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     }
     if (grepl("Pie", chart.type) || grepl("Donut", chart.type))
     {
-        if (!is.null(dim(data)) && length(dim(data)) > 1)
+        if (!is.null(dim(data)) && length(dim(data)) > 1 && min(dim(data)) > 1)
             return(list(num.series=ncol(data), num.categories=nrow(data)))
         else
             return(list(num.series=length(data)))
