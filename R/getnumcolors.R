@@ -29,6 +29,10 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         else
             return(list(num.series=length(data)))
     }
+    if (grepl("Time", chart.type))
+    {
+        return(list(num.series=1))
+    }
     if (!is.null(ncol(data)))
         return(list(num.series=ncol(data)))
     else
