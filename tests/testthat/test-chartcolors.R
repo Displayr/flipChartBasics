@@ -38,7 +38,7 @@ test_that("GetNumColors gives correct output", {
     
     expect_equal(GetNumColors(z1, "Column")$num.series, 1)
     expect_equal(GetNumColors(z1, "Pie")$num.series, 50)
-    expect_equal(GetNumColors(z2, "Pie")$num.series, 50)
+    expect_equal(GetNumColors(z2, "Pie")$num.series, 1)
     expect_equal(GetNumColors(z3, "Column")$num.series, 4)
     expect_equal(GetNumColors(z3, "Pie")$num.categories, 3)
 })
