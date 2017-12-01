@@ -22,7 +22,15 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
             return(list(num.series=1))
         return(list(num.series=length(unique(data[,scatter.colors.column]))))
     }
-    if (grepl("Pie", chart.type) || grepl("Donut", chart.type) || chart.type == "Bar Pictograph")
+    if (chart.type == "Bar Pictograph")
+    {
+        # Very similar but slightly different for Pie, in the case of a matrix with one column
+        if (is.null(dim(data)))
+            return(list(num.series = length(data)))
+        else
+            return(list(num.series = nrow(data)))
+    }
+    if (grepl("Pie", chart.type) || grepl("Donut", chart.type))
     {
         if (!is.null(dim(data)) && length(dim(data)) > 1)
             return(list(num.series=ncol(data), num.categories=nrow(data)))
