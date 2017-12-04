@@ -92,6 +92,7 @@ checkColors <- function(xx)
 #' @param palette.start A numeric in [0,1] specifying the start position of the palette
 #' @param palette.end A numeric in [0,1] specifying the end position of the palette
 #' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).
+#' @param silent Option to hide warnings about the number of colors.
 #' @examples
 #' ChartColors(5, given.colors = c("blue", "orange", "green"))
 #' ChartColors(5, given.colors = "blue")
@@ -113,7 +114,8 @@ ChartColors <- function(number.colors.needed,
                         custom.color = NA,
                         custom.gradient.start = NA,
                         custom.gradient.end = NA,
-                        custom.palette = NA)
+                        custom.palette = NA,
+                        silent = FALSE)
 {
     default.colors <- FALSE
     if (missing(given.colors))
@@ -131,12 +133,12 @@ ChartColors <- function(number.colors.needed,
     {
         if (is.na(custom.color))
             stop("'custom.color' is missing.")
-        if (number.colors.needed > 1)
+        if (!silent && number.colors.needed > 1)
             warning("Only a single color specified for multiple series. Consider using 'Custom palette' instead.")
         return (rep(checkColors(custom.color), number.colors.needed))
     }
 
-    if (number.colors.needed == 1 && !default.colors)
+    if (!silent && number.colors.needed == 1 && !default.colors)
         warning("Only the first color of the palette used.")
 
     if (given.colors[1] == "Custom gradient")

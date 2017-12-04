@@ -7,7 +7,7 @@
 ChartColors(number.colors.needed, given.colors, reverse = FALSE,
   palette.start = 0, palette.end = 1, trim.light.colors = TRUE,
   custom.color = NA, custom.gradient.start = NA, custom.gradient.end = NA,
-  custom.palette = NA)
+  custom.palette = NA, silent = FALSE)
 }
 \arguments{
 \item{number.colors.needed}{The number of colors to generate.}
@@ -31,6 +31,8 @@ are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
 \item{custom.gradient.end}{A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.}
 
 \item{custom.palette}{A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.}
+
+\item{silent}{Option to hide warnings about the number of colors.}
 }
 \description{
 Generates a vector of colors from a palette or vector of colors.
