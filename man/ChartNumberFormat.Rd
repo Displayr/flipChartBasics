@@ -4,7 +4,7 @@
 \alias{ChartNumberFormat}
 \title{Generates a d3 number format for use by charting functions.}
 \usage{
-ChartNumberFormat(number.format, as.percentages = FALSE)
+ChartNumberFormat(number.format)
 }
 \arguments{
 \item{number.format}{A list of five unnamed items in the following order:
@@ -18,8 +18,6 @@ apart from \code{"Automatic"} and \code{"Category"}.
 4) A boolean indicating whether to separate thousands with commas.
 5) An integer specifying the number of decimal places, or for \code{"Metric units suffix"}, the number
 of significant digits.}
-
-\item{as.percentages}{Whether the \code{"Automatic"} formatting should be as percentages.}
 }
 \description{
 See https://github.com/d3/d3-format for more information on d3.
