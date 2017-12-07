@@ -12,9 +12,10 @@
 #' 4) A boolean indicating whether to separate thousands with commas.
 #' 5) An integer specifying the number of decimal places, or for \code{"Metric units suffix"}, the number
 #' of significant digits.
+#' @param as.percentages Whether the \code{"Automatic"} formatting should be as percentages.
 #' @details Defaults to \code{"Automatic"} if no type is specified.
 #' @export
-ChartNumberFormat <- function(number.format) {
+ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
     
     if (is.null(number.format))
         return(NULL)
@@ -34,6 +35,8 @@ ChartNumberFormat <- function(number.format) {
         stop("Number format not recognized.")
 
     if (number.type == "Automatic") {
+        if (as.percentages)
+            return(".0%")
         return("")   # formatting will be handled by chart function depending on data type
     }
 
