@@ -37,10 +37,6 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         else
             return(list(num.series=length(data)))
     }
-    if (grepl("Time", chart.type))
-    {
-        return(list(num.series=1))
-    }
     if (grepl("Geographic", chart.type))
     {
         return(list(num.series=2))
