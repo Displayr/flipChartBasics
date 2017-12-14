@@ -174,7 +174,7 @@ ChartColors <- function(number.colors.needed,
         stop("palette.end must be a number between 0 and 1\n")
 
     if (!(palette.start < palette.end))
-        stop("palette.start must be smaller than pallete.end\n")
+        stop("palette.start must be smaller than palette.end\n")
 
     given.colors <- translatePaletteName(given.colors)
 
@@ -262,9 +262,15 @@ ChartColors <- function(number.colors.needed,
 
         ## Must have at least three colors returned from R Color Brewer, else warning message
         if (num2 <= max.brewer.colors)
-            chart.colors <- RColorBrewer::brewer.pal(max(3,num2), given.colors)
+        {
+            chart.colors <- RColorBrewer::brewer.pal(max(3, num2), given.colors)
+            if (num2 == 1)
+                chart.colors <- chart.colors[2]
+            else if (num2 == 2)
+                chart.colors <- c(chart.colors[1], chart.colors[3])
+        }
         else
-            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(num2,3))
+            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(num2, 3))
     }
 
     # Recycle vector of colors to the desired length
