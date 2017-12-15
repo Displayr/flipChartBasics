@@ -37,9 +37,13 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         else
             return(list(num.series=length(data)))
     }
-    if (grepl("Geographic", chart.type) || grepl("Heat", chart.type))
+    if (grepl("Geographic", chart.type))
     {
         return(list(num.series=2))
+    }
+    if (grepl("Heat", chart.type))
+    {
+        return(list(num.series=10))
     }
     if (!is.null(ncol(data)))
         return(list(num.series=ncol(data)))
