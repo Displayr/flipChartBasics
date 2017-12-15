@@ -13,7 +13,7 @@ test_that("ChartColors handles arguments", {
     expect_equal(red10[1] != red10trim[1], TRUE)
     
     expect_equal(ChartColors(7, "Blues", trim=FALSE),
-                 c("#EFF3FF", "#C6DBEF", "#9ECAE1", "#6BAED6", "#4292C6", "#2171B5", "#084594"))
+                 c("#F7FBFF", "#D6E5F4", "#ABCFE5", "#6BAED6", "#3787C0", "#105BA4", "#08306B"))
     expect_equal(ChartColors(7, "primary.colors"),
                  c("#000000", "#808000", "#FFFF00", "#808080", "#FFFF80", "#0080FF", "#80FFFF"))
     expect_equal(ChartColors(7, "rainbow_hcl"),

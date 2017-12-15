@@ -253,24 +253,19 @@ ChartColors <- function(number.colors.needed,
     if (grcolor.palette || ramp.palette || space.palette)
         chart.colors <- get(given.colors)(num2)
 
-    ## for RColorBrewer, work out the number of available colors in the palette, and if less than needed, then use
-    ## colorRampPalette(brewer.pal(11,"Spectral"))(100)) where the 11 is the max number of items in the RCB palette, and the 100
-    ## is the number of colors needed.
+    ## For RColorBrewer, work out the number of available colors in the palette, if 1 needed then take middle, if 2 take
+    ## first and last, else interploate from full palette.
     if (brewer.palette)
     {
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
 
-        ## Must have at least three colors returned from R Color Brewer, else warning message
-        if (num2 <= max.brewer.colors)
-        {
-            chart.colors <- RColorBrewer::brewer.pal(max(3, num2), given.colors)
-            if (num2 == 1)
-                chart.colors <- chart.colors[2]
-            else if (num2 == 2)
-                chart.colors <- c(chart.colors[1], chart.colors[3])
-        }
+        all.brewer.colors <- RColorBrewer::brewer.pal(max.brewer.colors, given.colors)
+        if (num2 == 1)
+            chart.colors <- all.brewer.colors[length(all.brewer.colors) / 2]
+        else if (num2 == 2)
+            chart.colors <- c(all.brewer.colors[1], all.brewer.colors[length(all.brewer.colors)])
         else
-            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(num2, 3))
+            chart.colors <- grDevices::colorRampPalette(all.brewer.colors)(num2)
     }
 
     # Recycle vector of colors to the desired length
