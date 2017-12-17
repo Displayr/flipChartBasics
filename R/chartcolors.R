@@ -258,14 +258,12 @@ ChartColors <- function(number.colors.needed,
     if (brewer.palette)
     {
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
-
-        all.brewer.colors <- RColorBrewer::brewer.pal(max.brewer.colors, given.colors)
-        if (num2 == 1)
-            chart.colors <- all.brewer.colors[length(all.brewer.colors) / 2]
-        else if (num2 == 2)
-            chart.colors <- c(all.brewer.colors[1], all.brewer.colors[length(all.brewer.colors)])
+        
+        ## Must have at least three colors returned from R Color Brewer, else warning message
+        if (num2 <= max.brewer.colors)
+            chart.colors <- RColorBrewer::brewer.pal(max(3,num2), given.colors)
         else
-            chart.colors <- grDevices::colorRampPalette(all.brewer.colors)(num2)
+            chart.colors <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(max.brewer.colors, given.colors))(max(num2,3))
     }
 
     # Recycle vector of colors to the desired length
