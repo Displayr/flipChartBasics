@@ -35,7 +35,7 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
             return(list(num.series = ncol(data), num.categories = nrow(data)))
         return(list(num.series=length(data)))
     }
-    if (chart.type == "Heat" || chart.type == "GeographicMap")
+    if (chart.type == "Heat" || chart.type == "Geographic Map")
     {
         return(list(num.series = 10))
     }
