@@ -39,12 +39,6 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     {
         return(list(num.series = 10))
     }
-    if (chart.type == "Stream")
-    {
-        if (is.null(dim(data)))
-            return(list(num.series = 1))
-        return(list(num.series = nrow(data)))
-    }
     if (!is.null(ncol(data)))
         return(list(num.series = ncol(data)))
     return(list(num.series = 1))
