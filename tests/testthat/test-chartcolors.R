@@ -35,10 +35,16 @@ test_that("GetNumColors gives correct output", {
     z1 <- 1:50
     z2 <- matrix(1:50, 50, dimnames = list(1:50, "Column"))
     z3 <- matrix(1:12, 3, 4)
+    z4 <- table(1:10)
     
     expect_equal(GetNumColors(z1, "Column")$num.series, 1)
     expect_equal(GetNumColors(z1, "Pie")$num.series, 50)
     expect_equal(GetNumColors(z2, "Pie")$num.series, 1)
+    expect_equal(GetNumColors(z2, "Column")$num.series, 1)
+    expect_equal(GetNumColors(z2, "Bar Pictograph")$num.series, 50)
     expect_equal(GetNumColors(z3, "Column")$num.series, 4)
     expect_equal(GetNumColors(z3, "Pie")$num.categories, 3)
+    expect_equal(GetNumColors(z4, "Column")$num.series, 1)
+    expect_equal(GetNumColors(z4, "Pie")$num.series, 10)
+    
 })

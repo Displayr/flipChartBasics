@@ -33,13 +33,13 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     {
         if (!is.null(dim(data)) && length(dim(data)) > 1)
             return(list(num.series = ncol(data), num.categories = nrow(data)))
-        return(list(num.series=length(data)))
+        return(list(num.series = length(data)))
     }
     if (chart.type == "Heat" || chart.type == "Geographic Map")
     {
         return(list(num.series = 10))
     }
-    if (!is.null(ncol(data)))
+    if (!is.null(ncol(data)) && !is.na(ncol(data)))
         return(list(num.series = ncol(data)))
     return(list(num.series = 1))
 }
