@@ -12,25 +12,39 @@ ChartColors(number.colors.needed, given.colors, reverse = FALSE,
 \arguments{
 \item{number.colors.needed}{The number of colors to generate.}
 
-\item{given.colors}{Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
+\item{given.colors}{Specifies the color vector to output. It can be;
+(1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;
+(2) A vector of colors which will be recycled to length \code{number.colors.needed}; or
+(3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
+The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
 are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
             "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")}
 
-\item{reverse}{Whether the output color vector should be reversed. Ignored when \code{given.colors} is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.}
+\item{reverse}{Whether the output color vector should be reversed. Ignored when \code{given.colors}
+is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.}
 
-\item{palette.start}{A numeric in [0,1] specifying the start position of the palette}
+\item{palette.start}{A numeric in [0,1] specifying the start of the palette relative to the full spectrum
+of \code{given.colors}. The default is 0, which means the palette starts with the first color of \code{given.colors}.}
 
-\item{palette.end}{A numeric in [0,1] specifying the end position of the palette}
+\item{palette.end}{A numeric in [0,1] specifying the end of the palette relative to the full spectrum
+of \code{given.colors}. The default is 1, which means the palette starts with the last color of \code{given.colors}.}
 
-\item{trim.light.colors}{When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).}
+\item{trim.light.colors}{When selected, palette.start and palette.end will be set to remove light colors in the
+monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}), if this is not already achieved
+by \code{palette.start} and \code{palette.end}.}
 
-\item{custom.color}{A single color provided as a hex or character string. Only used if \code{given.colors} is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed} (no interpolation).}
+\item{custom.color}{A single color provided as a hex or character string. Only used if \code{given.colors}
+is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed}
+(no interpolation).}
 
-\item{custom.gradient.start}{A color specifying the start of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.}
+\item{custom.gradient.start}{A color specifying the start of the gradient when \code{given.colors}
+is set to \code{"Custom gradient"}.}
 
-\item{custom.gradient.end}{A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.}
+\item{custom.gradient.end}{A color specifying the end of the gradient when \code{given.colors}
+is set to \code{"Custom gradient"}.}
 
-\item{custom.palette}{A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.}
+\item{custom.palette}{A vector or comma separated list of colors which will be recycled to the desired length.
+Only used if \code{given.colors} is \code{"Custom palette"}.}
 
 \item{silent}{Option to hide warnings about the number of colors.}
 }

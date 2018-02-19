@@ -81,17 +81,31 @@ checkColors <- function(xx)
 #' Alpha channels are ignored and set to 255/FF.
 #'
 #' @param number.colors.needed The number of colors to generate.
-#' @param given.colors Specifies the color vector to output. It can be (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps; (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}. The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
+#' @param given.colors Specifies the color vector to output. It can be;
+#' (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;
+#' (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or
+#' (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
+#' The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
 #' are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
 #'             "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")
-#' @param custom.color A single color provided as a hex or character string. Only used if \code{given.colors} is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed} (no interpolation).
-#' @param custom.gradient.start A color specifying the start of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
-#' @param custom.gradient.end A color specifying the end of the gradient when \code{given.colors} is set to \code{"Custom gradient"}.
-#' @param custom.palette A vector or comma separated list of colors which will be recycled to the desired length. Only used if \code{given.colors} is \code{"Custom palette"}.
-#' @param reverse Whether the output color vector should be reversed. Ignored when \code{given.colors} is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
-#' @param palette.start A numeric in [0,1] specifying the start position of the palette
-#' @param palette.end A numeric in [0,1] specifying the end position of the palette
-#' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}).
+#' @param custom.color A single color provided as a hex or character string. Only used if \code{given.colors}
+#' is \code{"Custom color"}. The output vector will consist of \code{custom.color} repeated \code{number.colors.needed}
+#' (no interpolation).
+#' @param custom.gradient.start A color specifying the start of the gradient when \code{given.colors}
+#' is set to \code{"Custom gradient"}.
+#' @param custom.gradient.end A color specifying the end of the gradient when \code{given.colors}
+#' is set to \code{"Custom gradient"}.
+#' @param custom.palette A vector or comma separated list of colors which will be recycled to the desired length.
+#' Only used if \code{given.colors} is \code{"Custom palette"}.
+#' @param reverse Whether the output color vector should be reversed. Ignored when \code{given.colors}
+#' is any of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
+#' @param palette.start A numeric in [0,1] specifying the start of the palette relative to the full spectrum
+#' of \code{given.colors}. The default is 0, which means the palette starts with the first color of \code{given.colors}.
+#' @param palette.end A numeric in [0,1] specifying the end of the palette relative to the full spectrum
+#' of \code{given.colors}. The default is 1, which means the palette starts with the last color of \code{given.colors}.
+#' @param trim.light.colors When selected, palette.start and palette.end will be set to remove light colors in the
+#' monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}), if this is not already achieved
+#' by \code{palette.start} and \code{palette.end}.
 #' @param silent Option to hide warnings about the number of colors.
 #' @examples
 #' ChartColors(5, given.colors = c("blue", "orange", "green"))
@@ -184,10 +198,10 @@ ChartColors <- function(number.colors.needed,
         given.colors <- sub(" reverse", "", given.colors)
     }
 
-    if (trim.light.colors && given.colors %in% c("Blues","Greens","Greys", "Oranges","Purples","Reds"))
+    if (trim.light.colors && given.colors %in% c("Blues", "Greens", "Greys", "Oranges", "Purples", "Reds"))
     {
-        palette.start <- 0 + (0.2 * !reverse)
-        palette.end <- 1 - (0.2 * reverse)
+        palette.start <- max(palette.start, 0 + (0.2 * !reverse))
+        palette.end <- min(palette.end, 1 - (0.2 * reverse))
     }
 
     num2 <- ceiling(number.colors.needed/(palette.end - palette.start))
