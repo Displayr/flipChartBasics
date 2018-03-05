@@ -35,9 +35,14 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
         stop("Number format not recognized.")
 
     if (number.type == "Automatic") {
-        if (as.percentages)
+        if (as.percentages && is.null(decimal.places))
             return(".0%")
-        return("")   # formatting will be handled by chart function depending on data type
+        if (as.percentages && !is.null(decimal.places))
+            return(paste0(".", decimal.places, "%"))
+        if (is.null(decimal.places) || decimal.places < 0)
+            return("")   # formatting will be handled by chart function depending on data type
+        else
+            return(paste0(".", decimal.places, "f"))
     }
 
     if (number.type == "Category")
