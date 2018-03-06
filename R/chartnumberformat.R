@@ -88,9 +88,9 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
         ""
     }
     
-    if (is.null(decimal.places))
-        decimal.places <- 0
-    d3.format <- paste0(comma, ".", decimal.places)
+    d3.format <- ""
+    if (!is.null(decimal.places))
+        d3.format <- paste0(comma, ".", decimal.places)
     d3.type <- switch(number.type,
                       "Number" = "f",
                       "Currency" = "f",                      
