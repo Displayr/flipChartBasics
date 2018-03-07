@@ -42,7 +42,7 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
         if (is.null(decimal.places) || decimal.places < 0)
             return("")   # formatting will be handled by chart function depending on data type
         else
-            return(paste0(".", decimal.places, "f"))
+            return(paste0(".", decimal.places))
     }
 
     if (number.type == "Category")
