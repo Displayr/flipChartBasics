@@ -37,7 +37,8 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     }
     if (chart.type == "Heat" || chart.type == "Geographic Map")
     {
-        return(list(num.series = 10))
+        # handled inside ChartColors because we always want a gradient (no recycling!)
+        return(list(num.series = NA))
     }
     if (!is.null(ncol(data)) && !is.na(ncol(data)))
         return(list(num.series = ncol(data)))

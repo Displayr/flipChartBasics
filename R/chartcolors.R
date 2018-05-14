@@ -139,6 +139,9 @@ ChartColors <- function(number.colors.needed,
     }
     else if (given.colors[1] == "Default colors")
         default.colors <- TRUE
+    if (is.na(number.colors.needed))
+        number.colors.needed <- if (given.colors == "Custom palette") length(TextAsVector(custom.palette))
+                                else 10
     if (number.colors.needed%%1 != 0 | number.colors.needed <= 0)
         stop("'number.colors.needed' must be a positive integer.")
     

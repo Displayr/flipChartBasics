@@ -29,6 +29,7 @@ test_that("ChartColors handles arguments", {
                  c("#FF0000", "#FFA500", "#00FF00", "#0000FF", "#A020F0"))
     expect_warning(ChartColors(5, "Custom color", custom.color = "abc"), "Invalid color")
     expect_warning(ChartColors(3, "Custom palette", custom.palette="red,blue,abc"), "Invalid color")
+    expect_equal(ChartColors(NA, "Custom palette", custom.palette="red,white,blue"), structure(c("#FF0000", "#FFFFFF", "#0000FF"), .Names = c("red", "white", "blue")))
 })
 
 test_that("GetNumColors gives correct output", {
@@ -41,6 +42,7 @@ test_that("GetNumColors gives correct output", {
     expect_equal(GetNumColors(z1, "Pie")$num.series, 50)
     expect_equal(GetNumColors(z2, "Pie")$num.series, 1)
     expect_equal(GetNumColors(z2, "Column")$num.series, 1)
+    expect_equal(GetNumColors(z2, "Geographic Map")$num.series, NA)
     expect_equal(GetNumColors(z2, "Bar Pictograph")$num.series, 50)
     expect_equal(GetNumColors(z3, "Column")$num.series, 4)
     expect_equal(GetNumColors(z3, "Pie")$num.categories, 3)
