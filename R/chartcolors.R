@@ -172,9 +172,9 @@ ChartColors <- function(number.colors.needed,
     if (given.colors[1] == "Custom palette")
     {
         custom.palette <- TextAsVector(custom.palette)
-        if (any(is.na(custom.palette)))
-            stop("custom.palette cannot contain missing values.")
-        if (length(custom.palette) != number.colors.needed && number.colors.needed > 1)
+        ind <- which(!is.na(custom.palette) & nchar(custom.palette) > 0)
+        custom.palette <- custom.palette[ind]
+        if (length(custom.palette) < number.colors.needed && number.colors.needed > 1)
         {
             warning("Custom palette does not have the number of colors required (",
                     number.colors.needed, "). Colors will be recycled to make up the required number.")
