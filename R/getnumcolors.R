@@ -22,7 +22,7 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
             return(list(num.series = 1))
         return(list(num.series = length(unique(data[,scatter.colors.column]))))
     }
-    if (chart.type == "Bar Pictograph")
+    if (chart.type == "Bar Pictograph" || chart.type == "Pyramid")
     {
         # Very similar but slightly different for Pie, in the case of a matrix with one column
         if (is.null(dim(data)))
