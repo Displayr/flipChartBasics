@@ -31,13 +31,21 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
     }
     if (chart.type == "Pie" || chart.type == "Donut")
     {
+        # Input is a dataframe containing labels (col 1), values (col 2) and maybe groups (col 3)
+        if (any(!sapply(data, is.numeric))) #
+        {
+            if (ncol(data) >= 3)
+                return(list(num.series = length(unique(data[,3])), num.categeries = nrow(data)))
+            else
+                return(list(num.series = nrow(data)))
+        }
         if (!is.null(dim(data)) && length(dim(data)) > 1)
             return(list(num.series = ncol(data), num.categories = nrow(data)))
         return(list(num.series = length(data)))
     }
     if (chart.type == "Heat" || chart.type == "Geographic Map")
     {
-        # handled inside ChartColors because we always want a gradient (no recycling!)
+        # Handled inside ChartColors because we always want a gradient (no recycling!)
         return(list(num.series = NA))
     }
     if (!is.null(ncol(data)) && !is.na(ncol(data)))
