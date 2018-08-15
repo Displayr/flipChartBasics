@@ -139,6 +139,9 @@ ChartColors <- function(number.colors.needed,
     }
     else if (given.colors[1] == "Default colors")
         default.colors <- TRUE
+    is.notcontinuous <- given.colors[1] %in% c(qColors[1], "Default colors", "Primary colors", 
+                        "Light pastels", "Strong colors", "Custom color", "Custom palette")
+
     if (is.na(number.colors.needed))
         number.colors.needed <- if (given.colors == "Custom palette") length(TextAsVector(custom.palette))
                                 else 10
@@ -167,7 +170,9 @@ ChartColors <- function(number.colors.needed,
         c.palette <- try(colorRampPalette(c(custom.gradient.start, custom.gradient.end)))
         if (inherits(c.palette, "try-error"))
             stop("Invalid color palette specified.")
-        return (c.palette(number.colors.needed))
+        palette <- c.palette(number.colors.needed)
+        attr(palette, "palette.continuous") <- TRUE
+        return (palette)
     }
     if (given.colors[1] == "Custom palette")
     {
@@ -299,7 +304,9 @@ ChartColors <- function(number.colors.needed,
     if (!hex.colors && n.discard > 0)
         chart.colors <- chart.colors[-(1:n.discard)]
     res <- chart.colors[1:number.colors.needed]
-    return(StripAlphaChannel(res))
+    palette <- StripAlphaChannel(res)
+    attr(palette, "palette.continuous") <-  !is.notcontinuous
+    return(palette)
 }
 
 #' Vector of the 12 standard Q colors
