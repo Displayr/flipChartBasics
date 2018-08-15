@@ -182,7 +182,8 @@ ChartColors <- function(number.colors.needed,
         custom.palette <- custom.palette[ind]
         if (length(custom.palette) < number.colors.needed && number.colors.needed > 1)
         {
-            warning("Custom palette does not have the number of colors required (",
+            if (!silent)
+                warning("Custom palette does not have the number of colors required (",
                     number.colors.needed, "). Colors will be recycled to make up the required number.")
             custom.palette <- paste0(rep("", number.colors.needed), custom.palette)
         }
