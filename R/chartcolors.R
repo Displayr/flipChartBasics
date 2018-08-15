@@ -107,6 +107,11 @@ checkColors <- function(xx)
 #' monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}), if this is not already achieved
 #' by \code{palette.start} and \code{palette.end}.
 #' @param silent Option to hide warnings about the number of colors.
+#' @param silent.single.color Option to hide warnings if only a single color is provided when 
+#' \code{number.colors.needed > 1}. This type of warning is controlled separately from the \code{silent} because
+#' there are some chart types for which a single color or a palette can be appropriately specified. In contrast
+#' the times when colors need to recycled for fill the palette, or the a palette is used for a single color
+#' usually indicates the user has specified some inappropriate options.
 #' @examples
 #' ChartColors(5, given.colors = c("blue", "orange", "green"))
 #' ChartColors(5, given.colors = "blue")
@@ -129,7 +134,8 @@ ChartColors <- function(number.colors.needed,
                         custom.gradient.start = NA,
                         custom.gradient.end = NA,
                         custom.palette = NA,
-                        silent = FALSE)
+                        silent = FALSE,
+                        silent.single.color = silent)
 {
     default.colors <- FALSE
     if (missing(given.colors))
@@ -154,7 +160,7 @@ ChartColors <- function(number.colors.needed,
     {
         if (is.na(custom.color))
             stop("'custom.color' is missing.")
-        if (!silent && number.colors.needed > 1)
+        if (!silent.single.color && number.colors.needed > 1)
             warning("Only a single color specified for multiple series. Consider using 'Custom palette' instead.")
         return (rep(checkColors(custom.color), number.colors.needed))
     }
