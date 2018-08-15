@@ -139,9 +139,10 @@ ChartColors <- function(number.colors.needed,
     }
     else if (given.colors[1] == "Default colors")
         default.colors <- TRUE
-    is.notcontinuous <- given.colors[1] %in% c(qColors[1], "Default colors", "Primary colors", 
-                        "Light pastels", "Strong colors", "Custom color", "Custom palette")
-
+    
+    palette.type <- if (default.colors) "Default colors"
+                    else                given.colors[1]
+    
     if (is.na(number.colors.needed))
         number.colors.needed <- if (given.colors == "Custom palette") length(TextAsVector(custom.palette))
                                 else 10
@@ -171,7 +172,7 @@ ChartColors <- function(number.colors.needed,
         if (inherits(c.palette, "try-error"))
             stop("Invalid color palette specified.")
         palette <- c.palette(number.colors.needed)
-        attr(palette, "palette.continuous") <- TRUE
+        attr(palette, "palette.type") <- palette.type
         return (palette)
     }
     if (given.colors[1] == "Custom palette")
@@ -305,7 +306,7 @@ ChartColors <- function(number.colors.needed,
         chart.colors <- chart.colors[-(1:n.discard)]
     res <- chart.colors[1:number.colors.needed]
     palette <- StripAlphaChannel(res)
-    attr(palette, "palette.continuous") <-  !is.notcontinuous
+    attr(palette, "palette.type") <- palette.type
     return(palette)
 }
 
