@@ -82,15 +82,12 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
                       "MM DD YY HH:MM" = "%m %d %y %H:%M",
                       "DD MM YY HH:MM" = "%d %m %y %H:%M"))
     
-    comma <- if (!is.null(separate.thousands) && separate.thousands == T) {
-        "," 
-    } else {
-        ""
-    }
+    comma <- if (!is.null(separate.thousands) && separate.thousands == TRUE) "," 
+             else                                                            ""
+    d3.format <- comma
     
-    d3.format <- ""
     if (!is.null(decimal.places))
-        d3.format <- paste0(comma, ".", decimal.places)
+        d3.format <- paste0(d3.format, ".", decimal.places)
     d3.type <- switch(number.type,
                       "Number" = "f",
                       "Currency" = "f",                      
