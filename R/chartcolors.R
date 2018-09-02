@@ -6,6 +6,8 @@ translatePaletteName <- function(color.palette)
     "Rainbow",
     "Light pastels",
     "Strong colors",
+    "Colorblind safe colors",
+    "Spectral colors",
     "Reds, light to dark",
     "Greens, light to dark",
     "Blues, light to dark",
@@ -22,6 +24,8 @@ translatePaletteName <- function(color.palette)
     "rainbow_hcl",
     "Set3",
     "Set1",
+    "Set2",
+    "Spectral",
     "Reds",
     "Greens",
     "Blues",
@@ -30,7 +34,7 @@ translatePaletteName <- function(color.palette)
     "Greens reverse",
     "Blues reverse",
     "Greys reverse",
-    "heat.colors",
+    "heat_hcl reverse",
     "terrain_hcl")
 
     if (color.palette[1] == "Default colors")
