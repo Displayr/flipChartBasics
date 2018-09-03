@@ -7,7 +7,8 @@ translatePaletteName <- function(color.palette)
     "Light pastels",
     "Strong colors",
     "Colorblind safe colors",
-    "Spectral colors",
+    "Spectral colors (red, yellow, blue)",
+    "Spectral colors (blue, yellow, red)",
     "Reds, light to dark",
     "Greens, light to dark",
     "Blues, light to dark",
@@ -17,6 +18,7 @@ translatePaletteName <- function(color.palette)
     "Blues, dark to light",
     "Greys, dark to light",
     "Heat colors (red, yellow, white)",
+    "Heat colors (yellow, red)",
     "Terrain colors (green, beige, grey)")
 
     proper.names <- c("qColors",
@@ -26,6 +28,7 @@ translatePaletteName <- function(color.palette)
     "Set1",
     "Set2",
     "Spectral",
+    "Spectral reverse",
     "Reds",
     "Greens",
     "Blues",
@@ -34,6 +37,7 @@ translatePaletteName <- function(color.palette)
     "Greens reverse",
     "Blues reverse",
     "Greys reverse",
+    "heat_hcl",
     "heat_hcl reverse",
     "terrain_hcl")
 
