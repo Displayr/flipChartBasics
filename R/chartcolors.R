@@ -173,9 +173,6 @@ ChartColors <- function(number.colors.needed,
         return (rep(checkColors(custom.color), number.colors.needed))
     }
 
-    if (!silent && number.colors.needed == 1 && !default.colors)
-        warning("Only the first color of the palette used.")
-
     if (given.colors[1] == "Custom gradient")
     {
         if (is.na(custom.gradient.start))
