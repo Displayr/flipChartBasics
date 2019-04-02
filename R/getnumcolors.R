@@ -35,7 +35,7 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         if (any(!sapply(data, is.numeric))) #
         {
             if (ncol(data) >= 3)
-                return(list(num.series = length(unique(data[,3])), num.categeries = nrow(data)))
+                return(list(num.series = length(unique(data[,3])), num.categories = nrow(data)))
             else
                 return(list(num.series = nrow(data)))
         }

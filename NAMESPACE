@@ -2,7 +2,10 @@
 
 export(ChartColors)
 export(ChartNumberFormat)
+export(GetBrandColors)
+export(GetBrandsFromData)
 export(GetNumColors)
+export(GetPalette)
 export(StripAlphaChannel)
 import(colorRamps)
 import(colorspace)
