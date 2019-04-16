@@ -9,10 +9,26 @@ GetPalette <- function(palette, template)
         return(NULL)
     
     result <- palette
-    if (palette == "Default colors")
-        result <- if (is.null(template)) "Default colors" else template$colors
+    if (palette == "Default or template settings")
+        result <- if (is.null(template) || length(template$colors)) "Default colors" else template$colors
     if (palette == "Brand colors")
-        result <- if (is.null(template)) "Default colors" else template$brand.colors
+    {
+        result <- template$brand.colors
+        if (length(result) == 0)
+        {
+            warning("Input data does not contain brand names. ",
+                    "This is typically because there is only a single data series in the input. ",
+                    "Alternatively, try using a pyramid or pie chart.")
+            return("Default colors")
+        }
+        
+        ind <- which(is.na(result))
+        if (length(ind) > 0)
+        {
+            warning("Brand colors for '", paste(names(result)[ind], collapse = "', '"), " have not been supplied.")
+            result[ind] <- "#CCCCCC"
+        }
+    }
     return (result)
 }
 
@@ -32,17 +48,22 @@ GetBrandColors <- function(template, input.data, filter, chart.type, scatter.col
     
     brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column)
     
-    # No warning if input data does not have names - Brand colors may not be used
-    if (length(brand.names) > 0)
+    # Warnings are not given until GetPalette is called - this is when the brand colors is actually used
+    if (length(template$brand.colors) == 0)
     {
-        colors <- checkColors(template$brand.colors[brand.names])
-        ind <- which(is.na(names(colors)))
-        if (length(ind) > 0)
-            colors[ind] <- "#CCCCCC"
+        colors <- rep(NA, length(brand.names))
+        names(colors) <- brand.names
         return(colors)
     }
-        
-    return("Default colors")
+    if (length(brand.names) > 0)
+    {
+        colors <- template$brand.colors[brand.names]
+        ind <- which(is.na(names(colors)))
+        if (length(ind) > 0)
+            names(colors)[ind] <- brand.names[ind]
+        return(colors)
+    }
+    return(NULL)
 }
 
 #' Identify brand names from the input data
