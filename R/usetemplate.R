@@ -25,7 +25,7 @@ GetPalette <- function(palette, template)
         ind <- which(is.na(result))
         if (length(ind) > 0)
         {
-            warning("Brand colors for '", paste(names(result)[ind], collapse = "', '"), " have not been supplied.")
+            warning("Brand colors for '", paste(names(result)[ind], collapse = "', '"), "' have not been supplied.")
             result[ind] <- "#CCCCCC"
         }
     }
