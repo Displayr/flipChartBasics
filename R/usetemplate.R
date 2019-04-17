@@ -116,5 +116,20 @@ GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 
         return(colnames(data))
     
 }
+
+#' Print an appearance template object
+#'
+#' @param  x An object of class \code{AppearanceTemplate}.
+#' @param ... Not used.
+#' @importFrom flipFormat ShowTemplateOptions
+#' @export
+print.AppearanceTemplate <- function(x, ...)
+{
+    tmp.colors <- x$colors
+    check.col <- tryCatch(col2rgb(x$colors), error=function(cond){NA})
+    if (is.na(check.col))
+        tmp.colors <- ChartColors(10, x$colors)
+    ShowTemplateOptions(tmp.colors, x$brand.colors, x$global.font, x$fonts)
+}
     
     
