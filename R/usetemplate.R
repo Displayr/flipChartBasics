@@ -110,7 +110,7 @@ GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 
             return(rownames(data))
         return(names(data))
     }
-    if (NCOL(data) == 1 && !is.null(attr(filter, "label")))
+    if (NCOL(data) == 1 && !is.null(attr(filter, "label")) && length(filter) > 1)
         return(attr(filter, "label"))
     else
         return(colnames(data))
