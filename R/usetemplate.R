@@ -10,7 +10,7 @@ GetPalette <- function(palette, template)
     
     result <- palette
     if (palette == "Default or template settings")
-        result <- if (is.null(template) || length(template$colors)) "Default colors" else template$colors
+        result <- if (is.null(template) || length(template$colors) == 0) "Default colors" else template$colors
     if (palette == "Brand colors")
     {
         result <- template$brand.colors
