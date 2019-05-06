@@ -131,7 +131,7 @@ print.AppearanceTemplate <- function(x, ...)
     check.col <- tryCatch(col2rgb(x$colors), error=function(cond){NA})
     if (is.na(check.col))
         tmp.colors <- ChartColors(10, x$colors)
-    ShowTemplateOptions(tmp.colors, x$brand.colors, x$global.font, x$fonts)
+    ShowTemplateOptions(tmp.colors, x$brand.colors, x$global.font, x$fonts, x$global.number.font, x$number.fonts)
 }
     
     
