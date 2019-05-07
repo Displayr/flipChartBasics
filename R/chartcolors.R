@@ -219,7 +219,7 @@ ChartColors <- function(number.colors.needed,
         given.colors <- sub(" reverse", "", given.colors)
     }
 
-    if (trim.light.colors && given.colors %in% c("Blues", "Greens", "Greys", "Oranges", "Purples", "Reds"))
+    if (trim.light.colors && all(given.colors %in% c("Blues", "Greens", "Greys", "Oranges", "Purples", "Reds")))
     {
         palette.start <- max(palette.start, 0 + (0.2 * !reverse))
         palette.end <- min(palette.end, 1 - (0.2 * reverse))
