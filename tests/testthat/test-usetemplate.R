@@ -42,10 +42,26 @@ tb.untidy <- structure(c(`My friends would describe me as cultured, and refined`
 "I follow all the latest fashions")), statistic = "Average", name = "Q25. Respondent image (number multi)", questions = c("Q25. Respondent image (number multi)", 
 "SUMMARY"), assigned.rownames = TRUE)
 
+tb.spaces <- structure(c(49.5601173020528, 50.4398826979472, 100, 38.2022471910112, 
+61.7977528089888, 100, 41.2587412587413, 58.7412587412587, 100, 
+62.5, 37.5, 100, 35, 65, 100, 59.6638655462185, 40.3361344537815, 
+100, 50, 50, 100, 70, 30, 100, 49.375, 50.625, 100), statistic = "Column %", .Dim = c(3L, 
+9L), .Dimnames = list(c("Male", "Female", "NET"), c("Coca-Cola", 
+"Diet Coke", "Coke Zero", "Pepsi ", "Diet Pepsi", "Pepsi Max", 
+"Dislike all cola", "Don't care", "NET")), name = "table.Gender.by.Preferred.cola", questions = c("Gender", 
+"Preferred cola"))
+
+ff <- rep(1, 10)
+attr(ff, "label") <- "Pepsi "
+
 test_that("Get brand names",
 {
     expect_equal(GetBrandsFromData(tb.untidy, TRUE, "Area") , NULL)
     expect_equal(GetBrandsFromData(tb.untidy, TRUE, "Area") , NULL)
     expect_equal(GetBrandsFromData(tb.untidy, TRUE, "Pyramid"), names(tb.tidy))
+    
+    expect_equal(GetBrandsFromData(tb.spaces, chart.type = "Column"), c("Coca-Cola", "Diet Coke", "Coke Zero", "Pepsi", "Diet Pepsi", 
+"Pepsi Max", "Dislike all cola", "Don't care", "NET"))
+    expect_equal(GetBrandsFromData(1:10, ff, "Column"), "Pepsi")
 })
     

@@ -76,6 +76,7 @@ GetBrandColors <- function(template, input.data, filter, chart.type, scatter.col
 #' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
 #' @param chart.type The visualization which will be applied to the data.
 #' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
+#' @importFrom flipU TrimWhitespace
 #' @export
 
 GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 4)
@@ -96,26 +97,26 @@ GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 
 
         groups <- as.character(groups)
         g.list <- unique(groups[not.na])
-        return(g.list)    
+        return(TrimWhitespace(g.list))    
     }
     if (chart.type == "Pie")
     {
         if (length(dim(data)) > 1)
-            return(colnames(data))
-        return(names(data))
+            return(TrimWhitespace(colnames(data)))
+        return(TrimWhitespace(names(data)))
     }
     if (chart.type %in% c("Pyramid", "Bar Pictograph", "Donut"))
     {
         if (length(dim(data)) > 1)
-            return(rownames(data))
-        return(names(data))
+            return(TrimWhitespace(rownames(data)))
+        return(TrimWhitespace(names(data)))
     }
     if (NCOL(data) == 1 && !is.null(attr(filter, "label")) && length(filter) > 1)
-        return(attr(filter, "label"))
+        return(TrimWhitespace(attr(filter, "label")))
     else if (length(dim(data)) < 2)
         return(NULL)
     else
-        return(colnames(data))
+        return(TrimWhitespace(colnames(data)))
     
 }
 
