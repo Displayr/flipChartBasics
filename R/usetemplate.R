@@ -11,11 +11,11 @@ GetPalette <- function(palette, template)
     result <- palette
     if ((palette == "Default or template settings" && !is.null(names(template$colors))) ||
          palette == "Brand colors")
-    {
+    {        
+        # Take the last color instead of assuming a name for missing values
+        missing.color <- if (!is.null(names(template$colors))) rev(template$colors)[1] else "#CCCCCC"
+        
         result <- template$brand.colors
-        missing.color <- template$colors["Unnamed values"]
-        if (is.na(missing.color))
-            missing.color <- "#CCCCCC"
         if (length(result) == 0)
         {
             warning("Input data does not contain categories matching the color names. ",
