@@ -9,14 +9,16 @@ GetPalette <- function(palette, template)
         return(NULL)
     
     result <- palette
-    if (palette == "Default or template settings")
-        result <- if (is.null(template) || length(template$colors) == 0) "Default colors" else template$colors
-    if (palette == "Brand colors")
+    if ((palette == "Default or template settings" && !is.null(names(template$colors))) ||
+         palette == "Brand colors")
     {
         result <- template$brand.colors
+        missing.color <- template$colors["Unnamed values"]
+        if (is.na(missing.color))
+            missing.color <- "#CCCCCC"
         if (length(result) == 0)
         {
-            warning("Input data does not contain brand names. ",
+            warning("Input data does not contain categories matching the color names. ",
                     "This is typically because there is only a single data series in the input. ",
                     "Alternatively, try using a pyramid or pie chart.")
             return("Default colors")
@@ -25,10 +27,11 @@ GetPalette <- function(palette, template)
         ind <- which(is.na(result))
         if (length(ind) > 0)
         {
-            warning("Brand colors for '", paste(names(result)[ind], collapse = "', '"), "' have not been supplied.")
-            result[ind] <- "#CCCCCC"
+            warning("Named colors for '", paste(names(result)[ind], collapse = "', '"), "' have not been supplied.")
+            result[ind] <- missing.color
         }
-    }
+    } else if (palette == "Default or template settings")
+        result <- if (is.null(template) || length(template$colors) == 0) "Default colors" else template$colors
     return (result)
 }
 
@@ -47,6 +50,12 @@ GetBrandColors <- function(template, input.data, filter, chart.type, scatter.col
         return("Default colors")
     
     brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column)
+  
+    # In new version of the 'Create Template' Standard R Page, the brand colors is always
+    # created from template$colors. But in older versions they are separate elements of the
+    # template. So template$colors should not be altered in this function
+    if (is.null(template$brand.colors))
+        template$brand.colors <- template$colors
     
     # Warnings are not given until GetPalette is called - this is when the brand colors is actually used
     if (length(template$brand.colors) == 0)
