@@ -138,9 +138,12 @@ GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 
 print.AppearanceTemplate <- function(x, ...)
 {
     tmp.colors <- x$colors
-    check.col <- tryCatch(col2rgb(x$colors), error=function(cond){NA})
-    if (is.na(check.col))
-        tmp.colors <- ChartColors(10, x$colors)
+    if (!is.null(x$colors))
+    {
+        check.col <- tryCatch(col2rgb(x$colors[1]), error=function(cond){NA})
+        if (is.na(check.col[1]))
+            tmp.colors <- ChartColors(10, x$colors)
+    }
     ShowTemplateOptions(tmp.colors, x$brand.colors, x$global.font, x$fonts, x$global.number.font, x$number.fonts)
 }
     
