@@ -96,7 +96,7 @@ GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 
     {
         if (is.list(data) && !is.data.frame(data))
             return(rownames(data))
-        if (is.null(ncol(data)) || is.na(scatter.colors.column) || ncol(data) < scatter.colors.column || scatter.colors.column <= 0)
+        if (is.null(ncol(data)) || is.null(scatter.colors.column) || is.na(scatter.colors.column) || ncol(data) < scatter.colors.column || scatter.colors.column <= 0)
             return(NULL)
         
         groups <- data[,scatter.colors.column]
