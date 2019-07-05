@@ -186,7 +186,7 @@ ChartColors <- function(number.colors.needed,
         attr(palette, "palette.type") <- palette.type
         return (palette)
     }
-    if (given.colors[1] == "Custom palette")
+    if (given.colors[1] %in% c("Custom palette", "R output", "Manual", "Numeric"))
     {
         custom.palette <- TextAsVector(custom.palette)
         ind <- which(!is.na(custom.palette) & nchar(custom.palette) > 0)
