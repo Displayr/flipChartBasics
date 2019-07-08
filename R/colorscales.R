@@ -37,22 +37,23 @@ MapToColors <- function(x, # A vector of values or an integer indicating the num
         cols <- diverging.colormap(scaled.x, min.color, max.color)
         cols <- cols[2:(length(scaled.x) - 1), ]
         colors <- rgb(cols[,1], cols[,2], cols[, 3])
+        if (!is.null(names(x)))
+            names(colors) <- names(x)
+        return(colors)
     }
-    else if (mid.x > min(x))
+    
+    if (mid.x > min(x))
     {
         lower.colors <- MapToColors(x[x <= mid.x], min.x = min.x, max.x = mid.x, min.color = min.color, max.color = mid.color)
         if (mid.x >= max(x)) # 
-            colors <- lower.colors
+            return(lower.colors)
     }
-    else
-    {
-        upper.colors <- MapToColors(x[x >= mid.x], min.x = mid.x, max.x = max.x, min.color = mid.color, max.color = max.color)
-        if (mid.x <= min(x))
-            return(upper.colors)
-        colors <- rep(NA, length(x))
-        colors[x <= mid.x] <- lower.colors
-        colors[x >= mid.x] <- upper.colors
-    }
+    upper.colors <- MapToColors(x[x >= mid.x], min.x = mid.x, max.x = max.x, min.color = mid.color, max.color = max.color)
+    if (mid.x <= min(x))
+        return(upper.colors)
+    colors <- rep(NA, length(x))
+    colors[which(x <= mid.x)] <- lower.colors
+    colors[which(x >= mid.x)] <- upper.colors
     if (!is.null(names(x)))
         names(colors) <- names(x)
     colors
