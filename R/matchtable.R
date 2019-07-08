@@ -29,7 +29,7 @@ MatchTable <- function(x,
         x.names <- names(x)
     if (is.null(ref.names) && !is.null(names(ref.table)))
         ref.names <- names(ref.table)
-    x <- as.numeric(unlist(x))
+    x <- as.vector(unlist(x))
    
     # If no names are provided just use vector length
     if (is.null(x.names) || is.null(ref.names))
