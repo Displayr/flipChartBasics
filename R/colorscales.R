@@ -78,6 +78,10 @@ diverging.colormap <- function(s, rgb1, rgb2, outColorspace = 'sRGB')
         M <- sqrt(L*L + a*a + b*b)
         s <- (M > 0.001) * acos(L/M)
         h <- (s > 0.001) * atan2(b,a)
+        if (!is.finite(s))
+            s <- 0
+        if (!is.finite(h))
+            h <- 0
         c(M,s,h)
     }
     MshToLab<-function(Msh)
