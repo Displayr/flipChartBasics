@@ -40,6 +40,7 @@ test_that("Match table",
    expect_equal(res[1], "#0000FF")
    
    expect_error(MatchTable(custom.palette, ref.names = brand.names), NA)
+   
    expect_warning(MatchTable(unname(custom.palette), ref.names = letters[1:10]), NA)
    expect_warning(res <- MatchTable(custom.palette, ref.names = c()), "Names were ignored")
    expect_equal(length(res), 1)
