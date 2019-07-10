@@ -4,7 +4,8 @@
 \alias{GetBrandsFromData}
 \title{Identify brand names from the input data}
 \usage{
-GetBrandsFromData(data, filter, chart.type, scatter.colors.column = 4)
+GetBrandsFromData(data, filter, chart.type, scatter.colors.column = 4,
+  multi.color.series = FALSE)
 }
 \arguments{
 \item{data}{Input data for the visualization. The is usually a vector or table. It should be normalized from \code{flipChart::PrepareData}.}
@@ -14,6 +15,8 @@ GetBrandsFromData(data, filter, chart.type, scatter.colors.column = 4)
 \item{chart.type}{The visualization which will be applied to the data.}
 
 \item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
+
+\item{multi.color.series}{For bar and column charts, a logical indicating how colors are used.}
 }
 \description{
 Extracts the names of the data series from the input data, to be associated with different colors.

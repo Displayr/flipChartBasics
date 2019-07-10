@@ -3,6 +3,7 @@
 #' @param x A vector or table containing values to be matched against \code{ref.table}
 #' @param ref.table The reference table which determines the order of the output vector
 #' @param ref.maindim Row or column.
+#' @param ref.names Alternatively, a vector of names can be provide instead of \code{ref.table} and \code{ref.maindim}.
 #' @param x.table.name Name used in the error messages.
 #' @param ref.table.name Name used in the error messages.
 #' @export
@@ -10,20 +11,25 @@
 MatchTable <- function(x,
                         ref.table,
                         ref.maindim = "rows",
+                        ref.names = NULL,
                         x.table.name = "color values",
                         ref.table.name = "the input data") 
 {
-    # Extract names from x and reference table
-    if (grepl("col", ref.maindim, fixed = TRUE) && length(dim(ref.table)) == 2)
+    if (is.null(ref.names))
     {
-        ref.names <- colnames(ref.table)
-        ref.len <- NCOL(ref.table)
-    }
-    else
-    {
-        ref.names <- rownames(ref.table)
-        ref.len <- NROW(ref.table)
-    }
+        # Extract names from x and reference table
+        if (grepl("col", ref.maindim, fixed = TRUE) && length(dim(ref.table)) == 2)
+        {
+            ref.names <- colnames(ref.table)
+            ref.len <- NCOL(ref.table)
+        }
+        else
+        {
+            ref.names <- rownames(ref.table)
+            ref.len <- NROW(ref.table) # this works even if rownames is null
+        }
+    } else
+        ref.len <- length(ref.names) 
     x.names <- rownames(x)
     if (is.null(x.names) && !is.null(names(x)))
         x.names <- names(x)
@@ -35,8 +41,8 @@ MatchTable <- function(x,
     if (is.null(x.names) || is.null(ref.names))
     {
         if (NROW(x) != ref.len)
-            stop("The length of ", x.table.name, "(", NROW(x), ") does not match the number of ", 
-                ref.maindim, " in ", ref.table.name, "(", ref.len, ").")
+            stop("The length of ", x.table.name, " (", NROW(x), ") does not match the number of ", 
+                ref.maindim, " in ", ref.table.name, " (", ref.len, ").")
         return(x)
     }
     if (any(duplicated(x.names)))

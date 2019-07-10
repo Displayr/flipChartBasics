@@ -43,13 +43,15 @@ GetPalette <- function(palette, template)
 #' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
 #' @param chart.type The visualization which will be applied to the data.
 #' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
+#' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
 #' @export
-GetBrandColors <- function(template, input.data, filter, chart.type, scatter.colors.column)
+GetBrandColors <- function(template, input.data, filter, chart.type, 
+                           scatter.colors.column = 4, multi.color.series = FALSE)
 {
     if (is.null(template))
         return("Default colors")
     
-    brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column)
+    brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column, multi.color.series)
   
     # In new version of the 'Create Template' Standard R Page, the brand colors is always
     # created from template$colors. But in older versions they are separate elements of the
@@ -85,10 +87,12 @@ GetBrandColors <- function(template, input.data, filter, chart.type, scatter.col
 #' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
 #' @param chart.type The visualization which will be applied to the data.
 #' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
+#' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
 #' @importFrom flipU TrimWhitespace
 #' @export
 
-GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 4)
+GetBrandsFromData <- function(data, filter, chart.type, 
+                        scatter.colors.column = 4, multi.color.series = FALSE)
 {
     if (chart.type %in% c("Heat", "Geographic Map"))
         return(NULL)
@@ -114,7 +118,7 @@ GetBrandsFromData <- function(data, filter, chart.type, scatter.colors.column = 
             return(TrimWhitespace(colnames(data)))
         return(TrimWhitespace(names(data)))
     }
-    if (chart.type %in% c("Pyramid", "Bar Pictograph", "Donut"))
+    if (multi.color.series || chart.type %in% c("Pyramid", "Bar Pictograph", "Donut"))
     {
         if (length(dim(data)) > 1)
             return(TrimWhitespace(rownames(data)))

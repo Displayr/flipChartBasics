@@ -4,7 +4,7 @@
 \alias{MatchTable}
 \title{Match table to elements in the reference table}
 \usage{
-MatchTable(x, ref.table, ref.maindim = "rows",
+MatchTable(x, ref.table, ref.maindim = "rows", ref.names = NULL,
   x.table.name = "color values", ref.table.name = "the input data")
 }
 \arguments{
@@ -13,6 +13,8 @@ MatchTable(x, ref.table, ref.maindim = "rows",
 \item{ref.table}{The reference table which determines the order of the output vector}
 
 \item{ref.maindim}{Row or column.}
+
+\item{ref.names}{Alternatively, a vector of names can be provide instead of \code{ref.table} and \code{ref.maindim}.}
 
 \item{x.table.name}{Name used in the error messages.}
 
