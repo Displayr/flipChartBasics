@@ -9,7 +9,7 @@
 #' @export
 
 MatchTable <- function(x,
-                        ref.table,
+                        ref.table = NULL,
                         ref.maindim = "rows",
                         ref.names = NULL,
                         x.table.name = "",
@@ -31,7 +31,9 @@ MatchTable <- function(x,
         if (is.null(ref.names) && !is.null(names(ref.table)))
             ref.names <- names(ref.table)
     } else
-        ref.len <- length(ref.names) 
+        ref.len <- length(ref.names)
+    
+    ref.len <- max(1, ref.len)
     x.names <- rownames(x)
     if (is.null(x.names) && !is.null(names(x)))
         x.names <- names(x)

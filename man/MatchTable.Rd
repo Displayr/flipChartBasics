@@ -4,8 +4,8 @@
 \alias{MatchTable}
 \title{Match table to elements in the reference table}
 \usage{
-MatchTable(x, ref.table, ref.maindim = "rows", ref.names = NULL,
-  x.table.name = "", ref.table.name = "input data")
+MatchTable(x, ref.table = NULL, ref.maindim = "rows",
+  ref.names = NULL, x.table.name = "", ref.table.name = "input data")
 }
 \arguments{
 \item{x}{A vector or table containing values to be matched against \code{ref.table}}

@@ -20,6 +20,13 @@ xmat <- structure(c(6.125, 2, 10.5, 64.625, 22.375, 25.5, 9.5, 91.25,
     "SUMMARY"))
 xnames <- rev(rownames(xmat))
 
+custom.palette <- structure(c("#FF0000", "#2E2E2E", "#464646", "#5D5D5D", "#747474", 
+    "#8B8B8B", "#A2A2A2", "#B9B9B9", "#D1D1D1", "#E8E8E8"), .Names = c("Coca-Cola", 
+    "Diet Coke", "Coke Zero", "Pepsi ", "Diet Pepsi", "Pepsi Max", 
+    "Dislike all cola", "Don't care", "NET", NA))
+brand.names <- c("Coca-Cola", "Diet Coke", "Coke Zero", "Pepsi", "Diet Pepsi", 
+    "Pepsi Max", "Dislike all cola", "Don't care")
+
 test_that("Match table",
 {
    res <- MatchTable(v10, ref.table)
@@ -31,5 +38,7 @@ test_that("Match table",
    
    expect_error(res <- MatchTable(cols, ref.names = xnames), NA)
    expect_equal(res[1], "#0000FF")
+   
+   expect_error(MatchTable(custom.palette, ref.names = brand.names), NA)
 })
     
