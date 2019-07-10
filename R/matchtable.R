@@ -50,9 +50,9 @@ MatchTable <- function(x,
     }
     if (is.null(x.names))
     {
-        if (length(x) < ref.len)
-            warning(x.table.name, "Values (", length(x), ") were truncated to match input data (", ref.len, ").")
         if (length(x) > ref.len)
+            warning(x.table.name, "Values (", length(x), ") were truncated to match input data (", ref.len, ").")
+        if (length(x) < ref.len)
             warning(x.table.name, "Values (", length(x), ") were recycled to match input data (", ref.len, ").")
         return(rep(x, length = ref.len))
     }
