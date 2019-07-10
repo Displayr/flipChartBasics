@@ -4,8 +4,9 @@
 \alias{GetBrandColors}
 \title{Identify colors to be used with brands in the data}
 \usage{
-GetBrandColors(template, input.data, filter, chart.type,
-  scatter.colors.column = 4, multi.color.series = FALSE)
+GetBrandColors(template, input.data = NULL, filter = NULL,
+  chart.type = "", scatter.colors.column = 4,
+  multi.color.series = FALSE, brand.names = NULL)
 }
 \arguments{
 \item{template}{A list specifying color palettes and other yyvisualization options.}
@@ -20,6 +21,8 @@ It should be normalized from \code{flipChart::PrepareData}.}
 \item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
 
 \item{multi.color.series}{For bar and column charts, a logical indicating how colors are used.}
+
+\item{brand.names}{If a vector of names is provided then only \code{template} is used.}
 }
 \description{
 Identify colors to be used with brands in the data

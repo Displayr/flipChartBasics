@@ -44,14 +44,16 @@ GetPalette <- function(palette, template)
 #' @param chart.type The visualization which will be applied to the data.
 #' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
 #' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
+#' @param brand.names If a vector of names is provided then only \code{template} is used. 
 #' @export
-GetBrandColors <- function(template, input.data, filter, chart.type, 
-                           scatter.colors.column = 4, multi.color.series = FALSE)
+GetBrandColors <- function(template, input.data = NULL, filter = NULL, chart.type = "", 
+                           scatter.colors.column = 4, multi.color.series = FALSE, brand.names = NULL)
 {
     if (is.null(template))
         return("Default colors")
-    
-    brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column, multi.color.series)
+   
+    if (is.null(brand.names))
+        brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column, multi.color.series)
   
     # In new version of the 'Create Template' Standard R Page, the brand colors is always
     # created from template$colors. But in older versions they are separate elements of the
