@@ -9,13 +9,13 @@
 #' @export
 
 MatchTable <- function(x,
-                        ref.table,
+                        ref.table = NULL,
                         ref.maindim = "rows",
                         ref.names = NULL,
                         x.table.name = "",
                         ref.table.name = "input data") 
 {
-    if (is.null(ref.names))
+    if (is.null(ref.names) && !is.null(ref.table))
     {
         # Extract names from x and reference table
         if (grepl("col", ref.maindim, fixed = TRUE) && length(dim(ref.table)) == 2)
@@ -31,7 +31,9 @@ MatchTable <- function(x,
         if (is.null(ref.names) && !is.null(names(ref.table)))
             ref.names <- names(ref.table)
     } else
-        ref.len <- length(ref.names) 
+        ref.len <- length(ref.names)
+    
+    ref.len <- max(1, ref.len)
     x.names <- rownames(x)
     if (is.null(x.names) && !is.null(names(x)))
         x.names <- names(x)
@@ -41,8 +43,19 @@ MatchTable <- function(x,
     # Check length and names 
     if (nchar(x.table.name) > 0)
         x.table.name <- paste0(x.table.name, ": ")
+    if (length(ref.names) == 0 && !is.null(x.names))
+    {
+        warning(x.table.name, "Names were ignored as input data is unnamed")
+        x.names <- NULL
+    }
     if (is.null(x.names))
+    {
+        if (length(x) < ref.len)
+            warning(x.table.name, "Values (", length(x), ") were truncated to match input data (", ref.len, ").")
+        if (length(x) > ref.len)
+            warning(x.table.name, "Values (", length(x), ") were recycled to match input data (", ref.len, ").")
         return(rep(x, length = ref.len))
+    }
     if (any(duplicated(x.names)))
         stop(x.table.name, "Names must be unique.")
 
