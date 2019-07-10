@@ -12,8 +12,8 @@ MatchTable <- function(x,
                         ref.table,
                         ref.maindim = "rows",
                         ref.names = NULL,
-                        x.table.name = "color values",
-                        ref.table.name = "the input data") 
+                        x.table.name = "",
+                        ref.table.name = "input data") 
 {
     if (is.null(ref.names))
     {
@@ -36,22 +36,25 @@ MatchTable <- function(x,
     if (is.null(ref.names) && !is.null(names(ref.table)))
         ref.names <- names(ref.table)
     x <- as.vector(unlist(x))
-   
-    # If no names are provided just use vector length
+  
+    # Check length and names 
+    if (nchar(x.table.name) > 0)
+        x.table.name <- paste0(x.table.name, ": ")
     if (is.null(x.names) || is.null(ref.names))
     {
         if (NROW(x) != ref.len)
-            stop("The length of ", x.table.name, " (", NROW(x), ") does not match the number of ", 
-                ref.maindim, " in ", ref.table.name, " (", ref.len, ").")
+            stop(x.table.name, "Length (", NROW(x), ") does not match ", ref.table.name, " (", ref.len, ").")
         return(x)
     }
     if (any(duplicated(x.names)))
-        stop("There are duplicate names in ", x.table.name, ".")
+        stop(x.table.name, "Names must be unique.")
 
     # Sorting color values to match the row names of the reference table.
+    ref.names <- TrimWhitespace(ref.names)
+    x.names <- TrimWhitespace(x.names)
     order = match(ref.names, x.names)
     if (any(is.na(order)))
-        stop(x.table.name, " is missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")
+        stop(x.table.name, "Missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")
     x = x[order]
     return(x)
 }
