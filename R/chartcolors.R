@@ -75,9 +75,9 @@ checkColors <- function(xx)
     ind <- which(is.na(res))
     if (length(ind) > 0)
     {
-        res[ind] <- "#000000"
+        res[ind] <- "#CCCCCC"
         for (i in ind)
-            warning("Invalid color '", names(res)[i], "' replaced with '#000000'")
+            warning("Invalid color '", names(res)[i], "' replaced with '#CCCCCC'")
     }
     res
 }
