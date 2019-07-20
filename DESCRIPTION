@@ -18,7 +18,9 @@ Imports:
     flipU,
     methods
 Remotes:
-    Displayr/flipTransformations
+    Displayr/flipU
+    Displayr/flipTransformations,
+    Displyar/flipFormat
 RoxygenNote: 6.1.1
 Encoding: UTF-8
 Depends: R (>= 2.10)
