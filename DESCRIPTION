@@ -18,7 +18,7 @@ Imports:
     flipU,
     methods
 Remotes:
-    Displayr/flipU
+    Displayr/flipU,
     Displayr/flipTransformations,
     Displyar/flipFormat
 RoxygenNote: 6.1.1
