@@ -55,4 +55,12 @@ test_that("GetNumColors gives correct output", {
     expect_equal(GetNumColors(z4, "Column")$num.series, 1)
     expect_equal(GetNumColors(z4, "Pie")$num.series, 10)
     
+    venn.input <- list(list(sets = list(0), label = "Like", size = 100), list(sets = list(
+        1), label = "Love", size = 50), list(sets = list(2), label = "Dislike", 
+        size = 100), list(sets = list(3), label = "Hate", size = 50), 
+        list(sets = list(0, 1), size = 50), list(sets = list(0, 2), 
+        size = 0), list(sets = list(2, 3), size = 50))
+    expect_equal(GetNumColors(venn.input, "Venn")$num.series, 4)
+    expect_equal(GetNumColors(z3, "Venn")$num.series, 4)
+    
 })

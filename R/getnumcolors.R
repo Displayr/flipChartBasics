@@ -11,7 +11,8 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
 {
     # data is already assumed to be cleaned up by PrepareData
 
-    # Venn and Streamgraphs?
+    if (chart.type == "Venn" && is.list(data) && all(!sapply(data, is.atomic)))
+        return(list(num.series = length(unique(unlist(sapply(data, function(s) return(unlist(s$sets))))))))
     if (grepl("Scatter", chart.type))
     {
         # Multiple tables
