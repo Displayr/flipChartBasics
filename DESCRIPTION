@@ -20,7 +20,7 @@ Imports:
 Remotes:
     Displayr/flipU,
     Displayr/flipTransformations,
-    Displyar/flipFormat
+    Displayr/flipFormat
 RoxygenNote: 6.1.1
 Encoding: UTF-8
 Depends: R (>= 2.10)
