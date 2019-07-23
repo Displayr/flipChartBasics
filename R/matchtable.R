@@ -38,7 +38,7 @@ MatchTable <- function(x,
     if (is.null(x.names) && !is.null(names(x)))
         x.names <- names(x)
 
-    x <- as.vector(unlist(x))
+   # x <- as.vector(unlist(x))
   
     # Check length and names 
     if (nchar(x.table.name) > 0)
@@ -65,6 +65,9 @@ MatchTable <- function(x,
     order = match(ref.names, x.names)
     if (any(is.na(order)))
         stop(x.table.name, "Missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")
-    x = x[order]
+    if (length(dim(x)) == 2)
+        return(x[order,])
+    else
+        return(x[order])
     return(x)
 }

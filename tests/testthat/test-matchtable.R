@@ -1,6 +1,7 @@
 context("Match Table")
 
 ref.table <- matrix(1:24, 6, 4, dimnames = list(letters[1:6], LETTERS[1:4]))
+rev.table <- matrix(1:24, 6, 4, dimnames = list(letters[6:1], LETTERS[1:4]))
 v10 <- structure(1:10, .Names = letters[10:1])
 
 cols <- c(Feminine = "#FF0000", `Health-conscious` = "#E87D85", Innocent = "#E87D85", 
@@ -30,20 +31,26 @@ brand.names <- c("Coca-Cola", "Diet Coke", "Coke Zero", "Pepsi", "Diet Pepsi",
 test_that("Match table",
 {
    res <- MatchTable(v10, ref.table)
-   expect_equal(res, 10:5)
+   expect_equal(res, 10:5, check.attributes = FALSE)
    
    expect_error(MatchTable(v10[7:10], ref.table, x.table.name = "Color values"), "Color values: Missing values for 'e', 'f'")
    expect_error(MatchTable(1:6, ref.table), NA)
    expect_equal(MatchTable(cols, xmat), cols, check.attributes = FALSE)
    
    expect_error(res <- MatchTable(cols, ref.names = xnames), NA)
-   expect_equal(res[1], "#0000FF")
+   expect_equal(res[1], "#0000FF", check.attributes = FALSE)
    
    expect_error(MatchTable(custom.palette, ref.names = brand.names), NA)
    
    expect_warning(MatchTable(unname(custom.palette), ref.names = letters[1:10]), NA)
    expect_warning(res <- MatchTable(custom.palette, ref.names = c()), "Names were ignored")
    expect_equal(length(res), 1)
+   
+   expect_error(res <- MatchTable(rev.table*10, ref.table), NA)
+   expect_equal(res, structure(c(60, 50, 40, 30, 20, 10, 120, 110, 100, 90, 80, 70, 
+            180, 170, 160, 150, 140, 130, 240, 230, 220, 210, 200, 190), .Dim = c(6L, 
+            4L), .Dimnames = list(c("a", "b", "c", "d", "e", "f"), c("A", 
+            "B", "C", "D"))))
 })
 
     
