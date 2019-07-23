@@ -1,7 +1,7 @@
 context("Match Table")
 
 ref.table <- matrix(1:24, 6, 4, dimnames = list(letters[1:6], LETTERS[1:4]))
-rev.table <- matrix(1:24, 6, 4, dimnames = list(letters[6:1], LETTERS[1:4]))
+rev.table <- matrix(1:35, 7, 5, dimnames = list(letters[7:1], LETTERS[5:1]))
 v10 <- structure(1:10, .Names = letters[10:1])
 
 cols <- c(Feminine = "#FF0000", `Health-conscious` = "#E87D85", Innocent = "#E87D85", 
@@ -47,10 +47,12 @@ test_that("Match table",
    expect_equal(length(res), 1)
    
    expect_error(res <- MatchTable(rev.table*10, ref.table), NA)
-   expect_equal(res, structure(c(60, 50, 40, 30, 20, 10, 120, 110, 100, 90, 80, 70, 
-            180, 170, 160, 150, 140, 130, 240, 230, 220, 210, 200, 190), .Dim = c(6L, 
-            4L), .Dimnames = list(c("a", "b", "c", "d", "e", "f"), c("A", 
-            "B", "C", "D"))))
+   expect_equal(dimnames(res), dimnames(ref.table))
+   
+   colnames(rev.table) <- NULL
+   rownames(rev.table) <- NULL
+   expect_error(res <- MatchTable(rev.table, ref.table), NA)
+   expect_equal(res, rev.table[1:6, 1:4], check.attributes = FALSE)
 })
 
     

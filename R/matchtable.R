@@ -38,8 +38,6 @@ MatchTable <- function(x,
     if (is.null(x.names) && !is.null(names(x)))
         x.names <- names(x)
 
-   # x <- as.vector(unlist(x))
-  
     # Check length and names 
     if (nchar(x.table.name) > 0)
         x.table.name <- paste0(x.table.name, ": ")
@@ -48,7 +46,7 @@ MatchTable <- function(x,
         warning(x.table.name, "Names were ignored as input data is unnamed")
         x.names <- NULL
     }
-    if (is.null(x.names))
+    if (is.null(x.names) && NCOL(x) == 1)
     {
         if (length(x) > ref.len)
             warning(x.table.name, "Values (", length(x), ") were truncated to match input data (", ref.len, ").")
@@ -56,18 +54,36 @@ MatchTable <- function(x,
             warning(x.table.name, "Values (", length(x), ") were recycled to match input data (", ref.len, ").")
         return(rep(x, length = ref.len))
     }
-    if (any(duplicated(x.names)))
-        stop(x.table.name, "Names must be unique.")
+    
+    if (!is.null(x.names))
+    {
+        if (any(duplicated(x.names)))
+            stop(x.table.name, "Names must be unique.")
 
-    # Sorting color values to match the row names of the reference table.
-    ref.names <- TrimWhitespace(ref.names)
-    x.names <- TrimWhitespace(x.names)
-    order = match(ref.names, x.names)
-    if (any(is.na(order)))
-        stop(x.table.name, "Missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")
-    if (length(dim(x)) == 2)
-        return(x[order,])
+        # Sorting color values to match the row names of the reference table.
+        ref.names <- TrimWhitespace(ref.names)
+        x.names <- TrimWhitespace(x.names)
+        order = match(ref.names, x.names)
+        if (any(is.na(order)))
+            stop(x.table.name, "Missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")
+
+    } else
+        order <- 1:ref.len
+
+    if (length(dim(x)) < 2)
+        x <- x[order]
     else
-        return(x[order])
+        x <- x[order,]
+
+    if (length(dim(x)) == 2 && !is.null(ref.table) && ref.maindim == "rows")
+    {
+        # match columns of x as well
+        if (!is.null(colnames(ref.table)) && !is.null(colnames(x)))
+        {
+            order <- match(colnames(ref.table), colnames(x))
+            x <- x[,order]
+        } else
+            x <- x[,1:NCOL(ref.table)]
+    }
     return(x)
 }
