@@ -77,13 +77,24 @@ MatchTable <- function(x,
 
     if (length(dim(x)) == 2 && !is.null(ref.table) && ref.maindim == "rows")
     {
-        # match columns of x as well
-        if (!is.null(colnames(ref.table)) && !is.null(colnames(x)))
+        if (ncol(x) < ncol(ref.table))
+        {
+            # if the number of columns is x less than ref.table then we can only extract a single column
+            # take the last column as this will usually be NET
+            column.used.name <- if (!is.null(colnames(x))) paste0("column '", colnames(x)[ncol(x)], "'") else "the last column"
+            warning(x.table.name, "Only ", column.used.name, " was used.")
+            x <- x[,ncol(x)]
+        }
+        else if(is.null(colnames(ref.table)) || is.null(colnames(x)))
+            x <- x[,1:NCOL(ref.table)]
+        else
         {
             order <- match(colnames(ref.table), colnames(x))
+            if (any(is.na(order)))
+                stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. Missing columns '",
+                     paste(colnames(ref.table)[is.na(order)], collapse = "', '"), "'.")
             x <- x[,order]
-        } else
-            x <- x[,1:NCOL(ref.table)]
+        }   
     }
     return(x)
 }

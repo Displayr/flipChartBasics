@@ -28,6 +28,19 @@ custom.palette <- structure(c("#FF0000", "#2E2E2E", "#464646", "#5D5D5D", "#7474
 brand.names <- c("Coca-Cola", "Diet Coke", "Coke Zero", "Pepsi", "Diet Pepsi", 
     "Pepsi Max", "Dislike all cola", "Don't care")
 
+vals <- structure(c(72, 16, 23, 7, 27, 15, 160, 62, 26, 37, 11, 21, 10, 
+        167, 134, 42, 60, 18, 48, 25, 327), .Dim = c(7L, 3L), statistic = "n", .Dimnames = list(
+            c("Coca Cola", "Diet Coke", "Coke Zero", "Pepsi Light", "Pepsi Max", 
+            "Pepsi", "NET"), c("Male", "Female", "NET")), name = "Global frequentCola - Categorical by Q2. Gender", questions = c("Global frequentCola - Categorical", 
+        "Q2. Gender [Visualization - Standard R Charts.sav]"))
+pd <- structure(c(1, 3, 16, 2, 34, 13, 14, 51, 46, 34, 62, 45, 21, 
+        96, 61, 45, 85, 60, 46, 62, 66, 101, 89, 81, 137, 75, 80, 120, 
+        40, 78, 108, 40, 58, 25, 17, 50), .Dim = c(6L, 6L), .Dimnames = list(
+            c("Coca Cola", "Diet Coke", "Coke Zero", "Pepsi", "Pepsi Light", 
+            "Pepsi Max"), c("Don t Know", "Hate", "Dislike", "Neither like nor dislike", 
+            "Like", "Love")), statistic = "n", name = "Q6. Brand preference", questions = c("Q6. Brand preference", 
+        "SUMMARY"), assigned.rownames = TRUE)
+
 test_that("Match table",
 {
    res <- MatchTable(v10, ref.table)
@@ -53,6 +66,10 @@ test_that("Match table",
    rownames(rev.table) <- NULL
    expect_error(res <- MatchTable(rev.table, ref.table), NA)
    expect_equal(res, rev.table[1:6, 1:4], check.attributes = FALSE)
+  
+   # check output if table dimensions don't match 
+   expect_warning(MatchTable(vals, ref.table = pd), "Only column 'NET' was used")
+   expect_error(MatchTable(vals, ref.table = pd[,1:2]), "Values should either be a single-column table or have the same column names as the input data")
 })
 
     
