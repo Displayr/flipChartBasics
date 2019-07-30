@@ -5,7 +5,8 @@
 \title{Match table to elements in the reference table}
 \usage{
 MatchTable(x, ref.table = NULL, ref.maindim = "rows",
-  ref.names = NULL, x.table.name = "", ref.table.name = "input data")
+  ref.names = NULL, x.table.name = "", ref.table.name = "input data",
+  as.matrix = TRUE)
 }
 \arguments{
 \item{x}{A vector or table containing values to be matched against \code{ref.table}}
@@ -19,6 +20,8 @@ MatchTable(x, ref.table = NULL, ref.maindim = "rows",
 \item{x.table.name}{Name used in the error messages.}
 
 \item{ref.table.name}{Name used in the error messages.}
+
+\item{as.matrix}{Converts \code{x} to a matrix. This will force all values to be of the same type.}
 }
 \description{
 Match table to elements in the reference table

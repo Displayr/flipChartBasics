@@ -6,6 +6,8 @@
 #' @param ref.names Alternatively, a vector of names can be provide instead of \code{ref.table} and \code{ref.maindim}.
 #' @param x.table.name Name used in the error messages.
 #' @param ref.table.name Name used in the error messages.
+#' @param as.matrix Converts \code{x} to a matrix. This will force all values to be of the same type.
+#' @importFrom flipFormat ExtractChartData
 #' @export
 
 MatchTable <- function(x,
@@ -13,8 +15,22 @@ MatchTable <- function(x,
                         ref.maindim = "rows",
                         ref.names = NULL,
                         x.table.name = "",
-                        ref.table.name = "input data") 
+                        ref.table.name = "input data",
+                        as.matrix = TRUE) 
 {
+    if (nchar(x.table.name) > 0)
+        x.table.name <- paste0(x.table.name, ": ")
+
+    # Convert x into a table-like structure
+    x <- ExtractChartData(x)
+    if (as.matrix)
+    {
+        x <- as.matrix(x)
+        if (!is.matrix(x))
+            stop(x.table.name, "Values could not be converted to a matrix.")
+    }
+
+
     if (is.null(ref.names) && !is.null(ref.table))
     {
         # Extract names from x and reference table
@@ -39,8 +55,6 @@ MatchTable <- function(x,
         x.names <- names(x)
 
     # Check length and names 
-    if (nchar(x.table.name) > 0)
-        x.table.name <- paste0(x.table.name, ": ")
     if (length(ref.names) == 0 && !is.null(x.names))
     {
         warning(x.table.name, "Names were ignored as input data is unnamed")
