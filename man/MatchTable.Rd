@@ -6,7 +6,7 @@
 \usage{
 MatchTable(x, ref.table = NULL, ref.maindim = "rows",
   ref.names = NULL, x.table.name = "", ref.table.name = "input data",
-  as.matrix = TRUE)
+  as.matrix = TRUE, silent.remove.duplicates = FALSE)
 }
 \arguments{
 \item{x}{A vector or table containing values to be matched against \code{ref.table}}
@@ -22,6 +22,8 @@ MatchTable(x, ref.table = NULL, ref.maindim = "rows",
 \item{ref.table.name}{Name used in the error messages.}
 
 \item{as.matrix}{Converts \code{x} to a matrix. This will force all values to be of the same type.}
+
+\item{silent.remove.duplicates}{Removes duplicates with giving warnings. This is particulary useful when dealing with banners.}
 }
 \description{
 Match table to elements in the reference table

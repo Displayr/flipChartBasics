@@ -7,6 +7,7 @@
 #' @param x.table.name Name used in the error messages.
 #' @param ref.table.name Name used in the error messages.
 #' @param as.matrix Converts \code{x} to a matrix. This will force all values to be of the same type.
+#' @param silent.remove.duplicates Removes duplicates with giving warnings. This is particulary useful when dealing with banners.
 #' @importFrom flipFormat ExtractChartData
 #' @export
 
@@ -16,7 +17,8 @@ MatchTable <- function(x,
                         ref.names = NULL,
                         x.table.name = "",
                         ref.table.name = "input data",
-                        as.matrix = TRUE) 
+                        as.matrix = TRUE,
+                        silent.remove.duplicates = FALSE) 
 {
     if (nchar(x.table.name) > 0)
         x.table.name <- paste0(x.table.name, ": ")
@@ -72,7 +74,11 @@ MatchTable <- function(x,
     if (!is.null(x.names))
     {
         if (any(duplicated(x.names)))
-            stop(x.table.name, "Names must be unique.")
+        {
+            if (!silent.remove.duplicates)
+                warning(x.table.name, "Table contains duplicate names")
+            x.names <- make.unique(x.names)
+        }
 
         # Sorting color values to match the row names of the reference table.
         ref.names <- TrimWhitespace(ref.names)
