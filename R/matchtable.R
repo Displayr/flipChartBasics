@@ -93,7 +93,7 @@ MatchTable <- function(x,
     if (length(dim(x)) < 2)
         x <- x[order]
     else
-        x <- x[order,]
+        x <- x[order,,drop=FALSE]
 
     if (length(dim(x)) == 2 && !is.null(ref.table) && ref.maindim == "rows")
     {
@@ -106,14 +106,14 @@ MatchTable <- function(x,
             x <- x[,ncol(x)]
         }
         else if(is.null(colnames(ref.table)) || is.null(colnames(x)))
-            x <- x[,1:NCOL(ref.table)]
+            x <- x[,1:NCOL(ref.table),drop = FALSE]
         else
         {
             order <- match(colnames(ref.table), colnames(x))
             if (any(is.na(order)))
                 stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. Missing columns '",
                      paste(colnames(ref.table)[is.na(order)], collapse = "', '"), "'.")
-            x <- x[,order]
+            x <- x[,order,drop=FALSE]
         }   
     }
     return(x)
