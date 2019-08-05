@@ -100,7 +100,8 @@ MatchTable <- function(x,
     else
         x <- x[order,,drop=FALSE]
 
-    if (length(dim(x)) == 2 && !is.null(ref.table) && ref.maindim == "rows")
+    # Optionally match columns (NOT main dimension) if both x and ref.table contain enough info
+    if (NCOL(x) > 1 && !is.null(ref.table) && ref.maindim == "rows")
     {
         if (ncol(x) < ncol(ref.table))
         {
