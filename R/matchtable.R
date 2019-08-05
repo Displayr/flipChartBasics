@@ -7,6 +7,7 @@
 #' @param x.table.name Name used in the error messages.
 #' @param ref.table.name Name used in the error messages.
 #' @param as.matrix Converts \code{x} to a matrix. This will force all values to be of the same type.
+#' @param trim.whitespace Whether to trim leading and trailing whitespace when matching row or column names.
 #' @param silent.remove.duplicates Removes duplicates with giving warnings. This is particulary useful when dealing with banners.
 #' @importFrom flipFormat ExtractChartData
 #' @export
@@ -18,6 +19,7 @@ MatchTable <- function(x,
                         x.table.name = "",
                         ref.table.name = "input data",
                         as.matrix = TRUE,
+                        trim.whitespace = TRUE,
                         silent.remove.duplicates = FALSE) 
 {
     if (nchar(x.table.name) > 0)
@@ -72,17 +74,20 @@ MatchTable <- function(x,
     }
     
     if (!is.null(x.names))
-    {
+    {        
+        # Sorting color values to match the row names of the reference table.
+        if (trim.whitespace)
+        {
+            ref.names <- TrimWhitespace(ref.names)
+            x.names <- TrimWhitespace(x.names)
+        }
         if (any(duplicated(x.names)))
         {
             if (!silent.remove.duplicates)
-                warning(x.table.name, "Table contains duplicate names")
+                warning(x.table.name, "Table contains duplicate names: '", 
+                   paste(x.names[duplicated(x.names)], collapse = "', '"), "'")
             x.names <- make.unique(x.names)
         }
-
-        # Sorting color values to match the row names of the reference table.
-        ref.names <- TrimWhitespace(ref.names)
-        x.names <- TrimWhitespace(x.names)
         order = match(ref.names, x.names)
         if (any(is.na(order)))
             stop(x.table.name, "Missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")

@@ -72,4 +72,14 @@ test_that("Match table",
    expect_error(MatchTable(vals, ref.table = pd[,1:2]), "Values should either be a single-column table or have the same column names as the input data")
 })
 
+test_that("Duplicated row names",
+{
+    df <- structure(list(A = c(1, 1, 3), B = 4:6, C = 7:9, D = 10:12), row.names = c("a", 
+"a ", "a   "), class = "data.frame")
+    expect_warning(MatchTable(df, ref.names = "a"))
+    m <- MatchTable(df, ref.names = "a ", trim.whitespace = FALSE)
+    expect_equal(m, structure(c(1, 5, 8, 11), .Dim = c(1L, 4L), .Dimnames = list(
+    "a ", c("A", "B", "C", "D"))))
+})
+
     
