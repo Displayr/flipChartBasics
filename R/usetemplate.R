@@ -106,12 +106,18 @@ GetBrandsFromData <- function(data, filter, chart.type,
             return(NULL)
         
         groups <- data[,scatter.colors.column]
-        not.na <- which(is.finite(groups))
-        groups.ord <- order(suppressWarnings(flipTransformations::AsNumeric(groups[not.na], binary = FALSE)))
-        not.na <- not.na[groups.ord]
-
-        groups <- as.character(groups)
-        g.list <- unique(groups[not.na])
+        if (is.character(groups))
+            g.list <- unique(groups[!is.na(groups)])
+        else
+        {
+            # Retain order of factors
+            not.na <- which(is.finite(groups))
+            groups.ord <- order(suppressWarnings(flipTransformations::AsNumeric(groups[not.na], binary = FALSE)))
+            not.na <- not.na[groups.ord]
+    
+            groups <- as.character(groups)
+            g.list <- unique(groups[not.na])
+        }
         return(TrimWhitespace(g.list))    
     }
     if (chart.type == "Pie")

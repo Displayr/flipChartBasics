@@ -64,4 +64,15 @@ test_that("Get brand names",
 "Pepsi Max", "Dislike all cola", "Don't care", "NET"))
     expect_equal(GetBrandsFromData(1:10, ff, "Column"), "Pepsi")
 })
+
+test_that("Scatter plot brand names",
+{
+    scatter.dat <- structure(list(X = c(1.2, 2.3, 0.6, 2.1), Y = c(3.7, 3.5, 5, 
+        3), Size = c(1, 1, 1, 1), Color = c("Coke", "Pepsi", "Fanta", 
+        "Sprite")), row.names = c("Coke", "Pepsi", "Fanta", "Sprite"), 
+        assigned.rownames = TRUE, scatter.variable.indices = c(x = 1, 
+        y = 2, sizes = 3, colors = 4, groups = 4), class = "data.frame")
+    expect_equal(GetBrandsFromData(scatter.dat, TRUE, "Scatter"),
+       c("Coke", "Pepsi", "Fanta", "Sprite"))
+})
     
