@@ -21,7 +21,10 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         # Data frame with colors variable
         if (is.null(ncol(data)) || is.null(scatter.colors.column) || is.na(scatter.colors.column) || ncol(data) < scatter.colors.column || scatter.colors.column <= 0)
             return(list(num.series = 1))
-        return(list(num.series = length(unique(data[,scatter.colors.column]))))
+        if (is.factor(data[,scatter.colors.column]))
+            return(list(num.series = nlevels(data[,scatter.colors.column])))
+        else
+            return(list(num.series = length(unique(data[,scatter.colors.column]))))
     }
     if (chart.type == "Bar Pictograph" || chart.type == "Pyramid")
     {

@@ -106,7 +106,9 @@ GetBrandsFromData <- function(data, filter, chart.type,
             return(NULL)
         
         groups <- data[,scatter.colors.column]
-        if (is.character(groups))
+        if (is.factor(groups))
+            g.list <- levels(groups)
+        else if (is.character(groups))
             g.list <- unique(groups[!is.na(groups)])
         else
         {
