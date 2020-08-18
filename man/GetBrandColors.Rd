@@ -4,9 +4,15 @@
 \alias{GetBrandColors}
 \title{Identify colors to be used with brands in the data}
 \usage{
-GetBrandColors(template, input.data = NULL, filter = NULL,
-  chart.type = "", scatter.colors.column = 4,
-  multi.color.series = FALSE, brand.names = NULL)
+GetBrandColors(
+  template,
+  input.data = NULL,
+  filter = NULL,
+  chart.type = "",
+  scatter.colors.column = 4,
+  multi.color.series = FALSE,
+  brand.names = NULL
+)
 }
 \arguments{
 \item{template}{A list specifying color palettes and other yyvisualization options.}
