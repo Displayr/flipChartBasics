@@ -4,10 +4,18 @@
 \alias{MatchTable}
 \title{Match table to elements in the reference table}
 \usage{
-MatchTable(x, ref.table = NULL, ref.maindim = "rows",
-  ref.names = NULL, x.table.name = "", ref.table.name = "input data",
-  as.matrix = TRUE, trim.whitespace = TRUE,
-  silent.remove.duplicates = FALSE)
+MatchTable(
+  x,
+  ref.table = NULL,
+  ref.maindim = "rows",
+  ref.names = NULL,
+  x.table.name = "",
+  ref.table.name = "input data",
+  as.matrix = TRUE,
+  trim.whitespace = TRUE,
+  ignore.case = TRUE,
+  silent.remove.duplicates = FALSE
+)
 }
 \arguments{
 \item{x}{A vector or table containing values to be matched against \code{ref.table}}
@@ -25,6 +33,8 @@ MatchTable(x, ref.table = NULL, ref.maindim = "rows",
 \item{as.matrix}{Converts \code{x} to a matrix. This will force all values to be of the same type.}
 
 \item{trim.whitespace}{Whether to trim leading and trailing whitespace when matching row or column names.}
+
+\item{ignore.case}{Logical; whether matching of names should ignore upper/lower case differences.}
 
 \item{silent.remove.duplicates}{Removes duplicates with giving warnings. This is particulary useful when dealing with banners.}
 }

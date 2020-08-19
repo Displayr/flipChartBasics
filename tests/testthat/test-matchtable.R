@@ -72,6 +72,16 @@ test_that("Match table",
    expect_error(MatchTable(vals, ref.table = pd[,1:2]), "Values should either be a single-column table or have the same column names as the input data")
 })
 
+test_that("Ignore case and trim whitespace",
+{
+    expect_error(MatchTable(rev.table, ref.names = LETTERS[1:4], ignore.case = FALSE),
+        "Missing values for 'A', 'B', 'C', 'D'")
+    expect_equal(MatchTable(rev.table, ref.names = c("A ", " B", "C")),
+        structure(c(7L, 6L, 5L, 14L, 13L, 12L, 21L, 20L, 19L, 28L, 27L, 
+        26L, 35L, 34L, 33L), .Dim = c(3L, 5L), .Dimnames = list(c("a", 
+        "b", "c"), c("E", "D", "C", "B", "A"))))
+})
+
 test_that("Duplicated row names",
 {
     df <- structure(list(A = c(1, 1, 3), B = 4:6, C = 7:9, D = 10:12), row.names = c("a", 

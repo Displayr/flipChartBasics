@@ -4,11 +4,20 @@
 \alias{ChartColors}
 \title{Generates a vector of colors}
 \usage{
-ChartColors(number.colors.needed, given.colors, reverse = FALSE,
-  palette.start = 0, palette.end = 1, trim.light.colors = TRUE,
-  custom.color = NA, custom.gradient.start = NA,
-  custom.gradient.end = NA, custom.palette = NA, silent = FALSE,
-  silent.single.color = silent)
+ChartColors(
+  number.colors.needed,
+  given.colors,
+  reverse = FALSE,
+  palette.start = 0,
+  palette.end = 1,
+  trim.light.colors = TRUE,
+  custom.color = NA,
+  custom.gradient.start = NA,
+  custom.gradient.end = NA,
+  custom.palette = NA,
+  silent = FALSE,
+  silent.single.color = silent
+)
 }
 \arguments{
 \item{number.colors.needed}{The number of colors to generate.}

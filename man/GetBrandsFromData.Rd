@@ -4,8 +4,13 @@
 \alias{GetBrandsFromData}
 \title{Identify brand names from the input data}
 \usage{
-GetBrandsFromData(data, filter, chart.type, scatter.colors.column = 4,
-  multi.color.series = FALSE)
+GetBrandsFromData(
+  data,
+  filter,
+  chart.type,
+  scatter.colors.column = 4,
+  multi.color.series = FALSE
+)
 }
 \arguments{
 \item{data}{Input data for the visualization. The is usually a vector or table. It should be normalized from \code{flipChart::PrepareData}.}

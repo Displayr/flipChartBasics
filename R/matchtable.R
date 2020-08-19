@@ -8,6 +8,7 @@
 #' @param ref.table.name Name used in the error messages.
 #' @param as.matrix Converts \code{x} to a matrix. This will force all values to be of the same type.
 #' @param trim.whitespace Whether to trim leading and trailing whitespace when matching row or column names.
+#' @param ignore.case Logical; whether matching of names should ignore upper/lower case differences.
 #' @param silent.remove.duplicates Removes duplicates with giving warnings. This is particulary useful when dealing with banners.
 #' @importFrom flipFormat ExtractChartData
 #' @export
@@ -20,6 +21,7 @@ MatchTable <- function(x,
                         ref.table.name = "input data",
                         as.matrix = TRUE,
                         trim.whitespace = TRUE,
+                        ignore.case = TRUE,
                         silent.remove.duplicates = FALSE) 
 {
     if (nchar(x.table.name) > 0)
@@ -81,6 +83,12 @@ MatchTable <- function(x,
             ref.names <- TrimWhitespace(ref.names)
             x.names <- TrimWhitespace(x.names)
         }
+        ref.names.with.case <- ref.names
+        if (ignore.case)
+        {
+            ref.names <- tolower(ref.names)
+            x.names <- tolower(x.names)
+        }
         if (any(duplicated(x.names)))
         {
             if (!silent.remove.duplicates)
@@ -90,7 +98,7 @@ MatchTable <- function(x,
         }
         order = match(ref.names, x.names)
         if (any(is.na(order)))
-            stop(x.table.name, "Missing values for '", paste(ref.names[which(is.na(order))], collapse = "', '"), "'")
+            stop(x.table.name, "Missing values for '", paste(ref.names.with.case[which(is.na(order))], collapse = "', '"), "'")
 
     } else
         order <- 1:ref.len
@@ -115,10 +123,23 @@ MatchTable <- function(x,
             x <- x[,1:NCOL(ref.table),drop = FALSE]
         else
         {
-            order <- match(colnames(ref.table), colnames(x))
+            col.ref.names <- colnames(ref.table)
+            col.x.names <- colnames(x)
+            if (trim.whitespace)
+            {
+                col.ref.names <- TrimWhitespace(col.ref.names)
+                col.x.names <- TrimWhitespace(col.x.names)
+            }
+            col.ref.names.with.case <- col.ref.names
+            if (ignore.case)
+            {
+                col.ref.names <- tolower(col.ref.names)
+                col.x.names <- tolower(col.x.names)
+            }
+            order <- match(col.ref.names, col.x.names)
             if (any(is.na(order)))
                 stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. Missing columns '",
-                     paste(colnames(ref.table)[is.na(order)], collapse = "', '"), "'.")
+                     paste(col.ref.names.with.case[is.na(order)], collapse = "', '"), "'.")
             x <- x[,order,drop=FALSE]
         }   
     }

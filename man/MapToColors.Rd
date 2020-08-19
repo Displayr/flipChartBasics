@@ -4,9 +4,15 @@
 \alias{MapToColors}
 \title{Construct color scale for a numeric value}
 \usage{
-MapToColors(x, min.x = if (length(x) == 1) 1 else min(x),
-  max.x = max(x), mid.x = NULL, min.color = "white",
-  mid.color = "Displayr grey", max.color = "Displayr blue")
+MapToColors(
+  x,
+  min.x = if (length(x) == 1) 1 else min(x),
+  max.x = max(x),
+  mid.x = NULL,
+  min.color = "white",
+  mid.color = "Displayr grey",
+  max.color = "Displayr blue"
+)
 }
 \arguments{
 \item{x}{A numeric vector specifying the colors returne}
