@@ -46,9 +46,16 @@ test_that("Match table",
    res <- MatchTable(v10, ref.table)
    expect_equal(res, 10:5, check.attributes = FALSE)
    
-   expect_error(MatchTable(v10[7:10], ref.table, x.table.name = "Color values"), "Color values: Missing values for 'e', 'f'")
+   expect_error(MatchTable(v10[7:10], ref.table, x.table.name = "Color palette"), 
+       "Color palette: The values for 'e' and 'f' are missing.")
+   expect_error(MatchTable(v10[-5], ref.table), "The value for 'f' is missing")
    expect_error(MatchTable(1:6, ref.table), NA)
    expect_equal(MatchTable(cols, xmat), cols, check.attributes = FALSE)
+   
+   expect_warning(MatchTable(v10[c(1:10,5)], ref.table, x.table.name = "Color palette"),
+       "Color palette: Only the value from the first duplicate of 'f' was used.")
+   expect_warning(MatchTable(v10[c(1:10,5,5,6)], ref.table, x.table.name = "Color palette"),
+       "Color palette: Only the values from the first duplicate of 'f' and 'e' were used.")
    
    expect_error(res <- MatchTable(cols, ref.names = xnames), NA)
    expect_equal(res[1], "#0000FF", check.attributes = FALSE)
@@ -75,7 +82,7 @@ test_that("Match table",
 test_that("Ignore case and trim whitespace",
 {
     expect_error(MatchTable(rev.table, ref.names = LETTERS[1:4], ignore.case = FALSE),
-        "Missing values for 'A', 'B', 'C', 'D'")
+        "The values for 'A', 'B', 'C' and 'D' are missing.")
     expect_equal(MatchTable(rev.table, ref.names = c("A ", " B", "C")),
         structure(c(7L, 6L, 5L, 14L, 13L, 12L, 21L, 20L, 19L, 28L, 27L, 
         26L, 35L, 34L, 33L), .Dim = c(3L, 5L), .Dimnames = list(c("a", 

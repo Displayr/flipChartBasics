@@ -33,7 +33,7 @@ MatchTable <- function(x,
     {
         x <- as.matrix(x)
         if (!is.matrix(x))
-            stop(x.table.name, "Values could not be converted to a matrix.")
+            stop(x.table.name, "Values should be supplied as a table.")
     }
 
 
@@ -84,6 +84,7 @@ MatchTable <- function(x,
             x.names <- TrimWhitespace(x.names)
         }
         ref.names.with.case <- ref.names
+        x.names.with.case <- x.names
         if (ignore.case)
         {
             ref.names <- tolower(ref.names)
@@ -92,14 +93,27 @@ MatchTable <- function(x,
         if (any(duplicated(x.names)))
         {
             if (!silent.remove.duplicates)
-                warning(x.table.name, "Table contains duplicate names: '", 
-                   paste(x.names[duplicated(x.names)], collapse = "', '"), "'")
+            {
+                dup.names <- unique(x.names.with.case[duplicated(x.names)])
+                dup.n <- length(dup.names)
+                if (dup.n == 1)
+                    warning(x.table.name, "Only the value from the first duplicate of '",
+                        dup.names, "' was used. ")
+                else if (dup.n > 1)
+                    warning(x.table.name, "Only the values from the first duplicate of '",
+                        paste(dup.names[-dup.n], collapse = "', '"),
+                        "' and '", dup.names[dup.n], "' were used.")
+            }
             x.names <- make.unique(x.names)
         }
         order = match(ref.names, x.names)
-        if (any(is.na(order)))
-            stop(x.table.name, "Missing values for '", paste(ref.names.with.case[which(is.na(order))], collapse = "', '"), "'")
-
+        ind.na <- which(is.na(order))
+        n.na <- length(ind.na)
+        if (n.na == 1)
+            stop(x.table.name, "The value for '", ref.names.with.case[ind.na], "' is missing.")
+        if (n.na > 1)
+            stop(x.table.name, "The values for '", paste(ref.names.with.case[ind.na[-n.na]], collapse = "', '"), 
+                "' and '", ref.names.with.case[ind.na[n.na]], "' are missing.")
     } else
         order <- 1:ref.len
 
@@ -138,8 +152,11 @@ MatchTable <- function(x,
             }
             order <- match(col.ref.names, col.x.names)
             if (any(is.na(order)))
-                stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. Missing columns '",
-                     paste(col.ref.names.with.case[is.na(order)], collapse = "', '"), "'.")
+                stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. ",
+                     if (sum(is.na(order)) == 1) "Column for '" else "Columns for '",
+                     paste(col.ref.names.with.case[is.na(order)], collapse = "', '"), "' ",
+                     if (sum(is.na(order)) == 1) "is" else "are",
+                    " missing.")
             x <- x[,order,drop=FALSE]
         }   
     }
