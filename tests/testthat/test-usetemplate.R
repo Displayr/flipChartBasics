@@ -103,4 +103,21 @@ test_that("Scatter plot brand names",
     expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "blue", Fanta = "orange", 
                 Sprite = "green"))
 })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+test_that("Named colors for Pie inner and outer ring",
+{
+    col.vec <- c(`Coca-Cola` = "#FF0000", Pepsi = "#0000FF", `Coke Zero` = "#000000", 
+        `Diet Pepsi` = "#008822", Female = "#FFC0CB", Male = "#00BFFF", Unknown = "#E6E6E6")
+    tmp.template <- template
+    tmp.template$colors <- col.vec
+    res.inner <- GetVectorOfColors(tmp.template, tb.spaces, NULL, "Pie",
+        palette = "Default or template settings")
+    expect_equal(res.inner, c(`Coca-Cola` = "#FF0000", `Diet Coke` = "#E6E6E6", 
+        `Coke Zero` = "#000000", Pepsi = "#0000FF", `Diet Pepsi` = "#008822", 
+        `Pepsi Max` = "#E6E6E6", `Dislike all cola` = "#E6E6E6", 
+        `Don't care` = "#E6E6E6", NET = "#E6E6E6"))
+    res.outer <- GetVectorOfColors(tmp.template, tb.spaces, NULL, "Pie",
+        palette = "Default or template settings", type = "Pie subslice")
+    expect_equal(res.outer, c(Male = "#00BFFF", Female = "#FFC0CB", NET = "#E6E6E6"))
+})
+                                                                                                                                                                                                                                                                                                                                                                

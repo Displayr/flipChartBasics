@@ -44,6 +44,8 @@ GetVectorOfColors <- function (template,
         return (NULL)
     if (palette == "Group colors")
         return (NULL)
+    if (type == "Pie subslice" && chart.type != "Pie")
+        return (NULL)
 
     # This step converts "Named colors" into a vector
     # But leaves everything else unchanged
@@ -82,6 +84,7 @@ GetVectorOfColors <- function (template,
             named.palette <- template$colors
         else
             named.palette <- palette.custom.palette
+        print(named.palette)
 
         missing.names <- setdiff(series.names, names(named.palette))
         if (length(missing.names) > 0)
