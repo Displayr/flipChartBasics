@@ -1,5 +1,5 @@
 context("Use template")
-default.template <-     template <- list(global.font = list(family = "Arial", color = "#2C2C2C", 
+default.template <- template <- list(global.font = list(family = "Arial", color = "#2C2C2C", 
         size = 7.5, units = "pt"), fonts = list(`Data labels` = list(
         family = "Arial", color = "#2C2C2C", size = 7.5), Legend = list(
         family = "Arial", color = "#2C2C2C", size = 7.5), Title = list(
@@ -74,5 +74,33 @@ test_that("Scatter plot brand names",
         y = 2, sizes = 3, colors = 4, groups = 4), class = "data.frame")
     expect_equal(GetBrandsFromData(scatter.dat, TRUE, "Scatter"),
        c("Coke", "Pepsi", "Fanta", "Sprite"))
-})
     
+    # Use GetVectorOfColors instead of PrepareColors
+    res <- GetVectorOfColors(template, scatter.dat, NULL, "Scatter", 4,
+            palette = "Reds")
+    expect_equal(res, structure(c("#FCAE91", "#FB6A4A", "#DE2D26", "#A50F15"), 
+                palette.type = "Reds"))
+    
+    # For use with old versions of the template
+    col.vec <- c(Coke = "red", Pepsi = "blue", Fanta = "orange", Sprite = "green")
+    tmp.template <- template
+    tmp.template$brand.colors = rev(col.vec)
+    res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
+                palette = "Default or template settings")
+    expect_equal(res, col.vec)
+    
+    # Current version of template
+    tmp.template <- template
+    tmp.template$colors = rev(col.vec) 
+    res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
+                palette = "Default or template settings")
+    expect_equal(res, col.vec)
+      
+    # Using Custom palette instead of template 
+    expect_warning(res <- GetVectorOfColors(NULL, scatter.dat, NULL, "Scatter", 4, 
+                palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3]),
+                "Custom palette does not have the number of colors required")
+    expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "blue", Fanta = "orange", 
+                Sprite = "green"))
+})
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

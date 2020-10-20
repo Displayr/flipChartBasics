@@ -1,0 +1,104 @@
+#' Identify colors to be used with brands in the data
+#' 
+#' @param template A list specifying color palettes and other visualization options.
+#' @param input.data Input data for the visualization. The is usually a vector or table. 
+#'   It should be normalized from \code{flipChart::PrepareData}.
+#' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
+#' @param chart.type The visualization which will be applied to the data.
+#' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
+#' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
+#' @param palette Specifies the color vector to output. It can be;
+#' (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;
+#' (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or
+#' (3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
+#' The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
+#' are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
+#'             "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")
+#' @param palette.custom.color A single color provided as a hex or character string.
+#'  Only used if \code{palette} is \code{"Custom color"}. The output vector will
+#'  consist of \code{custom.color} repeated to the desired length 
+#'  (no interpolation).
+#' @param palette.custom.gradient.start A color specifying the start of 
+#'  the gradient when \code{palette} is set to \code{"Custom gradient"}.
+#' @param palette.custom.gradient.end A color specifying the end of the 
+#'  gradient when \code{palette} is set to \code{"Custom gradient"}.
+#' @param palette.custom.palette A vector or comma separated list of colors 
+#'  which will be recycled to the desired length.
+#' @param type Describes the type of data which the color vector will be applied to.
+#'  One of "Series" or "Pie subslice".
+#' @export
+GetVectorOfColors <- function (template,
+                               input.data, 
+                               filter,
+                               chart.type, 
+                               scatter.colors.column = FALSE, 
+                               multi.color.series = FALSE,
+                               palette = NULL,
+                               palette.custom.color = NULL, 
+                               palette.custom.gradient.start = NULL,
+                               palette.custom.gradient.end = NULL,
+                               palette.custom.palette = NULL,
+                               type = "Series")
+{
+    if (is.null(palette))
+        return (NULL)
+    if (palette == "Group colors")
+        return (NULL)
+
+    # This step converts "Named colors" into a vector
+    # But leaves everything else unchanged
+    if (is.null(template$brand.colors))
+        template$brand.colors <- template$colors
+    tmp.palette <- GetPalette(palette, template)
+
+    # Get vector of colors
+    index <- if (type == "Pie subslice") 2 else 1
+    num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column)[[index]]
+    unordered.colors <- ChartColors(num.colors, given.colors = tmp.palette, 
+        custom.color = palette.custom.color,
+        custom.gradient.start = palette.custom.gradient.start, 
+        custom.gradient.end = palette.custom.gradient.end,
+        custom.palette = palette.custom.palette,
+        silent = chart.type %in% c("Pie", "Donut"),
+        silent.single.color = multi.color.series || 
+            chart.type %in% c("Bar Pictograph", "Time Series", "Pyramid"))
+
+    series.names <- GetBrandsFromData(input.data, filter, chart.type, 
+        scatter.colors.column, multi.color.series, type)
+    use.named.colors <- (palette %in% c("Default or template settings", "Brand colors")) && 
+        (!is.null(template$brand.colors) || !is.null(names(template$colors)))
+    use.named.vector <- grepl("Custom palette", palette) &&
+         !is.null(names(palette.custom.palette))
+    if (!is.null(series.names) && (use.named.colors || use.named.vector))
+    {
+        # Return a vector of colors where the names are in the 
+        # same order as needed for the data
+        # We can't use MatchTable because it doesn't handle
+        # names which are missing from unordered.colors
+        named.palette <- NULL
+        if (!is.null(template$brand.colors))
+            named.palette <- template$brand.colors
+        else if (!is.null(template$colors))
+            named.palette <- template$colors
+        else
+            named.palette <- palette.custom.palette
+
+        missing.names <- setdiff(series.names, names(named.palette))
+        if (length(missing.names) > 0)
+        {
+            # Take the last color instead of assuming a name for missing values
+            missing.color <- if (use.named.vector) "#CCCCCC"
+                             else                   rev(template$colors)[1] 
+            tmp.entries <- rep(missing.color, length(missing.names))
+            names(tmp.entries) <- missing.names
+            named.palette <- c(named.palette, tmp.entries)
+        }
+        
+        result <- named.palette[series.names]
+        ind <- which(is.na(names(result)))
+        if (length(ind) > 0)
+            names(result)[ind] <- series.names[ind]
+        return(result)
+    }
+    return(unordered.colors)
+}

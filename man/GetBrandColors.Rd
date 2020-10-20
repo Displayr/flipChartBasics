@@ -15,7 +15,7 @@ GetBrandColors(
 )
 }
 \arguments{
-\item{template}{A list specifying color palettes and other yyvisualization options.}
+\item{template}{A list specifying color palettes and other visualization options.}
 
 \item{input.data}{Input data for the visualization. The is usually a vector or table. 
 It should be normalized from \code{flipChart::PrepareData}.}

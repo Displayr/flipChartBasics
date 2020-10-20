@@ -9,7 +9,8 @@ GetBrandsFromData(
   filter,
   chart.type,
   scatter.colors.column = 4,
-  multi.color.series = FALSE
+  multi.color.series = FALSE,
+  type = "Series"
 )
 }
 \arguments{
@@ -22,6 +23,9 @@ GetBrandsFromData(
 \item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
 
 \item{multi.color.series}{For bar and column charts, a logical indicating how colors are used.}
+
+\item{type}{Describes the type of data which the color vector will be applied to.
+One of "Series" or "Pie subslice".}
 }
 \description{
 Extracts the names of the data series from the input data, to be associated with different colors.

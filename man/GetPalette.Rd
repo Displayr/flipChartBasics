@@ -9,7 +9,7 @@ GetPalette(palette, template)
 \arguments{
 \item{palette}{A string naming the palette to be used.}
 
-\item{template}{A list specifying color palettes and other yyvisualization options.}
+\item{template}{A list specifying color palettes and other visualization options.}
 }
 \description{
 Determine colors to be used in a visualization
