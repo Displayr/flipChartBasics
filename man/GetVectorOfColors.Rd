@@ -16,6 +16,8 @@ GetVectorOfColors(
   palette.custom.gradient.start = NULL,
   palette.custom.gradient.end = NULL,
   palette.custom.palette = NULL,
+  color.values = NULL,
+  small.multiples = FALSE,
   type = "Series"
 )
 }
@@ -54,6 +56,16 @@ gradient when \code{palette} is set to \code{"Custom gradient"}.}
 
 \item{palette.custom.palette}{A vector or comma separated list of colors 
 which will be recycled to the desired length.}
+
+\item{color.values}{An optional numeric vector or matrix which can
+be used with gradual palettes (either a custom gradient or one of
+the sequential color palettes). The names of the vector or matrix
+should be the same as the names of \code{input.data}, and
+the colorramp is constructed across the range of the values.}
+
+\item{small.multiples}{Logical indicating whether the \code{color.values}
+are being applied to for small multiples (a matrix of colors is 
+created instead of a vector}
 
 \item{type}{Describes the type of data which the color vector will be applied to.
 One of "Series" or "Pie subslice".}

@@ -24,8 +24,17 @@
 #'  gradient when \code{palette} is set to \code{"Custom gradient"}.
 #' @param palette.custom.palette A vector or comma separated list of colors 
 #'  which will be recycled to the desired length.
+#' @param color.values An optional numeric vector or matrix which can
+#'  be used with gradual palettes (either a custom gradient or one of
+#'  the sequential color palettes). The names of the vector or matrix
+#'  should be the same as the names of \code{input.data}, and
+#'  the colorramp is constructed across the range of the values.
+#' @param small.multiples Logical indicating whether the \code{color.values}
+#'  are being applied to for small multiples (a matrix of colors is 
+#'  created instead of a vector
 #' @param type Describes the type of data which the color vector will be applied to.
 #'  One of "Series" or "Pie subslice".
+#' @importFrom grDevices colorRamp
 #' @export
 GetVectorOfColors <- function (template,
                                input.data, 
@@ -38,6 +47,8 @@ GetVectorOfColors <- function (template,
                                palette.custom.gradient.start = NULL,
                                palette.custom.gradient.end = NULL,
                                palette.custom.palette = NULL,
+                               color.values = NULL,
+                               small.multiples = FALSE,
                                type = "Series")
 {
     if (is.null(palette))
@@ -84,7 +95,6 @@ GetVectorOfColors <- function (template,
             named.palette <- template$colors
         else
             named.palette <- palette.custom.palette
-        print(named.palette)
 
         missing.names <- setdiff(series.names, names(named.palette))
         if (length(missing.names) > 0)
@@ -102,6 +112,24 @@ GetVectorOfColors <- function (template,
         if (length(ind) > 0)
             names(result)[ind] <- series.names[ind]
         return(result)
+    }
+    if (!is.null(color.values))
+    {
+        is.2d <- NCOL(color.values) > 1 && isTRUE(small.multiples)
+        vals <- if (is.2d) MatchTable(color.values, ref.table = input.data, x.table.name = "Color values")
+                else       MatchTable(color.values, ref.names = series.names, x.table.name = "Color values")
+        if (!is.numeric(vals))
+            stop("Color values must be numeric")
+        if (any(is.na(vals)))
+            stop("Color values cannot contain missing values")
+        vals <- (vals - min(as.numeric(vals), na.rm = TRUE))
+        vals <- vals/max(as.numeric(vals), na.rm = TRUE)
+
+        color.fun <- colorRamp(unordered.colors)
+        color.scale <- rgb(color.fun(as.numeric(vals)), maxColorValue = 255)
+        if (NCOL(vals) > 1)
+            color.scale <- matrix(color.scale, ncol = NCOL(vals))
+        return(color.scale)
     }
     return(unordered.colors)
 }

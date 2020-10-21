@@ -120,4 +120,16 @@ test_that("Named colors for Pie inner and outer ring",
         palette = "Default or template settings", type = "Pie subslice")
     expect_equal(res.outer, c(Male = "#00BFFF", Female = "#FFC0CB", NET = "#E6E6E6"))
 })
+
+test_that("Color values",
+{
+    res <- GetVectorOfColors(template, tb.spaces, NULL, "Column", 
+        palette = "Reds, light to dark", multi.color.series = TRUE, 
+        color.values = tb.spaces, small.multiples = TRUE)
+    expect_equal(res, structure(c("#FB8E6E", "#FB8B6B", "#940A12", "#FCB49A", 
+        "#F76348", "#940A12", "#FCAA8E", "#F96E50", "#940A12", "#F76146", 
+        "#FCB79D", "#940A12", "#FCBFA7", "#F6583F", "#940A12", "#F96B4E", 
+        "#FCAD91", "#940A12", "#FB8C6D", "#FB8C6D", "#940A12", "#EF4533", 
+        "#FDCFBB", "#940A12", "#FB8E6F", "#FB8A6B", "#940A12"), .Dim = c(3L, 9L)))
+})
                                                                                                                                                                                                                                                                                                                                                                 
