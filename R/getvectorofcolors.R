@@ -6,7 +6,8 @@
 #' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
 #' @param chart.type The visualization which will be applied to the data.
 #' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
-#' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
+#' @param multi.color.series For bar and column charts, a logical indicating 
+#'  how colors are used.
 #' @param palette Specifies the color vector to output. It can be;
 #' (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;
 #' (2) A vector of colors which will be recycled to length \code{number.colors.needed}; or
@@ -60,13 +61,13 @@ GetVectorOfColors <- function (template,
 
     # This step converts "Named colors" into a vector
     # But leaves everything else unchanged
-    if (is.null(template$brand.colors))
+    if (is.null(template$brand.colors) && !is.null(names(template$colors)))
         template$brand.colors <- template$colors
     tmp.palette <- GetPalette(palette, template)
 
     # Get vector of colors
     index <- if (type == "Pie subslice") 2 else 1
-    num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column)[[index]]
+    num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column, multi.color.series)[[index]]
     unordered.colors <- ChartColors(num.colors, given.colors = tmp.palette, 
         custom.color = palette.custom.color,
         custom.gradient.start = palette.custom.gradient.start, 

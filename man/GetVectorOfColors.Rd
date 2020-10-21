@@ -33,7 +33,8 @@ It should be normalized from \code{flipChart::PrepareData}.}
 
 \item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
 
-\item{multi.color.series}{For bar and column charts, a logical indicating how colors are used.}
+\item{multi.color.series}{For bar and column charts, a logical indicating 
+how colors are used.}
 
 \item{palette}{Specifies the color vector to output. It can be;
 (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;

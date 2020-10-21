@@ -5,9 +5,12 @@
 #' @param data Input data, a named vector or matrix.
 #' @param chart.type Type of chart to plot
 #' @param scatter.colors.column For scatterplot data, the column of data which is used to determine the colors of each point.
+#' @param multi.color.series For bar and column charts, a logical indicating 
+#'  how colors are used.
 #' @export
 
-GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
+GetNumColors <- function(data, chart.type, scatter.colors.column = 4,
+                         multi.color.series = FALSE)
 {
     # data is already assumed to be cleaned up by PrepareData
 
@@ -26,7 +29,8 @@ GetNumColors <- function(data, chart.type, scatter.colors.column = 4)
         else
             return(list(num.series = length(unique(data[,scatter.colors.column]))))
     }
-    if (chart.type == "Bar Pictograph" || chart.type == "Pyramid")
+    if (isTRUE(multi.color.series) || chart.type == "Bar Pictograph" || 
+        chart.type == "Pyramid")
     {
         # Very similar but slightly different for Pie, in the case of a matrix with one column
         if (is.null(dim(data)))

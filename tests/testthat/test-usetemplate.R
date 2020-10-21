@@ -126,10 +126,26 @@ test_that("Color values",
     res <- GetVectorOfColors(template, tb.spaces, NULL, "Column", 
         palette = "Reds, light to dark", multi.color.series = TRUE, 
         color.values = tb.spaces, small.multiples = TRUE)
-    expect_equal(res, structure(c("#FB8E6E", "#FB8B6B", "#940A12", "#FCB49A", 
-        "#F76348", "#940A12", "#FCAA8E", "#F96E50", "#940A12", "#F76146", 
-        "#FCB79D", "#940A12", "#FCBFA7", "#F6583F", "#940A12", "#F96B4E", 
-        "#FCAD91", "#940A12", "#FB8C6D", "#FB8C6D", "#940A12", "#EF4533", 
-        "#FDCFBB", "#940A12", "#FB8E6F", "#FB8A6B", "#940A12"), .Dim = c(3L, 9L)))
+    expect_equal(res, structure(c("#FB8769", "#FB8667", "#CB181D", "#FB9E80", 
+        "#FB7050", "#CB181D", "#FB987A", "#FB7656", "#CB181D", "#FB6E4F", 
+        "#FB9F81", "#CB181D", "#FBA486", "#FB6A4A", "#CB181D", "#FB7454", 
+        "#FB997C", "#CB181D", "#FB8768", "#FB8768", "#CB181D", "#F45E43", 
+        "#FCAE91", "#CB181D", "#FB8869", "#FB8567", "#CB181D"), .Dim = c(3L, 9L)))
+})
+
+test_that("Pre-defined palettes",
+{
+    tmp.template <- template
+    tmp.template$brand.colors <- NULL
+    tmp.template$colors <- "Strong colors"
+    res <- GetVectorOfColors(tmp.template, tb.tidy, NULL, "Column",
+            palette = "Default or template settings")
+    expect_equal(res, structure("#E41A1C", palette.type = "Strong colors"))
+    
+    res <- GetVectorOfColors(tmp.template, tb.spaces, NULL, "Column", 
+            palette = "Default or template settings")
+    expect_equal(res, structure(c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", 
+            "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"), 
+            palette.type = "Strong colors"))
 })
                                                                                                                                                                                                                                                                                                                                                                 
