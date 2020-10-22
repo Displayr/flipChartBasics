@@ -58,6 +58,8 @@ GetVectorOfColors <- function (template,
         return (NULL)
     if (type == "Pie subslice" && chart.type != "Pie")
         return (NULL)
+    if (type == "Pie subslice" && NCOL(input.data) == 1)
+        return (NULL)
 
     # This step converts "Named colors" into a vector
     # But leaves everything else unchanged
@@ -80,7 +82,7 @@ GetVectorOfColors <- function (template,
     series.names <- GetBrandsFromData(input.data, filter, chart.type, 
         scatter.colors.column, multi.color.series, type)
     use.named.colors <- (palette %in% c("Default or template settings", "Brand colors")) && 
-        (!is.null(template$brand.colors) || !is.null(names(template$colors)))
+        (!is.null(template$brand.colors))
     use.named.vector <- grepl("Custom palette", palette) &&
          !is.null(names(palette.custom.palette))
     if (!is.null(series.names) && (use.named.colors || use.named.vector))
@@ -92,15 +94,14 @@ GetVectorOfColors <- function (template,
         named.palette <- NULL
         if (!is.null(template$brand.colors))
             named.palette <- template$brand.colors
-        else if (!is.null(template$colors))
-            named.palette <- template$colors
         else
             named.palette <- palette.custom.palette
 
         missing.names <- setdiff(series.names, names(named.palette))
         if (length(missing.names) > 0)
         {
-            # Take the last color instead of assuming a name for missing values
+            # Take the last color of template$brand.colors
+            # instead of assuming a name for missing values
             missing.color <- if (use.named.vector) "#CCCCCC"
                              else                   rev(template$colors)[1] 
             tmp.entries <- rep(missing.color, length(missing.names))

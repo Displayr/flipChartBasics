@@ -188,12 +188,13 @@ ChartColors <- function(number.colors.needed,
     }
     if (grepl("^Custom palette", given.colors[1]) || given.colors[1] %in% c("R output", "Manual", "Numeric"))
     {
+        is.named <- !is.null(names(custom.palette))
         custom.palette <- TextAsVector(custom.palette)
         ind <- which(!is.na(custom.palette) & nchar(custom.palette) > 0)
         custom.palette <- custom.palette[ind]
         if (length(custom.palette) < number.colors.needed && number.colors.needed > 1)
         {
-            if (!silent)
+            if (!silent && !is.named)
                 warning("Custom palette does not have the number of colors required (",
                     number.colors.needed, "). Colors will be recycled to make up the required number.")
             custom.palette <- paste0(rep("", number.colors.needed), custom.palette)
