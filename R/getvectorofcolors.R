@@ -113,7 +113,7 @@ GetVectorOfColors <- function (template,
         ind <- which(is.na(names(result)))
         if (length(ind) > 0)
             names(result)[ind] <- series.names[ind]
-        return(result)
+        return(checkColors(result))
     }
     if (!is.null(color.values))
     {

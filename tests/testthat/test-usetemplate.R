@@ -87,20 +87,20 @@ test_that("Scatter plot brand names",
     tmp.template$brand.colors = rev(col.vec)
     res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
                 palette = "Default or template settings")
-    expect_equal(res, col.vec)
+    expect_equal(res, checkColors(col.vec))
     
     # Current version of template
     tmp.template <- template
     tmp.template$colors = rev(col.vec) 
     res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
                 palette = "Default or template settings")
-    expect_equal(res, col.vec)
+    expect_equal(res, checkColors(col.vec))
       
     # Using Custom palette instead of template 
     res <- GetVectorOfColors(NULL, scatter.dat, NULL, "Scatter", 4, 
         palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3])
-    expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "blue", Fanta = "orange", 
-                Sprite = "green"))
+    expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "#0000FF", Fanta = "#FFA500", 
+                Sprite = "#00FF00"))
 })
 
 test_that("Named colors for Pie inner and outer ring",
@@ -126,7 +126,7 @@ test_that("Named colors for Pie inner and outer ring",
 
 test_that("Named custom palette",
 {    
-    col.vec <- c(`Coca-Cola` = "#FF0000", Pepsi = "#0000FF", `Coke Zero` = "#000000", 
+    col.vec <- c(`Coca-Cola` = "#FF0000", Pepsi = "#0000FF", `Coke Zero` = "black", 
         `Diet Pepsi` = "#008822", Female = "#FFC0CB", Male = "#00BFFF", Unknown = "#E6E6E6")
     res <- GetVectorOfColors(template, t(tb.spaces), NULL, "Column", multi.color.series = TRUE,
         palette = "Custom palette (R output)", palette.custom.palette = col.vec)
