@@ -1,5 +1,5 @@
 context("Use template")
-default.template <-     template <- list(global.font = list(family = "Arial", color = "#2C2C2C", 
+default.template <- template <- list(global.font = list(family = "Arial", color = "#2C2C2C", 
         size = 7.5, units = "pt"), fonts = list(`Data labels` = list(
         family = "Arial", color = "#2C2C2C", size = 7.5), Legend = list(
         family = "Arial", color = "#2C2C2C", size = 7.5), Title = list(
@@ -74,5 +74,93 @@ test_that("Scatter plot brand names",
         y = 2, sizes = 3, colors = 4, groups = 4), class = "data.frame")
     expect_equal(GetBrandsFromData(scatter.dat, TRUE, "Scatter"),
        c("Coke", "Pepsi", "Fanta", "Sprite"))
-})
     
+    # Use GetVectorOfColors instead of PrepareColors
+    res <- GetVectorOfColors(template, scatter.dat, NULL, "Scatter", 4,
+            palette = "Reds")
+    expect_equal(res, structure(c("#FCAE91", "#FB6A4A", "#DE2D26", "#A50F15"), 
+                palette.type = "Reds"))
+    
+    # For use with old versions of the template
+    col.vec <- c(Coke = "red", Pepsi = "blue", Fanta = "orange", Sprite = "green")
+    tmp.template <- template
+    tmp.template$brand.colors = rev(col.vec)
+    res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
+                palette = "Default or template settings")
+    expect_equal(res, checkColors(col.vec))
+    
+    # Current version of template
+    tmp.template <- template
+    tmp.template$colors = rev(col.vec) 
+    res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
+                palette = "Default or template settings")
+    expect_equal(res, checkColors(col.vec))
+      
+    # Using Custom palette instead of template 
+    res <- GetVectorOfColors(NULL, scatter.dat, NULL, "Scatter", 4, 
+        palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3])
+    expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "#0000FF", Fanta = "#FFA500", 
+                Sprite = "#00FF00"))
+})
+
+test_that("Named colors for Pie inner and outer ring",
+{
+    col.vec <- c(`Coca-Cola` = "#FF0000", Pepsi = "#0000FF", `Coke Zero` = "#000000", 
+        `Diet Pepsi` = "#008822", Female = "#FFC0CB", Male = "#00BFFF", Unknown = "#E6E6E6")
+    tmp.template <- template
+    tmp.template$colors <- col.vec
+    res.inner <- GetVectorOfColors(tmp.template, tb.spaces, NULL, "Pie",
+        palette = "Default or template settings")
+    expect_equal(res.inner, c(`Coca-Cola` = "#FF0000", `Diet Coke` = "#E6E6E6", 
+        `Coke Zero` = "#000000", Pepsi = "#0000FF", `Diet Pepsi` = "#008822", 
+        `Pepsi Max` = "#E6E6E6", `Dislike all cola` = "#E6E6E6", 
+        `Don't care` = "#E6E6E6", NET = "#E6E6E6"))
+    res.outer <- GetVectorOfColors(tmp.template, tb.spaces, NULL, "Pie",
+        palette = "Default or template settings", type = "Pie subslice")
+    expect_equal(res.outer, c(Male = "#00BFFF", Female = "#FFC0CB", NET = "#E6E6E6"))
+    
+    res <- GetVectorOfColors(tmp.template, tb.untidy, NULL, "Pie", 
+        palette = "Strong colors", type = "Pie subslice")
+    expect_equal(res, NULL)
+})
+
+test_that("Named custom palette",
+{    
+    col.vec <- c(`Coca-Cola` = "#FF0000", Pepsi = "#0000FF", `Coke Zero` = "black", 
+        `Diet Pepsi` = "#008822", Female = "#FFC0CB", Male = "#00BFFF", Unknown = "#E6E6E6")
+    res <- GetVectorOfColors(template, t(tb.spaces), NULL, "Column", multi.color.series = TRUE,
+        palette = "Custom palette (R output)", palette.custom.palette = col.vec)
+    expect_equal(res,  c(`Coca-Cola` = "#FF0000", `Diet Coke` = "#CCCCCC", 
+        `Coke Zero` = "#000000", Pepsi = "#0000FF", `Diet Pepsi` = "#008822", 
+        `Pepsi Max` = "#CCCCCC", `Dislike all cola` = "#CCCCCC", 
+        `Don't care` = "#CCCCCC", NET = "#CCCCCC"))
+})
+
+test_that("Color values",
+{
+    res <- GetVectorOfColors(template, tb.spaces, NULL, "Column", 
+        palette = "Reds, light to dark", multi.color.series = TRUE, 
+        color.values = tb.spaces, small.multiples = TRUE)
+    expect_equal(res, structure(c("#FB8769", "#FB8667", "#CB181D", "#FB9E80", 
+        "#FB7050", "#CB181D", "#FB987A", "#FB7656", "#CB181D", "#FB6E4F", 
+        "#FB9F81", "#CB181D", "#FBA486", "#FB6A4A", "#CB181D", "#FB7454", 
+        "#FB997C", "#CB181D", "#FB8768", "#FB8768", "#CB181D", "#F45E43", 
+        "#FCAE91", "#CB181D", "#FB8869", "#FB8567", "#CB181D"), .Dim = c(3L, 9L)))
+})
+
+test_that("Pre-defined palettes",
+{
+    tmp.template <- template
+    tmp.template$brand.colors <- NULL
+    tmp.template$colors <- "Strong colors"
+    res <- GetVectorOfColors(tmp.template, tb.tidy, NULL, "Column",
+            palette = "Default or template settings")
+    expect_equal(res, structure("#E41A1C", palette.type = "Strong colors"))
+    
+    res <- GetVectorOfColors(tmp.template, tb.spaces, NULL, "Column", 
+            palette = "Default or template settings")
+    expect_equal(res, structure(c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", 
+            "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"), 
+            palette.type = "Strong colors"))
+})
+                                                                                                                                                                                                                                                                                                                                                                

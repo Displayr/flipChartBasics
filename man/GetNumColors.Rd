@@ -4,7 +4,12 @@
 \alias{GetNumColors}
 \title{Determines the number of colors required in a chart}
 \usage{
-GetNumColors(data, chart.type, scatter.colors.column = 4)
+GetNumColors(
+  data,
+  chart.type,
+  scatter.colors.column = 4,
+  multi.color.series = FALSE
+)
 }
 \arguments{
 \item{data}{Input data, a named vector or matrix.}
@@ -12,6 +17,9 @@ GetNumColors(data, chart.type, scatter.colors.column = 4)
 \item{chart.type}{Type of chart to plot}
 
 \item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
+
+\item{multi.color.series}{For bar and column charts, a logical indicating 
+how colors are used.}
 }
 \description{
 Returns the number of colors needed in a chart.

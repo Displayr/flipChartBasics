@@ -1,7 +1,7 @@
 #' Determine colors to be used in a visualization
 #' 
 #' @param palette A string naming the palette to be used.
-#' @param template A list specifying color palettes and other yyvisualization options.
+#' @param template A list specifying color palettes and other visualization options.
 #' @export
 GetPalette <- function(palette, template)
 {
@@ -37,7 +37,7 @@ GetPalette <- function(palette, template)
 
 #' Identify colors to be used with brands in the data
 #' 
-#' @param template A list specifying color palettes and other yyvisualization options.
+#' @param template A list specifying color palettes and other visualization options.
 #' @param input.data Input data for the visualization. The is usually a vector or table. 
 #'   It should be normalized from \code{flipChart::PrepareData}.
 #' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
@@ -90,14 +90,19 @@ GetBrandColors <- function(template, input.data = NULL, filter = NULL, chart.typ
 #' @param chart.type The visualization which will be applied to the data.
 #' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
 #' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
+#' @param type Describes the type of data which the color vector will be applied to.
+#'  One of "Series" or "Pie subslice".
 #' @importFrom flipU TrimWhitespace
 #' @export
 
 GetBrandsFromData <- function(data, filter, chart.type, 
-                        scatter.colors.column = 4, multi.color.series = FALSE)
+                        scatter.colors.column = 4, multi.color.series = FALSE,
+                        type = "Series")
 {
     if (chart.type %in% c("Heat", "Geographic Map"))
         return(NULL)
+    if (chart.type == "Venn")
+        return(names(data))
     if (grepl("Scatter", chart.type))
     {
         if (is.list(data) && !is.data.frame(data))
@@ -124,6 +129,8 @@ GetBrandsFromData <- function(data, filter, chart.type,
     }
     if (chart.type == "Pie")
     {
+        if (type == "Pie subslice")
+            return(TrimWhitespace(rownames(data)))
         if (length(dim(data)) > 1)
             return(TrimWhitespace(colnames(data)))
         return(TrimWhitespace(names(data)))
