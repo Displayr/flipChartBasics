@@ -122,6 +122,11 @@ test_that("Named colors for Pie inner and outer ring",
     res <- GetVectorOfColors(tmp.template, tb.untidy, NULL, "Pie", 
         palette = "Strong colors", type = "Pie subslice")
     expect_equal(res, NULL)
+    
+    tb.15 <- structure(c(0.2, 0.3, 0.5), .Dim = c(3L, 1L), .Dimnames = list(
+    c("Cat", "Dog", "Pigeon"), "Score"), statistic = "%", assigned.rownames = TRUE)
+    res <- GetVectorOfColors(template, tb.15, NULL, "Pie", palette = "Reds", type = "Pie subslice")
+    expect_equal(res, structure(c("#FCAE91", "#FB6A4A", "#CB181D"), palette.type = "Reds"))
 })
 
 test_that("Named custom palette",
@@ -162,5 +167,19 @@ test_that("Pre-defined palettes",
     expect_equal(res, structure(c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", 
             "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"), 
             palette.type = "Strong colors"))
+})
+
+venn.data <- structure(c(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 
+0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1), .Dim = c(8L, 4L
+), .Dimnames = list(NULL, c("Coca-Cola", "Pepsi", "Coke Zero", 
+"Diet Pepsi")))
+
+test_that("Venn data",
+{
+    expect_equal(GetBrandsFromData(venn.data, chart.type = "Venn"),
+       c("Coca-Cola", "Pepsi", "Coke Zero", "Diet Pepsi"))
+    expect_equal(GetVectorOfColors(template, venn.data, NULL, "Venn",
+        palette = "Strong colors"), structure(c("#E41A1C", "#377EB8", 
+        "#4DAF4A", "#984EA3"), palette.type = "Strong colors"))
 })
                                                                                                                                                                                                                                                                                                                                                                 

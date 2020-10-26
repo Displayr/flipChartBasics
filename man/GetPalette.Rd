@@ -11,6 +11,11 @@ GetPalette(palette, template)
 
 \item{template}{A list specifying color palettes and other visualization options.}
 }
+\value{
+A palette which can be used as \code{given.colors} in \link{ChartColors}.
+  So it can be either the name of a predefined palette (e.g. "Strong colors")
+  or a vector of colors (e.g. from the template output)
+}
 \description{
 Determine colors to be used in a visualization
 }

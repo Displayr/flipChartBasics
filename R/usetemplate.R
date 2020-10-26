@@ -2,6 +2,9 @@
 #' 
 #' @param palette A string naming the palette to be used.
 #' @param template A list specifying color palettes and other visualization options.
+#' @return A palette which can be used as \code{given.colors} in \link{ChartColors}.
+#'   So it can be either the name of a predefined palette (e.g. "Strong colors")
+#'   or a vector of colors (e.g. from the template output)
 #' @export
 GetPalette <- function(palette, template)
 {
@@ -101,8 +104,6 @@ GetBrandsFromData <- function(data, filter, chart.type,
 {
     if (chart.type %in% c("Heat", "Geographic Map"))
         return(NULL)
-    if (chart.type == "Venn")
-        return(names(data))
     if (grepl("Scatter", chart.type))
     {
         if (is.list(data) && !is.data.frame(data))

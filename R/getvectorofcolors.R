@@ -58,7 +58,7 @@ GetVectorOfColors <- function (template,
         return (NULL)
     if (type == "Pie subslice" && chart.type != "Pie")
         return (NULL)
-    if (type == "Pie subslice" && NCOL(input.data) == 1)
+    if (type == "Pie subslice" && length(dim(input.data)) < 2)
         return (NULL)
 
     # This step converts "Named colors" into a vector
