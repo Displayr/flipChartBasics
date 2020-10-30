@@ -62,5 +62,6 @@ test_that("GetNumColors gives correct output", {
         size = 0), list(sets = list(2, 3), size = 50))
     expect_equal(GetNumColors(venn.input, "Venn")$num.series, 4)
     expect_equal(GetNumColors(z3, "Venn")$num.series, 4)
-    
+    expect_equal(GetBrandsFromData(venn.input, chart.type = "Venn"), 
+        c("Like", "Love", "Dislike", "Hate"))
 })

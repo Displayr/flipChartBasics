@@ -103,7 +103,14 @@ GetBrandsFromData <- function(data, filter, chart.type,
                         type = "Series")
 {
     if (chart.type %in% c("Heat", "Geographic Map"))
-        return(NULL)
+        return(NULL)    
+    if (chart.type == "Venn" && is.list(data) && all(!sapply(data, is.atomic)))
+    {
+        names <- unlist(sapply(data, function(x){if (length(x$sets) == 1) x$label}))
+        ord <- unlist(sapply(data, function(x){if (length(x$sets) == 1) x$sets}))
+        if (length(names) > 0 && length(ord) > 0)
+            return(names[(ord - min(ord) + 1)])
+    }
     if (grepl("Scatter", chart.type))
     {
         if (is.list(data) && !is.data.frame(data))
