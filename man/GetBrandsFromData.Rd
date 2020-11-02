@@ -18,17 +18,31 @@ GetBrandsFromData(
 
 \item{filter}{Optional filter which can be used with the input data. The label of the filter is used when appropriate.}
 
-\item{chart.type}{The visualization which will be applied to the data.}
+\item{chart.type}{Type of chart to plot}
 
-\item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
+\item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
 
-\item{multi.color.series}{For bar and column charts, a logical indicating how colors are used.}
+\item{multi.color.series}{For bar and column charts, a logical indicating 
+how colors are used. By default, this value is set to FALSE, in which case
+the number of colors returned is equal to the number of data series (or columns)
+in \code{data}. When \code{multi.color.series == TRUE}, multiple colors are
+assigned to the categories within a single data series, so the number of 
+colors returned is equal to \code{NROW(data)}.}
 
 \item{type}{Describes the type of data which the color vector will be applied to.
-One of "Series" or "Pie subslice".}
+One of "Series" or "Pie subslice". By default, \code{type} is set to "Series",
+in which case the return value assigns a different color for each data series.
+When \code{chart.type == "Pie"}, \code{type} can be set to "Pie subslice" and 
+the return value assigns a color for each subslice of the Pie.}
+}
+\value{
+An integer specifying the number of colors used by the chart.
 }
 \description{
-Extracts the names of the data series from the input data, to be associated with different colors.
+Extracts the names (not necessarily brands) of the data series from the input data, to be associated with different colors.
 This usually corresponds to columns in the input table. But for charts such as 'Pyramid' or 'Pie', each 
 entry in the vector (or each row in the table) corresponds to a new data series.
+This function should not called directly, but instead be called via
+  \code{\link{GetVectorOfColors}} instead. It remains an exported function 
+  because it is used in older versions of the Standard R pages
 }

@@ -6,7 +6,12 @@
 #' @param chart.type Type of chart to plot
 #' @param scatter.colors.column For scatterplot data, the column of data which is used to determine the colors of each point.
 #' @param multi.color.series For bar and column charts, a logical indicating 
-#'  how colors are used.
+#'  how colors are used. By default, this value is set to FALSE, in which case
+#'  the number of colors returned is equal to the number of data series (or columns)
+#'  in \code{data}. When \code{multi.color.series == TRUE}, multiple colors are
+#'  assigned to the categories within a single data series, so the number of 
+#'  colors returned is equal to \code{NROW(data)}.
+#' @return An integer specifying the number of colors used by the chart.
 #' @export
 
 GetNumColors <- function(data, chart.type, scatter.colors.column = 4,

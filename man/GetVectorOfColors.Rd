@@ -2,7 +2,7 @@
 % Please edit documentation in R/getvectorofcolors.R
 \name{GetVectorOfColors}
 \alias{GetVectorOfColors}
-\title{Identify colors to be used with brands in the data}
+\title{Identify colors for creating a chart with specified input data.}
 \usage{
 GetVectorOfColors(
   template,
@@ -29,17 +29,28 @@ It should be normalized from \code{flipChart::PrepareData}.}
 
 \item{filter}{Optional filter which can be used with the input data. The label of the filter is used when appropriate.}
 
-\item{chart.type}{The visualization which will be applied to the data.}
+\item{chart.type}{Type of chart to plot}
 
-\item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
+\item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
 
 \item{multi.color.series}{For bar and column charts, a logical indicating 
-how colors are used.}
+how colors are used. By default, this value is set to FALSE, in which case
+the number of colors returned is equal to the number of data series (or columns)
+in \code{data}. When \code{multi.color.series == TRUE}, multiple colors are
+assigned to the categories within a single data series, so the number of 
+colors returned is equal to \code{NROW(data)}.}
 
 \item{palette}{Specifies the color vector to output. It can be;
 (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;
-(2) A vector of colors which will be recycled to length \code{number.colors.needed}; or
-(3) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
+(2) "Group colors" - this option returns a value of NULL so that the charts will use
+  defaults specified instead the charting function. 
+  It is usually only applicable for the line of best fit (i.e. apply
+  the colors for each data series to their respective live of best fit), or
+  Pie subslice (create a gradient for the subslices based centered on the color of
+  the main (inner) slice. No checks are applied because this option is only
+  made available in the GUI controls when this option is relevant. 
+(3) A vector of colors which will be recycled to length \code{number.colors.needed}; or
+(4) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
 The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
 are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
             "#255F91", "#9E480D", "#636365", "#987300", "#26408B", "#42682B")}
@@ -66,11 +77,20 @@ the colorramp is constructed across the range of the values.}
 
 \item{small.multiples}{Logical indicating whether the \code{color.values}
 are being applied to for small multiples (a matrix of colors is 
-created instead of a vector}
+created instead of a vector)}
 
 \item{type}{Describes the type of data which the color vector will be applied to.
-One of "Series" or "Pie subslice".}
+One of "Series" or "Pie subslice". By default, \code{type} is set to "Series",
+in which case the return value assigns a different color for each data series.
+When \code{chart.type == "Pie"}, \code{type} can be set to "Pie subslice" and 
+the return value assigns a color for each subslice of the Pie.}
+}
+\value{
+A vector or matrix of colors (as hex codes) with the appropriate number of colors
+ taking into account the input.data, chart.type, the template and other parameters.
 }
 \description{
-Identify colors to be used with brands in the data
+This function takes into account a range of parameters
+ including the chart type and other charting parameters, visualization template, 
+ and other colors specified through the \code{palette}.
 }

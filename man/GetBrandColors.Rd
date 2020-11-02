@@ -22,14 +22,24 @@ It should be normalized from \code{flipChart::PrepareData}.}
 
 \item{filter}{Optional filter which can be used with the input data. The label of the filter is used when appropriate.}
 
-\item{chart.type}{The visualization which will be applied to the data.}
+\item{chart.type}{Type of chart to plot}
 
-\item{scatter.colors.column}{For scatter plots, an integer specifying the data column used to specify the colors.}
+\item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
 
-\item{multi.color.series}{For bar and column charts, a logical indicating how colors are used.}
+\item{multi.color.series}{For bar and column charts, a logical indicating 
+how colors are used. By default, this value is set to FALSE, in which case
+the number of colors returned is equal to the number of data series (or columns)
+in \code{data}. When \code{multi.color.series == TRUE}, multiple colors are
+assigned to the categories within a single data series, so the number of 
+colors returned is equal to \code{NROW(data)}.}
 
 \item{brand.names}{If a vector of names is provided then only \code{template} is used.}
 }
+\value{
+An integer specifying the number of colors used by the chart.
+}
 \description{
-Identify colors to be used with brands in the data
+This function should not called directly, but instead be called via
+ \code{\link{GetVectorOfColors}} instead. It remains an exported function 
+  because it is used in older versions of the Standard R pages
 }

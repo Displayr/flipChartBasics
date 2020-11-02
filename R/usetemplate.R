@@ -1,5 +1,8 @@
-#' Determine colors to be used in a visualization
+#' Determine colors to be used in a visualizatiom
 #' 
+#' @description This function should not called directly, but instead be called via
+#'   \code{\link{GetVectorOfColors}} instead. It remains an exported function 
+#'   because it is used in older versions of the Standard R pages
 #' @param palette A string naming the palette to be used.
 #' @param template A list specifying color palettes and other visualization options.
 #' @return A palette which can be used as \code{given.colors} in \link{ChartColors}.
@@ -38,63 +41,25 @@ GetPalette <- function(palette, template)
     return (result)
 }
 
-#' Identify colors to be used with brands in the data
-#' 
-#' @param template A list specifying color palettes and other visualization options.
-#' @param input.data Input data for the visualization. The is usually a vector or table. 
-#'   It should be normalized from \code{flipChart::PrepareData}.
-#' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
-#' @param chart.type The visualization which will be applied to the data.
-#' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
-#' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
-#' @param brand.names If a vector of names is provided then only \code{template} is used. 
-#' @export
-GetBrandColors <- function(template, input.data = NULL, filter = NULL, chart.type = "", 
-                           scatter.colors.column = 4, multi.color.series = FALSE, brand.names = NULL)
-{
-    if (is.null(template))
-        return("Default colors")
-   
-    if (is.null(brand.names))
-        brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column, multi.color.series)
-  
-    # In new version of the 'Create Template' Standard R Page, the brand colors is always
-    # created from template$colors. But in older versions they are separate elements of the
-    # template. So template$colors should not be altered in this function
-    if (is.null(template$brand.colors))
-        template$brand.colors <- template$colors
-    
-    # Warnings are not given until GetPalette is called - this is when the brand colors is actually used
-    if (length(template$brand.colors) == 0)
-    {
-        colors <- rep(NA, length(brand.names))
-        names(colors) <- brand.names
-        return(colors)
-    }
-    if (length(brand.names) > 0)
-    {
-        colors <- template$brand.colors[brand.names]
-        ind <- which(is.na(names(colors)))
-        if (length(ind) > 0)
-            names(colors)[ind] <- brand.names[ind]
-        return(colors)
-    }
-    return(NULL)
-}
+
 
 #' Identify brand names from the input data
 #' 
-#' Extracts the names of the data series from the input data, to be associated with different colors.
+#' Extracts the names (not necessarily brands) of the data series from the input data, to be associated with different colors.
 #' This usually corresponds to columns in the input table. But for charts such as 'Pyramid' or 'Pie', each 
 #' entry in the vector (or each row in the table) corresponds to a new data series.
+#' This function should not called directly, but instead be called via
+#'   \code{\link{GetVectorOfColors}} instead. It remains an exported function 
+#'   because it is used in older versions of the Standard R pages
 #' 
+#' @inherit GetNumColors
 #' @param data Input data for the visualization. The is usually a vector or table. It should be normalized from \code{flipChart::PrepareData}.
 #' @param filter Optional filter which can be used with the input data. The label of the filter is used when appropriate.
-#' @param chart.type The visualization which will be applied to the data.
-#' @param scatter.colors.column For scatter plots, an integer specifying the data column used to specify the colors.
-#' @param multi.color.series For bar and column charts, a logical indicating how colors are used.
 #' @param type Describes the type of data which the color vector will be applied to.
-#'  One of "Series" or "Pie subslice".
+#'  One of "Series" or "Pie subslice". By default, \code{type} is set to "Series",
+#'  in which case the return value assigns a different color for each data series.
+#'  When \code{chart.type == "Pie"}, \code{type} can be set to "Pie subslice" and 
+#'  the return value assigns a color for each subslice of the Pie.
 #' @importFrom flipU TrimWhitespace
 #' @export
 
@@ -157,6 +122,52 @@ GetBrandsFromData <- function(data, filter, chart.type,
         return(TrimWhitespace(colnames(data)))
     
 }
+
+
+#' Identify colors to be used with brands in the data
+#' 
+#' @description This function should not called directly, but instead be called via
+#'  \code{\link{GetVectorOfColors}} instead. It remains an exported function 
+#'   because it is used in older versions of the Standard R pages
+#' @inherit GetBrandsFromData
+#' @param template A list specifying color palettes and other visualization options.
+#' @param input.data Input data for the visualization. The is usually a vector or table. 
+#'   It should be normalized from \code{flipChart::PrepareData}.
+#' @param brand.names If a vector of names is provided then only \code{template} is used. 
+#' @export
+GetBrandColors <- function(template, input.data = NULL, filter = NULL, chart.type = "", 
+                           scatter.colors.column = 4, multi.color.series = FALSE, brand.names = NULL)
+{
+    if (is.null(template))
+        return("Default colors")
+   
+    if (is.null(brand.names))
+        brand.names <- GetBrandsFromData(input.data, filter, chart.type, scatter.colors.column, multi.color.series)
+  
+    # In new version of the 'Create Template' Standard R Page, the brand colors is always
+    # created from template$colors. But in older versions they are separate elements of the
+    # template. So template$colors should not be altered in this function
+    if (is.null(template$brand.colors))
+        template$brand.colors <- template$colors
+    
+    # Warnings are not given until GetPalette is called - this is when the brand colors is actually used
+    if (length(template$brand.colors) == 0)
+    {
+        colors <- rep(NA, length(brand.names))
+        names(colors) <- brand.names
+        return(colors)
+    }
+    if (length(brand.names) > 0)
+    {
+        colors <- template$brand.colors[brand.names]
+        ind <- which(is.na(names(colors)))
+        if (length(ind) > 0)
+            names(colors)[ind] <- brand.names[ind]
+        return(colors)
+    }
+    return(NULL)
+}
+
 
 #' Print an appearance template object
 #'

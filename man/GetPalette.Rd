@@ -2,7 +2,7 @@
 % Please edit documentation in R/usetemplate.R
 \name{GetPalette}
 \alias{GetPalette}
-\title{Determine colors to be used in a visualization}
+\title{Determine colors to be used in a visualizatiom}
 \usage{
 GetPalette(palette, template)
 }
@@ -17,5 +17,7 @@ A palette which can be used as \code{given.colors} in \link{ChartColors}.
   or a vector of colors (e.g. from the template output)
 }
 \description{
-Determine colors to be used in a visualization
+This function should not called directly, but instead be called via
+  \code{\link{GetVectorOfColors}} instead. It remains an exported function 
+  because it is used in older versions of the Standard R pages
 }

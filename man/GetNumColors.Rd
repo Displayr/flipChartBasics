@@ -19,7 +19,14 @@ GetNumColors(
 \item{scatter.colors.column}{For scatterplot data, the column of data which is used to determine the colors of each point.}
 
 \item{multi.color.series}{For bar and column charts, a logical indicating 
-how colors are used.}
+how colors are used. By default, this value is set to FALSE, in which case
+the number of colors returned is equal to the number of data series (or columns)
+in \code{data}. When \code{multi.color.series == TRUE}, multiple colors are
+assigned to the categories within a single data series, so the number of 
+colors returned is equal to \code{NROW(data)}.}
+}
+\value{
+An integer specifying the number of colors used by the chart.
 }
 \description{
 Returns the number of colors needed in a chart.
