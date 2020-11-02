@@ -12,8 +12,8 @@ before_install:
   - sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
   - sudo apt-get -qq update
   - sudo apt-get install -y libgdal-dev libproj-dev python-protobuf libprotoc-dev libprotobuf-dev libv8-dev librsvg2-dev libmpfr-dev libnlopt-dev
-  - rcode="tfile <- tempfile(); capture.output(res<-devtools::test(), file = tfile); out <- readLines(tfile); cat(out, sep = '\n'); "
-  - rcode+="n.fail <- as.numeric(sub('Failed:[[:space:]]', '', out[grep('Failed:[[:space:]]', out)])); "
+  - rcode="tfile <- tempfile(); capture.output(res<-devtools::test(reporter = CheckReporter), file = tfile); out <- readLines(tfile); cat(out, sep = '\n'); "
+  - rcode+="mm <- regexpr('FAILED: \\d+', out[2]); n.fail <- substr(out[2], mm + 7, mm + attr(mm, 'match.length')); "
   - rcode+="res <- as.data.frame(res); out <- data.frame(file = unlist(res[['file']]), warning = unlist(res[['warning']])); "
   - rcode+="write.csv(out, file='test_results.csv'); "
   - rcode+="print(out); cat('n.fail:', n.fail); "
@@ -38,7 +38,7 @@ script:
 notifications:
   slack:
     rooms:
-      - displayr:DteqF1KIg8P6F4x0s2lNoYSr#github-notifications
+      - displayr:FTgSTNHC2rpanhJMGTKMwZXM#github-notifications
     template:
       - "Build <%{build_url}|#%{build_number}> %{result} in %{repository_name}@%{branch} by %{author}: <%{compare_url}|%{commit_message}>"
     on_success: change
