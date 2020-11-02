@@ -16,6 +16,7 @@ before_install:
   - rcode+="n.fail <- as.numeric(sub('Failed:[[:space:]]', '', out[grep('Failed:[[:space:]]', out)])); "
   - rcode+="res <- as.data.frame(res); out <- data.frame(file = unlist(res[['file']]), warning = unlist(res[['warning']])); "
   - rcode+="write.csv(out, file='test_results.csv'); "
+  - rcode+="print(out); cat('n.fail:', n.fail); "
   - rcode+="quit(status = !identical(n.fail, 0), save='no');"
   - Rscript tools/travis_run_before_install.R
 
