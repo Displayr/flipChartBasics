@@ -12,7 +12,7 @@ before_install:
   - sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
   - sudo apt-get -qq update
   - sudo apt-get install -y libgdal-dev libproj-dev python-protobuf libprotoc-dev libprotobuf-dev libv8-dev librsvg2-dev libmpfr-dev libnlopt-dev
-  - rcode="tfile <- tempfile(); capture.output(res<-devtools::test(reporter = CheckReporter), file = tfile); out <- readLines(tfile); print(str(out)); cat(out, sep = '\n'); "
+  - rcode="tfile <- tempfile(); capture.output(res<-devtools::test(), file = tfile); out <- readLines(tfile); print(str(out)); cat(out, sep = '\n'); "
   - rcode+="tmp <- unlist(strsplit(split='[[:punct:]]+', out[2])); n.fail <- as.numeric(tmp[9]);"
   - rcode+="write.csv(out, file='test_results.csv'); "
   - rcode+="print(out); cat('n.fail:', n.fail); "
