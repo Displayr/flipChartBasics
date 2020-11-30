@@ -51,6 +51,11 @@ tb.spaces <- structure(c(49.5601173020528, 50.4398826979472, 100, 38.20224719101
 "Dislike all cola", "Don't care", "NET")), name = "table.Gender.by.Preferred.cola", questions = c("Gender", 
 "Preferred cola"))
 
+tb.no.colnames <- structure(c(64.4035265949313, 60.1413096290206, 58.5872463087025, 
+57.7853477448339, 47.8652428890802, 43.6618216267763, NA), .Dim = c(7L, 
+1L), .Dimnames = list(c("Lexus", "Land Rover", "BMW", "Volvo", 
+"Mercedes Benz", "Audi", "Jaguar"), NULL))
+
 ff <- rep(1, 10)
 attr(ff, "label") <- "Pepsi "
 
@@ -95,6 +100,12 @@ test_that("Scatter plot brand names",
     res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
                 palette = "Default or template settings")
     expect_equal(res, checkColors(col.vec))
+    
+    # Named template with no names
+    expect_warning(GetVectorOfColors(tmp.template, tb.no.colnames, NULL, "Column",
+                palette = "Default or template settings"), "The template contains named colors")
+    expect_warning(GetVectorOfColors(tmp.template, 1:10, NULL, "Column",
+                palette = "Default or template settings"), "The template contains named colors")
       
     # Using Custom palette instead of template 
     res <- GetVectorOfColors(NULL, scatter.dat, NULL, "Scatter", 4, 

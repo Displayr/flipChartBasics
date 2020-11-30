@@ -1,7 +1,7 @@
 Package: flipChartBasics
 Type: Package
 Title: Pre-processing functions used for plotting
-Version: 2.2.2
+Version: 2.2.3
 Author: Displayr <opensource@displayr.com>
 Maintainer: Displayr <opensource@displayr.com>
 Description: Basic functions to be used by other charting packages (i.e., flipPlots, flipStandardCharts, flipPictographs). flipChartBasics is meant for internal functions. It should not be called directly by users.
