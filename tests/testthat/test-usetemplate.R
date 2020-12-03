@@ -102,16 +102,24 @@ test_that("Scatter plot brand names",
     expect_equal(res, checkColors(col.vec))
     
     # Named template with no names
-    expect_warning(GetVectorOfColors(tmp.template, tb.no.colnames, NULL, "Column",
-                palette = "Default or template settings"), "The template contains named colors")
-    expect_warning(GetVectorOfColors(tmp.template, 1:10, NULL, "Column",
-                palette = "Default or template settings"), "The template contains named colors")
+    tmp.template <- template
+    tmp.template$colors = c(col.vec, "Other" = "grey") 
+    expect_warning(res <- GetVectorOfColors(tmp.template, tb.no.colnames, NULL, "Column",
+                palette = "Default or template settings"), 
+                "The template contains named colors but the data series is unnamed. Try selecting 'Data Series' > 'Multiple colors within a single series'")
+    expect_equal(res, c(Other = "grey"))
+    expect_warning(res <- GetVectorOfColors(tmp.template, 1:10, NULL, "Column",
+                palette = "Default or template settings"),
+                "The template contains named colors but the data series is unnamed. Try selecting 'Data Series' > 'Multiple colors within a single series'")
+    expect_equal(res, c(Other = "grey"))
       
     # Using Custom palette instead of template 
     res <- GetVectorOfColors(NULL, scatter.dat, NULL, "Scatter", 4, 
         palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3])
     expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "#0000FF", Fanta = "#FFA500", 
                 Sprite = "#00FF00"))
+    res <- GetVectorOfColors(NULL, 1:10, NULL, "Scatter", 4, 
+        palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3])
 })
 
 test_that("Named colors for Pie inner and outer ring",
