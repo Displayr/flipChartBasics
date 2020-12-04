@@ -90,7 +90,22 @@ GetVectorOfColors <- function (template,
         (!is.null(template$brand.colors))
     use.named.vector <- grepl("Custom palette", palette) &&
          !is.null(names(palette.custom.palette))
-    if (!is.null(series.names) && (use.named.colors || use.named.vector))
+    
+    # Take the last color of template$brand.colors
+    # instead of assuming a name for missing values
+    missing.color <- if (!is.null(template$brand.colors)) rev(template$brand.colors)[1]
+                     else                                 "#CCCCCC"
+    
+    if (length(series.names) == 0 && use.named.colors)
+    {
+        msg <- "The template contains named colors but the data series is unnamed."
+        if (chart.type %in% c("Bar", "Column"))
+            msg <- paste(msg, "Try selecting 'Data Series' > 'Multiple colors within a single series'. ")
+        warning(msg)
+        return(missing.color)
+    }
+        
+    if (length(series.names) > 0 && (use.named.colors || use.named.vector))
     {
         # Return a vector of colors where the names are in the 
         # same order as needed for the data
@@ -105,10 +120,6 @@ GetVectorOfColors <- function (template,
         missing.names <- setdiff(series.names, names(named.palette))
         if (length(missing.names) > 0)
         {
-            # Take the last color of template$brand.colors
-            # instead of assuming a name for missing values
-            missing.color <- if (use.named.vector) "#CCCCCC"
-                             else                   rev(template$colors)[1] 
             tmp.entries <- rep(missing.color, length(missing.names))
             names(tmp.entries) <- missing.names
             named.palette <- c(named.palette, tmp.entries)
