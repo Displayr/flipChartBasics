@@ -118,8 +118,12 @@ test_that("Scatter plot brand names",
         palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3])
     expect_equal(res, c(Coke = "#CCCCCC", Pepsi = "#0000FF", Fanta = "#FFA500", 
                 Sprite = "#00FF00"))
+    
+    # A named custom palette with unnamed vector will be used like
+    # an unnamed palette with any warnings
     res <- GetVectorOfColors(NULL, 1:10, NULL, "Scatter", 4, 
         palette = "Custom palette", palette.custom.palette = rev(col.vec)[1:3])
+    expect_equal(res, c(green = "#00FF00", orange = "#FFA500", blue = "#0000FF"))
 })
 
 test_that("Named colors for Pie inner and outer ring",
