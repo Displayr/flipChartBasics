@@ -131,6 +131,7 @@ checkColors <- function(xx)
 #' @import colorspace
 #' @importFrom grDevices col2rgb rgb colorRampPalette
 #' @importFrom flipTransformations TextAsVector
+#' @importFrom verbs Sum
 #' @export
 ChartColors <- function(number.colors.needed,
                         given.colors,
@@ -246,7 +247,7 @@ ChartColors <- function(number.colors.needed,
     # Check that provided named colors are part of the native R colors
     valid.color.names <- sapply(given.colors, function(x) length(all.colors[all.colors == x]))
 
-    if (sum(valid.color.names) == number.colors)
+    if (Sum(valid.color.names) == number.colors)
         color.type.named.R <- TRUE
 
     # Can be a single named gr palette

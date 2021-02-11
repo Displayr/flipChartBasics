@@ -68,6 +68,7 @@ MapToColors <- function(x, # A vector of values or an integer indicating the num
 
 #' @importFrom colorspace LAB
 #' @importFrom methods as
+#' @importFrom verbs Sum
 diverging.colormap <- function(s, rgb1, rgb2, outColorspace = 'sRGB')
 {
     LabToMsh<-function(Lab) 
@@ -100,7 +101,7 @@ diverging.colormap <- function(s, rgb1, rgb2, outColorspace = 'sRGB')
         # Given two angular orientations, returns the smallest angle between the two.
         v1<-matrix(c(cos(a1), sin(a1)),1,2,byrow=TRUE)
         v2<-matrix(c(cos(a2), sin(a2)),1,2,byrow=TRUE)
-        x<-acos(sum(v1 * v2))
+        x<-acos(Sum(v1 * v2, remove.missing = FALSE))
         x
     }
     AdjustHue<-function(msh, unsatM)

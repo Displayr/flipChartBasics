@@ -11,6 +11,7 @@
 #' @param ignore.case Logical; whether matching of names should ignore upper/lower case differences.
 #' @param silent.remove.duplicates Removes duplicates with giving warnings. This is particulary useful when dealing with banners.
 #' @importFrom flipFormat ExtractChartData
+#' @importFrom verbs Sum
 #' @export
 
 MatchTable <- function(x,
@@ -153,9 +154,9 @@ MatchTable <- function(x,
             order <- match(col.ref.names, col.x.names)
             if (any(is.na(order)))
                 stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. ",
-                     if (sum(is.na(order)) == 1) "Column for '" else "Columns for '",
+                     if (Sum(is.na(order)) == 1) "Column for '" else "Columns for '",
                      paste(col.ref.names.with.case[is.na(order)], collapse = "', '"), "' ",
-                     if (sum(is.na(order)) == 1) "is" else "are",
+                     if (Sum(is.na(order)) == 1) "is" else "are",
                     " missing.")
             x <- x[,order,drop=FALSE]
         }   
