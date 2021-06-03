@@ -70,8 +70,9 @@ StripAlphaChannel <- function(hex.colors)
 
 checkColors <- function(xx)
 {
-    res <- sapply(xx, function(x){tryCatch(rgb(t(col2rgb(x)), maxColorValue = 255),
-                                           error=function(cond){NA})})
+    res <- sapply(xx, function(x){tryCatch({ tmp <- col2rgb(x, alpha = TRUE); 
+        return(rgb(t(tmp[1:3]), alpha = if (tmp[4] == 255) NULL else tmp[4], maxColorValue = 255)) },
+        error=function(cond){NA})})
     ind <- which(is.na(res))
     if (length(ind) > 0)
     {
