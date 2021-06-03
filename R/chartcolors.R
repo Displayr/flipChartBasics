@@ -319,7 +319,8 @@ ChartColors <- function(number.colors.needed,
     if (!hex.colors && n.discard > 0)
         chart.colors <- chart.colors[-(1:n.discard)]
     res <- chart.colors[1:number.colors.needed]
-    palette <- StripAlphaChannel(res)
+    palette <- res
+    #palette <- StripAlphaChannel(res)
     attr(palette, "palette.type") <- palette.type
     return(palette)
 }
