@@ -5,10 +5,12 @@
 \title{Removes the last two characters from a vector of hexadecimal colors
 that include an alpha channel.}
 \usage{
-StripAlphaChannel(hex.colors)
+StripAlphaChannel(hex.colors, warning.msg = NULL)
 }
 \arguments{
 \item{hex.colors}{A character vector of colors in hexadeximal format.}
+
+\item{warning.msg}{Optional warning msg to give if alpha values were present.}
 }
 \description{
 Removes the last two characters from a vector of hexadecimal colors

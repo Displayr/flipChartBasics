@@ -1,6 +1,16 @@
 context("ChartColors")
 
 res2 <- ChartColors(2)
+
+test_that("StripAlphaColors", 
+{
+    warn.txt <- "Alpha values were ignored"
+    expect_error(StripAlphaChannel(c("#FF0000", "#0000FF"), warn.txt), NA)
+    expect_warning(res <- StripAlphaChannel(c("#FF000033", "#0000FF33"), warn.txt), 
+                   warn.txt)
+    expect_equal(res, c("#FF0000", "#0000FF"))
+})
+
 test_that("ChartColors handles arguments", {
     res2 <- ChartColors(2)
     res2b <- ChartColors(2, "Default colors")

@@ -55,14 +55,21 @@ translatePaletteName <- function(color.palette)
 #' that include an alpha channel.
 #'
 #' @param hex.colors A character vector of colors in hexadeximal format.
+#' @param warning.msg Optional warning msg to give if alpha values were present.
 #' @examples
 #' c <- c("#FFFFFFFF", "#ABCDEF3D")
 #' StripAlphaChannel(c)
 #' @export
-StripAlphaChannel <- function(hex.colors)
+StripAlphaChannel <- function(hex.colors, warning.msg = NULL)
 {
+    if (length(hex.colors) == 0)
+        return(hex.colors)
     if (nchar(hex.colors[1]) == 9)
+    {
+        if (any(nzchar(warning.msg)))
+            warning(warning.msg)
         return(gsub("([a-fA-F0-9][a-fA-F0-9])$", "", hex.colors))
+    }
     else
         return(hex.colors)
 }
