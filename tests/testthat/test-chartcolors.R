@@ -2,13 +2,28 @@ context("ChartColors")
 
 res2 <- ChartColors(2)
 
-test_that("StripAlphaColors", 
+test_that("Alpha color values", 
 {
     warn.txt <- "Alpha values were ignored"
     expect_error(StripAlphaChannel(c("#FF0000", "#0000FF"), warn.txt), NA)
     expect_warning(res <- StripAlphaChannel(c("#FF000033", "#0000FF33"), warn.txt), 
                    warn.txt)
     expect_equal(res, c("#FF0000", "#0000FF"))
+    
+    expect_warning(ChartColors(5, "Custom gradient", custom.gradient.start = "#FF000033", 
+        custom.gradient.end = "#0000FF33"), "Alpha values from selected colors ignored")
+    expect_equal(ChartColors(2, "Custom palette", custom.palette="#FF000033, #0000FF33"),
+        c("#FF000033", "#0000FF33"), check.attributes = FALSE)
+    
+    expect_warning(GetVectorOfColors(NULL, 1:10, chart.type = "Column", multi.color.series = T, 
+        palette = "Custom gradient", palette.custom.gradient.start = "#FF000033", 
+        palette.custom.gradient.end = "#0000FF33"), "Alpha values from selected colors ignored")
+    expect_equal(GetVectorOfColors(NULL, 1:10, NULL, chart.type = "Column", 
+        palette = "Custom palette", palette.custom.palette = "#FF000033,#00FF00"),
+        c("#FF000033", "#00FF00"), check.attributes = FALSE)
+    expect_equal(GetVectorOfColors(NULL, 1:10, NULL, chart.type = "Column", 
+        palette = "Custom color", palette.custom.color = "#FF000033"),
+        "#FF000033", check.attributes = FALSE)
 })
 
 test_that("ChartColors handles arguments", {
