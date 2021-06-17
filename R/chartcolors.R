@@ -55,14 +55,21 @@ translatePaletteName <- function(color.palette)
 #' that include an alpha channel.
 #'
 #' @param hex.colors A character vector of colors in hexadeximal format.
+#' @param warning.msg Optional warning msg to give if alpha values were present.
 #' @examples
 #' c <- c("#FFFFFFFF", "#ABCDEF3D")
 #' StripAlphaChannel(c)
 #' @export
-StripAlphaChannel <- function(hex.colors)
+StripAlphaChannel <- function(hex.colors, warning.msg = NULL)
 {
-    if (nchar(hex.colors[1]) == 9)
-        return(gsub("([a-fA-F0-9][a-fA-F0-9])$", "", hex.colors))
+    if (length(hex.colors) == 0)
+        return(hex.colors)
+    if (any(nchar(hex.colors) == 9))
+    {
+        if (any(nzchar(warning.msg)))
+            warning(warning.msg)
+        return(substr(hex.colors, 1, 7))
+    }
     else
         return(hex.colors)
 }
@@ -70,8 +77,9 @@ StripAlphaChannel <- function(hex.colors)
 
 checkColors <- function(xx)
 {
-    res <- sapply(xx, function(x){tryCatch(rgb(t(col2rgb(x)), maxColorValue = 255),
-                                           error=function(cond){NA})})
+    res <- sapply(xx, function(x){tryCatch({ tmp <- col2rgb(x, alpha = TRUE); 
+        return(rgb(t(tmp[1:3]), alpha = if (tmp[4] == 255) NULL else tmp[4], maxColorValue = 255)) },
+        error=function(cond){NA})})
     ind <- which(is.na(res))
     if (length(ind) > 0)
     {
@@ -180,7 +188,9 @@ ChartColors <- function(number.colors.needed,
             stop("'custom.gradient.start' is missing.")
         if (is.na(custom.gradient.end))
             stop("'custom.gradient.end' is missing.")
-        c.palette <- try(colorRampPalette(c(custom.gradient.start, custom.gradient.end)))
+        color.ends <- c(custom.gradient.start, custom.gradient.end)
+        color.ends <- StripAlphaChannel(color.ends, "Alpha values from selected colors ignored in gradient.")
+        c.palette <- try(colorRampPalette(color.ends))
         if (inherits(c.palette, "try-error"))
             stop("Invalid color palette specified.")
         palette <- c.palette(number.colors.needed)
@@ -318,8 +328,7 @@ ChartColors <- function(number.colors.needed,
     n.discard <- round(num2 * palette.start)
     if (!hex.colors && n.discard > 0)
         chart.colors <- chart.colors[-(1:n.discard)]
-    res <- chart.colors[1:number.colors.needed]
-    palette <- StripAlphaChannel(res)
+    palette <- chart.colors[1:number.colors.needed]
     attr(palette, "palette.type") <- palette.type
     return(palette)
 }

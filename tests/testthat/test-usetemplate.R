@@ -93,6 +93,7 @@ test_that("Scatter plot brand names",
     res <- GetVectorOfColors(tmp.template, scatter.dat, NULL, "Scatter", 4,
                 palette = "Default or template settings")
     expect_equal(res, checkColors(col.vec))
+    expect_equal(checkColors("#FF000080"), "#FF000080", check.attributes = FALSE)
     
     # Current version of template
     tmp.template <- template
