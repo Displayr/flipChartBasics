@@ -4,6 +4,17 @@ res2 <- ChartColors(2)
 
 test_that("Alpha color values", 
 {
+    c0 <- c(`#3E7DCC53` = "#3E7DCC53", `#04B5AC` = "#04B5AC", `#F5C524` = "#F5C524", 
+        `#C44E41` = "#C44E41", `#8CC0FF` = "#8CC0FF", `#FF905A` = "#FF905A", 
+        `#345E8C` = "#345E8C", `#04827B` = "#04827B", `#967F47` = "#967F47", 
+        `#96362F` = "#96362F", `#2C4374` = "#2C4374", `#4D525A` = "#4D525A")
+    c1 <- c(`#3E7DCC53` = "#3E7DCC", `#04B5AC` = "#04B5AC", `#F5C524` = "#F5C524", 
+        `#C44E41` = "#C44E41", `#8CC0FF` = "#8CC0FF", `#FF905A` = "#FF905A", 
+        `#345E8C` = "#345E8C", `#04827B` = "#04827B", `#967F47` = "#967F47", 
+        `#96362F` = "#96362F", `#2C4374` = "#2C4374", `#4D525A` = "#4D525A")
+    expect_equal(StripAlphaChannel(c0), c1)
+
+    
     warn.txt <- "Alpha values were ignored"
     expect_error(StripAlphaChannel(c("#FF0000", "#0000FF"), warn.txt), NA)
     expect_warning(res <- StripAlphaChannel(c("#FF000033", "#0000FF33"), warn.txt), 

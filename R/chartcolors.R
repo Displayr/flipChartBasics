@@ -68,7 +68,7 @@ StripAlphaChannel <- function(hex.colors, warning.msg = NULL)
     {
         if (any(nzchar(warning.msg)))
             warning(warning.msg)
-        return(gsub("([a-fA-F0-9][a-fA-F0-9])$", "", hex.colors))
+        return(substr(hex.colors, 1, 7))
     }
     else
         return(hex.colors)
