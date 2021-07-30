@@ -16,6 +16,7 @@ test_that("Alpha color values",
 
     
     warn.txt <- "Alpha values were ignored"
+    expect_equal(ChartColors(12), ChartColors(12, "Office colors"))
     expect_error(StripAlphaChannel(c("#FF0000", "#0000FF"), warn.txt), NA)
     expect_warning(res <- StripAlphaChannel(c("#FF000033", "#0000FF33"), warn.txt), 
                    warn.txt)

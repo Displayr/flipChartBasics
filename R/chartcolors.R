@@ -2,6 +2,7 @@
 translatePaletteName <- function(color.palette)
 {
     long.names <- c("Default colors",
+    "Office colors",
     "Primary colors",
     "Rainbow",
     "Light pastels",
@@ -22,6 +23,7 @@ translatePaletteName <- function(color.palette)
     "Terrain colors (green, beige, grey)")
 
     proper.names <- c("qColors",
+    "qColors",                  
     "primary.colors",
     "rainbow_hcl",
     "Set3",
@@ -41,7 +43,7 @@ translatePaletteName <- function(color.palette)
     "heat_hcl reverse",
     "terrain_hcl")
 
-    if (color.palette[1] == "Default colors")
+    if (color.palette[1] %in% c("Default colors", "Office colors"))
         return(qColors)
 
     if (length(which(color.palette[1] == long.names)) == 0)
@@ -160,9 +162,8 @@ ChartColors <- function(number.colors.needed,
         given.colors <- qColors
         default.colors <- TRUE
     }
-    else if (given.colors[1] == "Default colors")
+    else if (given.colors[1] %in% c("Default colors", "Office colors"))
         default.colors <- TRUE
-    
     palette.type <- if (default.colors) "Default colors"
                     else                given.colors[1]
     
