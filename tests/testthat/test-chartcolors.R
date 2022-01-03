@@ -30,7 +30,7 @@ test_that("Alpha color values",
     expect_warning(GetVectorOfColors(NULL, 1:10, chart.type = "Column", multi.color.series = T, 
         palette = "Custom gradient", palette.custom.gradient.start = "#FF000033", 
         palette.custom.gradient.end = "#0000FF33"), "Alpha values from selected colors ignored")
-    expect_equal(GetVectorOfColors(NULL, 1:10, NULL, chart.type = "Column", 
+    expect_equal(GetVectorOfColors(NULL, cbind(A=1:10, B=10:1), NULL, chart.type = "Column", 
         palette = "Custom palette", palette.custom.palette = "#FF000033,#00FF00"),
         c("#FF000033", "#00FF00"), check.attributes = FALSE)
     expect_equal(GetVectorOfColors(NULL, 1:10, NULL, chart.type = "Column", 

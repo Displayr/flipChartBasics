@@ -211,6 +211,8 @@ ChartColors <- function(number.colors.needed,
                     number.colors.needed, "). Colors will be recycled to make up the required number.")
             custom.palette <- paste0(rep("", number.colors.needed), custom.palette)
         }
+        if (!is.named && isTRUE(number.colors.needed >= 1))
+            return(checkColors(custom.palette)[1:number.colors.needed])
         return(checkColors(custom.palette))
     }
 
