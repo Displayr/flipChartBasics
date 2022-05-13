@@ -102,3 +102,53 @@ test_that("GetNumColors gives correct output", {
     expect_equal(GetBrandsFromData(venn.input, chart.type = "Venn"), 
         c("Like", "Love", "Dislike", "Hate"))
 })
+
+test_that("Template with custom colors",
+{
+    template <- structure(list(colors = c("#5C9AD3", "#ED7D31"),
+        global.font = list(family = "Arial", color = "#2C2C2C", size = 7.5, 
+        units = "pt"), fonts = list(`Data labels` = list(family = "Arial", 
+        color = "#2C2C2C", size = 7.5), Legend = list(family = "Arial", 
+        color = "#2C2C2C", size = 7.5), Title = list(family = "Arial", 
+        color = "#2C2C2C", size = 12), Subtitle = list(family = "Arial", 
+        color = "#2C2C2C", size = 9), Footer = list(family = "Arial", 
+        color = "#2C2C2C", size = 6), `Panel title` = list(family = "Arial", 
+        color = "#2C2C2C", size = 9), `Categories axis tick labels` = list(
+        family = "Arial", color = "#2C2C2C", size = 7.5), `Categories axis title` = list(
+        family = "Arial", color = "#2C2C2C", size = 9), `Categories axis tick labels` = list(
+        family = "Arial", color = "#2C2C2C", size = 7.5), `Values axis title` = list(
+        family = "Arial", color = "#2C2C2C", size = 9), `Values axis tick labels` = list(
+        family = "Arial", color = "#2C2C2C", size = 7.5), `Hover text` = list(
+        family = "Arial", color = "#2C2C2C", size = 8.625)), global.number.font = list(
+        units = "pt"), number.fonts = list(`Data label` = list(family = "Arial", 
+        color = "#808080", size = 24, weight = "Normal"), `Gauge labels` = list(
+        family = "Arial", color = "#B3B3B3", size = 9), `Text above` = list(
+        family = "Arial", color = "#808080", size = 10, weight = "Normal"), 
+        `Text below` = list(family = "Arial", color = "#808080", 
+            size = 10, weight = "Normal"), `Hover text` = list(family = "Arial", 
+            color = "#FFFFFF", size = 11, bg.color = "#808080"))), class = "AppearanceTemplate")
+    
+    pdat <- structure(c(Alabama = 1.46, Alaska = 0.13, Arizona = 2.47, Arkansas = 0.99, 
+        California = 11.8, Colorado = 1.69, Connecticut = 1.14, Delaware = 0.31, 
+        `Washington D.C.` = 0.37, Florida = 7.29, Georgia = 3.44, Hawaii = 0.34, 
+        Idaho = 0.36, Illinois = 4.24, Indiana = 1.99, Iowa = 0.89, Kansas = 1.07, 
+        Kentucky = 1.44, Louisiana = 1.23, Maine = 0.42, Maryland = 1.62, 
+        Massachusetts = 1.59, Michigan = 3.23, Minnesota = 1.74, Mississippi = 0.9, 
+        Missouri = 2.11, Montana = 0.23, Nebraska = 0.63, Nevada = 1.17, 
+        `New Hampshire` = 0.4, `New Jersey` = 2.76, `New Mexico` = 0.49, 
+        `New York` = 7.02, `North Carolina` = 2.49, `North Dakota` = 0.24, 
+        Ohio = 3.81, Oklahoma = 1.03, Oregon = 1.52, Pennsylvania = 4.17, 
+        `Rhode Island` = 0.26, `South Carolina` = 1.17, `South Dakota` = 0.22, 
+        Tennessee = 1.49, Texas = 8.97, Utah = 0.74, Vermont = 0.25, 
+        Virginia = 2.33, Washington = 1.89, `West Virginia` = 0.48, Wisconsin = 1.88, 
+        Wyoming = 0.08), statistic = "%")
+    
+chart.types <- c("Table", "Area", "Bar", "Bar Pictograph", "Bean", "Box", 
+        "Column", "Density", "Donut", "Funnel", "Geographic Map", "Heat", 
+        "Histogram", "Line", "Palm", "Pie", "Radar", "Stream", "Scatter", 
+        "Time Series", "Venn", "Violin")
+
+    for (ch in chart.types)
+        expect_error(GetVectorOfColors(template, pdat, filter=TRUE, ch,
+            palette = "Default or template settings"), NA)
+})
