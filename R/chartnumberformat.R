@@ -94,6 +94,9 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
                       "Percentage" = "%",
                       "Scientific" = "e",
                       "Metric units suffix" = "s")
-    return(paste0(d3.format, d3.type))
+    result <- paste0(d3.format, d3.type)
+    if (result == "%")
+        result <- ".0%"
+    return(result)
 }
 
