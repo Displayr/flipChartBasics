@@ -95,8 +95,14 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
                       "Scientific" = "e",
                       "Metric units suffix" = "s")
     result <- paste0(d3.format, d3.type)
+    
+    # Avoiding some combinations that cause plotly (version 2 and above) trouble
     if (result == "%")
         result <- ".0%"
+    if (result == "e")
+        result <- ".1e"
+    if (result == ",f")
+        result <- ",.0f"
     return(result)
 }
 
