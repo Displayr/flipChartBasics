@@ -100,7 +100,9 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
     if (result == "%")
         result <- ".0%"
     if (result == "e")
-        result <- ".1e"
+        result <- "~e"
+    if (result == "f")
+        result <- "~f"
     if (result == ",f")
         result <- ",.0f"
     return(result)
