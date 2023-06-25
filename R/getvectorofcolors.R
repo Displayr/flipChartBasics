@@ -74,16 +74,22 @@ GetVectorOfColors <- function (template,
 
     # Get vector of colors
     index <- if (type == "Pie subslice") 2 else 1
-    num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column, multi.color.series)[[index]]
-    unordered.colors <- ChartColors(num.colors, given.colors = tmp.palette, 
-        custom.color = palette.custom.color,
-        custom.gradient.start = palette.custom.gradient.start, 
-        custom.gradient.end = palette.custom.gradient.end,
-        custom.palette = palette.custom.palette,
-        silent = chart.type %in% c("Pie", "Donut"),
-        silent.single.color = multi.color.series || 
-            chart.type %in% c("Bar Pictograph", "Time Series", "Pyramid"))
+    if (!is.null(color.values) && !is.null(palette.custom.palette))
+    {
+        unordered.colors <- TextAsVector(palette.custom.palette)
+    } else
+    {
+        num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column, multi.color.series)[[index]]
+        unordered.colors <- ChartColors(num.colors, given.colors = tmp.palette, 
+            custom.color = palette.custom.color,
+            custom.gradient.start = palette.custom.gradient.start, 
+            custom.gradient.end = palette.custom.gradient.end,
+            custom.palette = palette.custom.palette,
+            silent = chart.type %in% c("Pie", "Donut"),
+            silent.single.color = multi.color.series || 
+                chart.type %in% c("Bar Pictograph", "Time Series", "Pyramid"))
 
+    }
     series.names <- GetBrandsFromData(input.data, filter, chart.type, 
         scatter.colors.column, multi.color.series, type)
     use.named.colors <- (palette %in% c("Default or template settings", "Brand colors")) && 

@@ -38,6 +38,15 @@ test_that("Alpha color values",
         "#FF000033", check.attributes = FALSE)
 })
 
+test_that("GetVectorOfColors always interpolates when values provided",
+{
+    xx <- matrix(rep(1:5, each=4), 4, 5, dimnames=list(letters[1:4], LETTERS[1:5]))
+    cc <- GetVectorOfColors(NULL, xx, chart.type = "Pyramid",
+            palette = "Custom palette", color.values = xx,
+            palette.custom.palette = "#3e7dcc,#04b5ac,#f5c524,#c44e41,#7030A0")
+    expect_equal(cc[1,], c("#3E7DCC", "#04B5AC", "#F5C524", "#C44E41", "#7030A0"))
+})
+
 test_that("ChartColors handles arguments", {
     res2 <- ChartColors(2)
     res2b <- ChartColors(2, "Default colors")
