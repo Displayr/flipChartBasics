@@ -28,7 +28,9 @@
 #' @param palette.custom.gradient.end A color specifying the end of the 
 #'  gradient when \code{palette} is set to \code{"Custom gradient"}.
 #' @param palette.custom.palette A vector or comma separated list of colors 
-#'  which will be recycled to the desired length.
+#'  which will be recycled to the desired length unless \code{color.values}
+#'  is provided in which case the whole vector will be used to construct
+#'  a color scale.
 #' @param color.values An optional numeric vector or matrix which can
 #'  be used with gradual palettes (either a custom gradient or one of
 #'  the sequential color palettes). The names of the vector or matrix
@@ -74,16 +76,22 @@ GetVectorOfColors <- function (template,
 
     # Get vector of colors
     index <- if (type == "Pie subslice") 2 else 1
-    num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column, multi.color.series)[[index]]
-    unordered.colors <- ChartColors(num.colors, given.colors = tmp.palette, 
-        custom.color = palette.custom.color,
-        custom.gradient.start = palette.custom.gradient.start, 
-        custom.gradient.end = palette.custom.gradient.end,
-        custom.palette = palette.custom.palette,
-        silent = chart.type %in% c("Pie", "Donut"),
-        silent.single.color = multi.color.series || 
-            chart.type %in% c("Bar Pictograph", "Time Series", "Pyramid"))
+    if (!is.null(color.values) && !is.null(palette.custom.palette))
+    {
+        unordered.colors <- TextAsVector(palette.custom.palette)
+    } else
+    {
+        num.colors <- GetNumColors(input.data, chart.type, scatter.colors.column, multi.color.series)[[index]]
+        unordered.colors <- ChartColors(num.colors, given.colors = tmp.palette, 
+            custom.color = palette.custom.color,
+            custom.gradient.start = palette.custom.gradient.start, 
+            custom.gradient.end = palette.custom.gradient.end,
+            custom.palette = palette.custom.palette,
+            silent = chart.type %in% c("Pie", "Donut"),
+            silent.single.color = multi.color.series || 
+                chart.type %in% c("Bar Pictograph", "Time Series", "Pyramid"))
 
+    }
     series.names <- GetBrandsFromData(input.data, filter, chart.type, 
         scatter.colors.column, multi.color.series, type)
     use.named.colors <- (palette %in% c("Default or template settings", "Brand colors")) && 

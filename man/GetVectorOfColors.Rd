@@ -67,7 +67,9 @@ the gradient when \code{palette} is set to \code{"Custom gradient"}.}
 gradient when \code{palette} is set to \code{"Custom gradient"}.}
 
 \item{palette.custom.palette}{A vector or comma separated list of colors 
-which will be recycled to the desired length.}
+which will be recycled to the desired length unless \code{color.values}
+is provided in which case the whole vector will be used to construct
+a color scale.}
 
 \item{color.values}{An optional numeric vector or matrix which can
 be used with gradual palettes (either a custom gradient or one of
