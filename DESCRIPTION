@@ -23,6 +23,6 @@ Remotes:
     Displayr/flipTransformations,
     Displayr/flipFormat,
     Displayr/verbs
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Encoding: UTF-8
 Depends: R (>= 2.10)
