@@ -38,13 +38,39 @@ test_that("Alpha color values",
         "#FF000033", check.attributes = FALSE)
 })
 
-test_that("GetVectorOfColors always interpolates when values provided",
+test_that("GetVectorOfColors interpolates without truncation of custom palette when values provided",
 {
     xx <- matrix(rep(1:5, each=4), 4, 5, dimnames=list(letters[1:4], LETTERS[1:5]))
-    cc <- GetVectorOfColors(NULL, xx, chart.type = "Pyramid",
-            palette = "Custom palette", color.values = xx,
+    vv <- structure(c(0.427377197658643, 0.880951078841463, 0.186656802659854, 
+            0.127208865014836, 0.85857370775193, 0.480053373146802, 0.514949085423723, 
+            0.852327840169892, 0.519603841472417, 0.564817758277059, 0.0688090475741774, 
+            0.653883104445413, 0.148462921148166, 0.367752377409488, 0.722625317284837, 
+            0.198194843484089, 0.954959906404838, 0.391286951489747, 0.179487097775564, 
+            0.728933551348746), dim = 4:5)
+    colors.interp <- GetVectorOfColors(NULL, xx, chart.type = "Pyramid",
+            palette = "Custom palette", color.values = vv,
             palette.custom.palette = "#3e7dcc,#04b5ac,#f5c524,#c44e41,#7030A0")
-    expect_equal(cc[1,], c("#3E7DCC", "#04B5AC", "#F5C524", "#C44E41", "#7030A0"))
+    expect_equal(colors.interp, structure(c(
+        "#99BE57", "#8C3A80", "#1F9ABA", "#2E8BC3", "#943D76", 
+        "#D2C237", "#F4C324", "#963D73", "#F3C025", "#E9A82A", 
+        "#3E7DCC", "#D57836", "#2991C0", "#58BA7C", "#C6533F", 
+        "#1C9DB9", "#7030A0", "#71BC6E", "#2198BC", "#C45040"), dim = 4:5))
+})
+  
+test_that("GetVectorOfColors truncates/recycles custom palette if no values provided", 
+{
+    xx <- matrix(rep(1:5, each=4), 4, 5, dimnames=list(letters[1:4], LETTERS[1:5]))
+    colors.for.row <- GetVectorOfColors(NULL, xx, chart.type = "Bar",
+            palette = "Custom palette", multi.color.series = TRUE,
+            palette.custom.palette = "#3e7dcc,#04b5ac,#f5c524,#c44e41,#7030A0")
+    expect_equal(unname(colors.for.row), c("#3E7DCC", "#04B5AC", "#F5C524", "#C44E41"))
+    colors.for.column <- expect_warning(GetVectorOfColors(NULL, xx, chart.type = "Bar",
+            palette = "Custom palette", multi.color.series = FALSE,
+            palette.custom.palette = "#3e7dcc,#04b5ac,#f5c524"))
+    expect_equal(unname(colors.for.column), c("#3E7DCC", "#04B5AC", "#F5C524", "#3E7DCC", "#04B5AC"))
+    expect_equal(colors.for.row, GetVectorOfColors(NULL, xx, chart.type = "Pyramid",
+            palette = "Custom palette",
+            palette.custom.palette = "#3e7dcc,#04b5ac,#f5c524,#c44e41,#7030A0"))
 })
 
 test_that("ChartColors handles arguments", {
