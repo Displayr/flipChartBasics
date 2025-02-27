@@ -12,6 +12,7 @@
 #' @param silent.remove.duplicates Removes duplicates with giving warnings. This is particulary useful when dealing with banners.
 #' @importFrom flipFormat ExtractChartData
 #' @importFrom verbs Sum
+#' @importFrom flipU StopForUserError
 #' @export
 
 MatchTable <- function(x,
@@ -23,7 +24,7 @@ MatchTable <- function(x,
                         as.matrix = TRUE,
                         trim.whitespace = TRUE,
                         ignore.case = TRUE,
-                        silent.remove.duplicates = FALSE) 
+                        silent.remove.duplicates = FALSE)
 {
     if (nchar(x.table.name) > 0)
         x.table.name <- paste0(x.table.name, ": ")
@@ -34,7 +35,7 @@ MatchTable <- function(x,
     {
         x <- as.matrix(x)
         if (!is.matrix(x))
-            stop(x.table.name, "Values should be supplied as a table.")
+            StopForUserError(x.table.name, "Values should be supplied as a table.")
     }
 
 
@@ -55,13 +56,13 @@ MatchTable <- function(x,
             ref.names <- names(ref.table)
     } else
         ref.len <- length(ref.names)
-    
+
     ref.len <- max(1, ref.len)
     x.names <- rownames(x)
     if (is.null(x.names) && !is.null(names(x)))
         x.names <- names(x)
 
-    # Check length and names 
+    # Check length and names
     if (length(ref.names) == 0 && !is.null(x.names))
     {
         warning(x.table.name, "Names were ignored as input data is unnamed")
@@ -75,9 +76,9 @@ MatchTable <- function(x,
             warning(x.table.name, "Values (", length(x), ") were recycled to match input data (", ref.len, ").")
         return(rep(x, length = ref.len))
     }
-    
+
     if (!is.null(x.names))
-    {        
+    {
         # Sorting color values to match the row names of the reference table.
         if (trim.whitespace)
         {
@@ -111,10 +112,10 @@ MatchTable <- function(x,
         ind.na <- which(is.na(order))
         n.na <- length(ind.na)
         if (n.na == 1)
-            stop(x.table.name, "The value for '", ref.names.with.case[ind.na], "' is missing.")
+            StopForUserError(x.table.name, "The value for '", ref.names.with.case[ind.na], "' is missing.")
         if (n.na > 1)
-            stop(x.table.name, "The values for '", paste(ref.names.with.case[ind.na[-n.na]], collapse = "', '"), 
-                "' and '", ref.names.with.case[ind.na[n.na]], "' are missing.")
+            StopForUserError(x.table.name, "The values for '", paste(ref.names.with.case[ind.na[-n.na]], collapse = "', '"),
+                             "' and '", ref.names.with.case[ind.na[n.na]], "' are missing.")
     } else
         order <- 1:ref.len
 
@@ -153,13 +154,13 @@ MatchTable <- function(x,
             }
             order <- match(col.ref.names, col.x.names)
             if (any(is.na(order)))
-                stop(x.table.name, "Values should either be a single-column table or have the same column names as the input data. ",
-                     if (Sum(is.na(order)) == 1) "Column for '" else "Columns for '",
-                     paste(col.ref.names.with.case[is.na(order)], collapse = "', '"), "' ",
-                     if (Sum(is.na(order)) == 1) "is" else "are",
-                    " missing.")
+                StopForUserError(x.table.name, "Values should either be a single-column table or have the same column names as the input data. ",
+                                 if (Sum(is.na(order)) == 1) "Column for '" else "Columns for '",
+                                 paste(col.ref.names.with.case[is.na(order)], collapse = "', '"), "' ",
+                                 if (Sum(is.na(order)) == 1) "is" else "are",
+                                " missing.")
             x <- x[,order,drop=FALSE]
-        }   
+        }
     }
     return(x)
 }

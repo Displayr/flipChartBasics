@@ -9,7 +9,7 @@ ChartNumberFormat(number.format, as.percentages = FALSE)
 \arguments{
 \item{number.format}{A list of five unnamed items in the following order:
 1) The type of number formatting. One of \code{"Automatic"}, \code{"Category"}, \code{"Number"},
- \code{"Percentage"}, \code{"Date/Time"}, \code{"Currency"}, \code{"Metric units suffix"}, 
+ \code{"Percentage"}, \code{"Date/Time"}, \code{"Currency"}, \code{"Metric units suffix"},
  \code{"Scientific"} and \code{"Custom"}.
 2) A d3 date format. If specified, this will be used provided type is neither \code{"Automatic"}
 nor \code{"Category"} nor a custom format is not specified.

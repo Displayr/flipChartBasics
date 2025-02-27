@@ -43,12 +43,12 @@ colors returned is equal to \code{NROW(data)}.}
 \item{palette}{Specifies the color vector to output. It can be;
 (1) A named palette from grDevices, RColorBrewer colorspace, or colorRamps;
 (2) "Group colors" - this option returns a value of NULL so that the charts will use
-  defaults specified instead the charting function. 
+  defaults specified instead the charting function.
   It is usually only applicable for the line of best fit (i.e. apply
   the colors for each data series to their respective live of best fit), or
   Pie subslice (create a gradient for the subslices based centered on the color of
   the main (inner) slice. No checks are applied because this option is only
-  made available in the GUI controls when this option is relevant. 
+  made available in the GUI controls when this option is relevant.
 (3) A vector of colors which will be recycled to length \code{number.colors.needed}; or
 (4) one of \code{"Custom color"}, \code{"Custom gradient"} or \code{"Custom palette"}.
 The last option gives the user greater control via additional parameters (see below).  If not specified, the colors used
@@ -57,16 +57,16 @@ are c("#5C9AD3", "#ED7D31", "#A5A5A5", "#FFC000", "#4473C5", "#70AD46",
 
 \item{palette.custom.color}{A single color provided as a hex or character string.
 Only used if \code{palette} is \code{"Custom color"}. The output vector will
-consist of \code{custom.color} repeated to the desired length 
+consist of \code{custom.color} repeated to the desired length
 (no interpolation).}
 
-\item{palette.custom.gradient.start}{A color specifying the start of 
+\item{palette.custom.gradient.start}{A color specifying the start of
 the gradient when \code{palette} is set to \code{"Custom gradient"}.}
 
-\item{palette.custom.gradient.end}{A color specifying the end of the 
+\item{palette.custom.gradient.end}{A color specifying the end of the
 gradient when \code{palette} is set to \code{"Custom gradient"}.}
 
-\item{palette.custom.palette}{A vector or comma separated list of colors 
+\item{palette.custom.palette}{A vector or comma separated list of colors
 which will be recycled to the desired length unless \code{color.values}
 is provided in which case the whole vector will be used to construct
 a color scale.}
@@ -78,7 +78,7 @@ should be the same as the names of \code{input.data}, and
 the colorramp is constructed across the range of the values.}
 
 \item{small.multiples}{Logical indicating whether the \code{color.values}
-are being applied to for small multiples (a matrix of colors is 
+are being applied to for small multiples (a matrix of colors is
 created instead of a vector)}
 
 \item{type}{Describes the type of data which the color vector will be applied to.
@@ -93,6 +93,6 @@ A vector or matrix of colors (as hex codes) with the appropriate number of color
 }
 \description{
 This function takes into account a range of parameters
- including the chart type and other charting parameters, visualization template, 
+ including the chart type and other charting parameters, visualization template,
  and other colors specified through the \code{palette}.
 }
