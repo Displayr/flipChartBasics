@@ -58,7 +58,7 @@ Only used if \code{given.colors} is \code{"Custom palette"}.}
 
 \item{silent}{Option to hide warnings about the number of colors.}
 
-\item{silent.single.color}{Option to hide warnings if only a single color is provided when 
+\item{silent.single.color}{Option to hide warnings if only a single color is provided when
 \code{number.colors.needed > 1}. This type of warning is controlled separately from the \code{silent} because
 there are some chart types for which a single color or a palette can be appropriately specified. In contrast
 the times when colors need to recycled for fill the palette, or the a palette is used for a single color

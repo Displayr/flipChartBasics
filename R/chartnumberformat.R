@@ -1,9 +1,9 @@
 #' Generates a d3 number format for use by charting functions.
-#' 
+#'
 #' See https://github.com/d3/d3-format for more information on d3.
 #' @param number.format A list of five unnamed items in the following order:
 #' 1) The type of number formatting. One of \code{"Automatic"}, \code{"Category"}, \code{"Number"},
-#'  \code{"Percentage"}, \code{"Date/Time"}, \code{"Currency"}, \code{"Metric units suffix"}, 
+#'  \code{"Percentage"}, \code{"Date/Time"}, \code{"Currency"}, \code{"Metric units suffix"},
 #'  \code{"Scientific"} and \code{"Custom"}.
 #' 2) A d3 date format. If specified, this will be used provided type is neither \code{"Automatic"}
 #' nor \code{"Category"} nor a custom format is not specified.
@@ -14,12 +14,13 @@
 #' of significant digits.
 #' @param as.percentages Whether the \code{"Automatic"} formatting should be as percentages.
 #' @details Defaults to \code{"Automatic"} if no type is specified.
+#' @importFrom flipU StopForUserError
 #' @export
 ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
-    
+
     if (is.null(number.format))
         return(NULL)
-    
+
     number.type <- number.format[[1]]
     date.type <- number.format[[2]]
     custom.type <- number.format[[3]]
@@ -28,11 +29,11 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
 
     if (is.null(number.type))
         number.type <- "Automatic"
-    
+
     if (!number.type %in% c("Number", "Percentage", "Date/Time", "Currency",
                             "Metric units suffix","Scientific", "Custom",
                             "Automatic", "Category"))
-        stop("Number format not recognized.")
+        StopForUserError("Number format not recognized.")
 
     if (number.type == "Automatic") {
         if (as.percentages && is.null(decimal.places))
@@ -81,21 +82,21 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
                       "HH:MM AM/PM" = "%I:%M %p",
                       "MM DD YY HH:MM" = "%m %d %y %H:%M",
                       "DD MM YY HH:MM" = "%d %m %y %H:%M"))
-    
-    comma <- if (!is.null(separate.thousands) && separate.thousands == TRUE) "," 
+
+    comma <- if (!is.null(separate.thousands) && separate.thousands == TRUE) ","
              else                                                            ""
     d3.format <- comma
-    
+
     if (!is.null(decimal.places))
         d3.format <- paste0(d3.format, ".", decimal.places)
     d3.type <- switch(number.type,
                       "Number" = "f",
-                      "Currency" = "f",                      
+                      "Currency" = "f",
                       "Percentage" = "%",
                       "Scientific" = "e",
                       "Metric units suffix" = "s")
     result <- paste0(d3.format, d3.type)
-    
+
     # Avoiding some combinations that cause plotly (version 2 and above) trouble
     if (result == "%")
         result <- ".0%"
@@ -107,4 +108,3 @@ ChartNumberFormat <- function(number.format, as.percentages = FALSE) {
         result <- ",.0f"
     return(result)
 }
-

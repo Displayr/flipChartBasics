@@ -23,7 +23,7 @@ translatePaletteName <- function(color.palette)
     "Terrain colors (green, beige, grey)")
 
     proper.names <- c("qColors",
-    "qColors",                  
+    "qColors",
     "primary.colors",
     "rainbow_hcl",
     "Set3",
@@ -79,7 +79,7 @@ StripAlphaChannel <- function(hex.colors, warning.msg = NULL)
 
 checkColors <- function(xx)
 {
-    res <- sapply(xx, function(x){tryCatch({ tmp <- col2rgb(x, alpha = TRUE); 
+    res <- sapply(xx, function(x){tryCatch({ tmp <- col2rgb(x, alpha = TRUE);
         return(rgb(t(tmp[1:3]), alpha = if (tmp[4] == 255) NULL else tmp[4], maxColorValue = 255)) },
         error=function(cond){NA})})
     ind <- which(is.na(res))
@@ -125,7 +125,7 @@ checkColors <- function(xx)
 #' monochrome palettes (\code{"Blues","Greens","Greys","Oranges","Purples","Reds"}), if this is not already achieved
 #' by \code{palette.start} and \code{palette.end}.
 #' @param silent Option to hide warnings about the number of colors.
-#' @param silent.single.color Option to hide warnings if only a single color is provided when 
+#' @param silent.single.color Option to hide warnings if only a single color is provided when
 #' \code{number.colors.needed > 1}. This type of warning is controlled separately from the \code{silent} because
 #' there are some chart types for which a single color or a palette can be appropriately specified. In contrast
 #' the times when colors need to recycled for fill the palette, or the a palette is used for a single color
@@ -142,6 +142,7 @@ checkColors <- function(xx)
 #' @importFrom grDevices col2rgb rgb colorRampPalette
 #' @importFrom flipTransformations TextAsVector
 #' @importFrom verbs Sum
+#' @importFrom flipU StopForUserError
 #' @export
 ChartColors <- function(number.colors.needed,
                         given.colors,
@@ -166,18 +167,18 @@ ChartColors <- function(number.colors.needed,
         default.colors <- TRUE
     palette.type <- if (default.colors) "Default colors"
                     else                given.colors[1]
-    
+
     if (is.na(number.colors.needed))
         number.colors.needed <- if (given.colors[1] == "Custom palette") length(TextAsVector(custom.palette))
                                 else 10
     if (number.colors.needed%%1 != 0 | number.colors.needed <= 0)
-        stop("'number.colors.needed' must be a positive integer.")
-    
+        StopForUserError("'number.colors.needed' must be a positive integer.")
+
     # Non-palette options
     if (given.colors[1] == "Custom color")
     {
         if (is.na(custom.color))
-            stop("'custom.color' is missing.")
+            StopForUserError("'custom.color' is missing.")
         if (!silent.single.color && number.colors.needed > 1)
             warning("Only a single color specified for multiple series. Consider using 'Custom palette' instead.")
         return (rep(checkColors(custom.color), number.colors.needed))
@@ -186,14 +187,14 @@ ChartColors <- function(number.colors.needed,
     if (given.colors[1] == "Custom gradient")
     {
         if (is.na(custom.gradient.start))
-            stop("'custom.gradient.start' is missing.")
+            StopForUserError("'custom.gradient.start' is missing.")
         if (is.na(custom.gradient.end))
-            stop("'custom.gradient.end' is missing.")
+            StopForUserError("'custom.gradient.end' is missing.")
         color.ends <- c(custom.gradient.start, custom.gradient.end)
         color.ends <- StripAlphaChannel(color.ends, "Alpha values from selected colors ignored in gradient.")
         c.palette <- try(colorRampPalette(color.ends))
         if (inherits(c.palette, "try-error"))
-            stop("Invalid color palette specified.")
+            StopForUserError("Invalid color palette specified.")
         palette <- c.palette(number.colors.needed)
         attr(palette, "palette.type") <- palette.type
         return (palette)
@@ -218,13 +219,13 @@ ChartColors <- function(number.colors.needed,
 
     # The following options assume given.colors is a palette
     if (palette.start < 0 || palette.start > 1)
-        stop("palette.start must be a number between 0 and 1\n")
+        StopForUserError("palette.start must be a number between 0 and 1\n")
 
     if (palette.end < 0 || palette.end > 1)
-        stop("palette.end must be a number between 0 and 1\n")
+        StopForUserError("palette.end must be a number between 0 and 1\n")
 
     if (!(palette.start < palette.end))
-        stop("palette.start must be smaller than palette.end\n")
+        StopForUserError("palette.start must be smaller than palette.end\n")
 
     given.colors <- translatePaletteName(given.colors)
 
@@ -308,7 +309,7 @@ ChartColors <- function(number.colors.needed,
     if (brewer.palette)
     {
         max.brewer.colors <- RColorBrewer::brewer.pal.info[given.colors, 1]
-        
+
         ## Must have at least three colors returned from R Color Brewer, else warning message
         if (num2 <= max.brewer.colors)
             chart.colors <- RColorBrewer::brewer.pal(max(3,num2), given.colors)
