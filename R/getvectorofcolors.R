@@ -149,8 +149,15 @@ GetVectorOfColors <- function (template,
             StopForUserError("Color values must be numeric")
         if (any(is.na(vals)))
             StopForUserError("Color values cannot contain missing values")
-        vals <- (vals - min(as.numeric(vals), na.rm = TRUE))
-        vals <- vals/max(as.numeric(vals), na.rm = TRUE)
+        val.min <- min(as.numeric(vals), na.rm = TRUE)
+        val.max <- max(as.numeric(vals), na.rm = TRUE)
+        # When all values are identical there is no range to map onto the
+        # color scale. Dividing by a zero range would give NaN and error out
+        # in rgb(), so map every value to the midpoint of the scale instead.
+        if (val.max == val.min)
+            vals[] <- 0.5
+        else
+            vals <- (vals - val.min) / (val.max - val.min)
 
         color.fun <- colorRamp(unordered.colors)
         color.scale <- rgb(color.fun(as.numeric(vals)), maxColorValue = 255)

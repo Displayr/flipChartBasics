@@ -57,7 +57,19 @@ test_that("GetVectorOfColors interpolates without truncation of custom palette w
         "#1C9DB9", "#7030A0", "#71BC6E", "#2198BC", "#C45040"), dim = 4:5))
 })
   
-test_that("GetVectorOfColors truncates/recycles custom palette if no values provided", 
+test_that("GetVectorOfColors handles color values that are all identical",
+{
+    xx <- matrix(rep(1:5, each=4), 4, 5, dimnames=list(letters[1:4], LETTERS[1:5]))
+    vv <- matrix(2, 4, 5, dimnames=list(letters[1:4], LETTERS[1:5]))
+    colors <- expect_error(GetVectorOfColors(NULL, xx, chart.type = "Column",
+            palette = "Custom palette", color.values = vv, small.multiples = TRUE,
+            palette.custom.palette = "#3e7dcc,#04b5ac,#f5c524"), NA)
+    # No range in the values, so every value maps to the midpoint of the scale
+    expect_equal(unname(as.vector(colors)), rep("#04B5AC", 20))
+    expect_equal(dim(colors), c(4L, 5L))
+})
+
+test_that("GetVectorOfColors truncates/recycles custom palette if no values provided",
 {
     xx <- matrix(rep(1:5, each=4), 4, 5, dimnames=list(letters[1:4], LETTERS[1:5]))
     colors.for.row <- GetVectorOfColors(NULL, xx, chart.type = "Bar",
